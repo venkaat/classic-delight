@@ -10,6 +10,7 @@ import HomeTestimonials from "./components/HomeTestimonials";
 import HomeCTA from "./components/HomeCTA";
 import Footer from "./components/Footer";
 import FloatingCTA from "./components/FloatingCTA";
+import AICurtainRecommendation from "./components/AICurtainRecommendation";
 
 export const metadata: Metadata = {
   title: "Curtains, Blinds & Mosquito Nets in Chennai | Classic Delight",
@@ -30,10 +31,10 @@ export default function Home() {
     <main className="min-h-screen bg-[#f8f6f2] text-[#2e2e2e]">
       <Header />
       <Hero />
+      <AICurtainRecommendation />
       <TrustBar />
       <PremiumServices />
-      <RoomVisualizer />
-      <Gallery />
+          <Gallery />
       <ProcessSection />
       <HomeTestimonials />
       <HomeCTA />
