@@ -2,6 +2,7 @@
 
 import React, { useState, ChangeEvent } from "react";
 
+
 const overlays: Record<string, string> = {
   Sheer: "/images/visualizer/overlays/beige.png",
   Blackout: "/images/visualizer/overlays/grey-velvet.png",
