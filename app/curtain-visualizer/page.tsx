@@ -5,7 +5,7 @@ export default function CurtainVisualizerPage() {
   return (
     <main className="bg-black">
       <Header />
-      <CurtainVisualizerExperience variant="page" />
+      <CurtainVisualizerExperience />
     </main>
   );
 }
