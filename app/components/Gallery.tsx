@@ -2,8 +2,15 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
-const data = [
+interface GalleryItem {
+  src: string;
+  category: string;
+  alt: string;
+}
+
+const data: GalleryItem[] = [
   {
     src: "/images/gallery/curtains_1.jpg",
     category: "Curtains",
@@ -88,7 +95,7 @@ export default function Gallery() {
 
   const visibleImages = showAll ? data : data.slice(0, 4);
 
-  const openImage = (item: any, index: number) => {
+  const openImage = (item: GalleryItem, index: number) => {
     setSelectedImage(item.src);
     setCurrentIndex(index);
   };
@@ -144,9 +151,11 @@ export default function Gallery() {
               className="group relative overflow-hidden rounded-[28px] cursor-pointer"
             >
 
-              <img
+              <Image
                 src={img.src}
                 alt={img.alt}
+                width={500}
+                height={280}
                 className="w-full h-[280px] object-cover group-hover:scale-105 transition duration-700"
               />
 
@@ -184,32 +193,36 @@ export default function Gallery() {
           {/* CLOSE */}
           <button
             onClick={() => setSelectedImage(null)}
-            className="absolute top-6 right-6 text-white text-5xl leading-none"
+            className="absolute top-6 right-6 text-white text-6xl leading-none z-[10000]"
           >
-            ×
+            &times;
           </button>
 
           {/* PREVIOUS */}
           <button
             onClick={prevImage}
-            className="absolute left-6 text-white text-5xl"
+            className="absolute left-6 text-white text-6xl z-[10000] hover:text-[#f26522] transition"
           >
-            ‹
+            &#8249;
           </button>
 
           {/* IMAGE */}
-          <img
-            src={selectedImage}
-            alt="Preview"
-            className="max-w-[92vw] max-h-[88vh] rounded-[30px] object-contain"
-          />
+          <div className="relative w-full h-full max-w-[90vw] max-h-[85vh] flex items-center justify-center">
+            <Image
+              src={selectedImage}
+              alt="Preview"
+              fill
+              className="object-contain rounded-[30px]"
+              priority
+            />
+          </div>
 
           {/* NEXT */}
           <button
             onClick={nextImage}
-            className="absolute right-6 text-white text-5xl"
+            className="absolute right-6 text-white text-6xl z-[10000] hover:text-[#f26522] transition"
           >
-            ›
+            &#8250;
           </button>
 
         </div>
