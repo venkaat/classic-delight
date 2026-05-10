@@ -1,0 +1,445 @@
+
+import Link from "next/link";
+import Image from "next/image";
+import { siteConfig } from "@/app/lib/siteConfig";
+import {
+  MapPin,
+  Phone,
+  MessageCircle,
+  Check,
+} from "lucide-react";
+
+export const metadata = {
+  title:
+    "Premium Curtains, Blinds & Mosquito Nets in Chennai | Classic Delight",
+
+  description:
+    "Premium custom curtains, blinds & mosquito nets in Chennai with expert consultation, free measurement & professional installation across Chennai.",
+};
+
+const areas = [
+  "Anna Nagar",
+  "Adyar",
+  "Velachery",
+  "OMR",
+  "ECR",
+  "Tambaram",
+  "Porur",
+  "T Nagar",
+  "Sholinganallur",
+  "Nungambakkam",
+  "Perungudi",
+  "Medavakkam",
+];
+
+export default function ChennaiPage() {
+  return (
+    <main className="bg-[#f8f6f2] overflow-hidden">
+
+      {/* HERO */}
+      <section className="relative h-[90vh] flex items-center overflow-hidden">
+
+        <Image
+          src="/images/chennai/chennai-hero.jpg"
+          alt="Premium curtains blinds and mosquito nets installed in Chennai"
+          title="Curtains blinds and mosquito nets in Chennai"
+          fill
+          priority
+          className="object-cover"
+        />
+
+        <div className="absolute inset-0 bg-black/60" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+
+          <div className="max-w-3xl">
+
+            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/20 px-5 py-3 rounded-full mb-8 text-white text-sm">
+
+              <MapPin className="w-4 h-4" />
+
+              Serving All Major Areas in Chennai
+
+            </div>
+
+            <h1 className="text-white text-6xl md:text-7xl font-semibold leading-[0.95] tracking-tight">
+              Premium Curtains,
+              <br />
+              Blinds & Mosquito
+              <br />
+              Nets in Chennai
+            </h1>
+
+            <p className="text-white/70 text-xl leading-relaxed mt-8 max-w-2xl">
+              Elegant window solutions crafted beautifully for modern
+              apartments, villas, offices, and luxury interiors across Chennai.
+            </p>
+
+            <div className="flex flex-wrap gap-5 mt-10">
+
+              <a
+                href="https://wa.me/919840519955"
+                target="_blank"
+                className="inline-flex items-center gap-3 bg-[#f26522] hover:bg-[#ff7b3d] text-white px-8 py-4 rounded-full text-lg font-medium transition duration-500 hover:scale-105"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Get Free Quote
+              </a>
+
+              <a
+                href={`tel:${siteConfig.phoneRaw}`}
+                className="inline-flex items-center gap-3 border border-white/20 bg-white/10 backdrop-blur-xl text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/20 transition duration-500"
+              >
+                <Phone className="w-5 h-5" />
+                Call Now
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* SERVICES */}
+      <section className="py-28 bg-white">
+
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="text-center mb-16">
+
+            <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-5">
+              Our Services
+            </p>
+
+            <h2 className="text-5xl font-semibold leading-tight">
+              Luxury Window Solutions
+              <br />
+              Across Chennai
+            </h2>
+
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+
+            {/* CARD */}
+            <Link
+              href="/curtains"
+              className="group bg-[#faf7f2] rounded-[32px] overflow-hidden hover:-translate-y-3 transition duration-700 shadow-lg hover:shadow-2xl"
+            >
+
+              <div className="relative h-[320px] overflow-hidden">
+
+                <Image
+                  src="/images/chennai/curtains.jpg"
+                  alt="Custom curtains for Chennai homes and apartments"
+                  title="Custom curtains Chennai"
+                  fill
+                  className="object-cover group-hover:scale-110 transition duration-700"
+                />
+
+              </div>
+
+              <div className="p-8">
+
+                <h3 className="text-3xl font-semibold mb-4">
+                  Custom Curtains
+                </h3>
+
+                <p className="text-gray-500 leading-relaxed">
+                  Premium blackout, sheer, linen & motorized curtains
+                  tailored beautifully for Chennai homes.
+                </p>
+
+              </div>
+
+            </Link>
+
+            {/* CARD */}
+            <Link
+              href="/blinds"
+              className="group bg-[#faf7f2] rounded-[32px] overflow-hidden hover:-translate-y-3 transition duration-700 shadow-lg hover:shadow-2xl"
+            >
+
+              <div className="relative h-[320px] overflow-hidden">
+
+                <Image
+                  src="/images/chennai/blinds.jpg"
+                  alt="Modern window blinds for Chennai homes and offices"
+                  title="Window blinds Chennai"
+                  fill
+                  className="object-cover group-hover:scale-110 transition duration-700"
+                />
+
+              </div>
+
+              <div className="p-8">
+
+                <h3 className="text-3xl font-semibold mb-4">
+                  Window Blinds
+                </h3>
+
+                <p className="text-gray-500 leading-relaxed">
+                  Roller blinds, zebra blinds & modern window solutions
+                  for apartments and offices in Chennai.
+                </p>
+
+              </div>
+
+            </Link>
+
+            {/* CARD */}
+            <Link
+              href="/mosquito-nets"
+              className="group bg-[#faf7f2] rounded-[32px] overflow-hidden hover:-translate-y-3 transition duration-700 shadow-lg hover:shadow-2xl"
+            >
+
+              <div className="relative h-[320px] overflow-hidden">
+
+                <Image
+                  src="/images/chennai/nets.jpg"
+                  alt="Invisible mosquito nets for Chennai windows and doors"
+                  title="Mosquito nets Chennai"
+                  fill
+                  className="object-cover group-hover:scale-110 transition duration-700"
+                />
+
+              </div>
+
+              <div className="p-8">
+
+                <h3 className="text-3xl font-semibold mb-4">
+                  Mosquito Nets
+                </h3>
+
+                <p className="text-gray-500 leading-relaxed">
+                  Elegant invisible mosquito mesh systems installed
+                  professionally across Chennai.
+                </p>
+
+              </div>
+
+            </Link>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* WHY CHOOSE US */}
+      <section className="py-28">
+
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+            <div>
+
+              <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-5">
+                Why Chennai Chooses Us
+              </p>
+
+              <h2 className="text-5xl font-semibold leading-tight mb-8">
+                Premium Quality,
+                <br />
+                Expert Installation
+              </h2>
+
+              <p className="text-gray-500 text-lg leading-relaxed mb-10">
+                From luxury villas in ECR to modern apartments in all over Chennai,
+                we deliver elegant curtain, blind & mosquito net solutions
+                designed beautifully for Chennai homes.
+              </p>
+
+              <div className="space-y-6">
+
+                {[
+                  "Free Home Measurement",
+                  "Premium Fabric Collections",
+                  "Custom Stitching & Finishing",
+                  "Professional Installation",
+                  "Fast Delivery Across Chennai",
+                ].map((item, i) => (
+
+                  <div
+                    key={i}
+                    className="flex items-center gap-4"
+                  >
+
+                    <div className="w-10 h-10 rounded-full bg-[#f26522]/10 flex items-center justify-center">
+
+                      <Check className="w-5 h-5 text-[#f26522]" />
+
+                    </div>
+
+                    <p className="text-lg font-medium">
+                      {item}
+                    </p>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            </div>
+
+            <div className="relative h-[700px] rounded-[36px] overflow-hidden shadow-2xl">
+
+              <Image
+                src="/images/chennai/interior.jpg"
+                alt="Luxury Chennai interior styled with premium window treatments"
+                title="Luxury window treatments Chennai"
+                fill
+                className="object-cover"
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* AREAS SERVED */}
+      <section className="py-28 bg-black relative overflow-hidden">
+
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#f26522]/20 blur-[140px] rounded-full" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+
+          <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-5">
+            Areas We Serve
+          </p>
+
+          <h2 className="text-white text-5xl font-semibold leading-tight mb-16">
+            Serving All Major
+            <br />
+            Areas in Chennai
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+            {areas.map((area, i) => (
+
+              <div
+                key={i}
+                className="bg-white/5 border border-white/10 rounded-2xl py-5 text-white/80 backdrop-blur-xl"
+              >
+                {area}
+              </div>
+
+            ))}
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* FAQ */}
+      <section className="py-28 bg-white">
+
+        <div className="max-w-5xl mx-auto px-6">
+
+          <div className="text-center mb-16">
+
+            <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-5">
+              FAQs
+            </p>
+
+            <h2 className="text-5xl font-semibold leading-tight">
+              Frequently Asked Questions
+            </h2>
+
+          </div>
+
+          <div className="space-y-6">
+
+            {[
+              {
+                q: "Do you provide curtain installation in Chennai?",
+                a: "Yes, we provide professional curtain, blinds & mosquito net installation across Chennai.",
+              },
+              {
+                q: "Do you offer home measurement services?",
+                a: "Yes, we provide free consultation and home measurement services in Chennai.",
+              },
+              {
+                q: "What types of curtains do you offer?",
+                a: "We offer blackout curtains, sheer curtains, linen curtains, motorized curtains & more.",
+              },
+              {
+                q: "Do you serve OMR and ECR areas?",
+                a: "Yes, we serve OMR, ECR, Velachery, Anna Nagar, Adyar and all major Chennai localities.",
+              },
+            ].map((item, i) => (
+
+              <div
+                key={i}
+                className="bg-[#faf7f2] rounded-[28px] p-8"
+              >
+
+                <h3 className="text-2xl font-semibold mb-4">
+                  {item.q}
+                </h3>
+
+                <p className="text-gray-500 leading-relaxed text-lg">
+                  {item.a}
+                </p>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* CTA */}
+      <section className="py-28 bg-[#f26522] text-center text-white">
+
+        <div className="max-w-4xl mx-auto px-6">
+
+          <h2 className="text-5xl md:text-6xl font-semibold leading-tight">
+            Looking For Premium
+            <br />
+            Curtains in Chennai?
+          </h2>
+
+          <p className="text-white/80 text-xl mt-8 leading-relaxed">
+            Contact Classic Delight today for elegant curtains,
+            blinds & mosquito net solutions across Chennai.
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-5 mt-12">
+
+            <a
+              href={`https://wa.me/${siteConfig.whatsapp}`}
+              target="_blank"
+              className="bg-white text-black px-8 py-4 rounded-full text-lg font-medium hover:scale-105 transition duration-500"
+            >
+              WhatsApp Us
+            </a>
+
+            <a
+              href={`tel:${siteConfig.phoneRaw}`}
+              className="border border-white/30 bg-white/10 backdrop-blur-xl px-8 py-4 rounded-full text-lg font-medium hover:bg-white/20 transition duration-500"
+            >
+              Call Now
+            </a>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+  );
+}

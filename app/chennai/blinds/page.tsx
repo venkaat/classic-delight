@@ -1,0 +1,227 @@
+import Image from "next/image";
+import { siteConfig } from "@/app/lib/siteConfig";
+import {
+  Check,
+  Phone,
+  MessageCircle,
+  MapPin,
+} from "lucide-react";
+
+export const metadata = {
+  title:
+    "Premium Window Blinds in Chennai | Roller & Zebra Blinds",
+
+  description:
+    "Premium window blinds in Chennai including roller blinds, zebra blinds, wooden blinds & motorized blinds with professional installation.",
+};
+
+const blinds = [
+  "Roller Blinds",
+  "Zebra Blinds",
+  "Wooden Blinds",
+  "Roman Blinds",
+  "Motorized Blinds",
+  "Office Blinds",
+];
+
+export default function ChennaiBlindsPage() {
+  return (
+    <main className="bg-[#f5f5f3] overflow-hidden">
+
+      {/* HERO */}
+      <section className="relative h-[90vh] flex items-center">
+
+        <Image
+          src="/images/chennai-blinds/hero.png"
+          alt="Premium roller zebra and wooden window blinds in Chennai"
+          title="Window blinds in Chennai"
+          fill
+          priority
+          className="object-cover"
+        />
+
+        <div className="absolute inset-0 bg-black/70" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+
+          <div className="max-w-3xl">
+
+            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/20 px-5 py-3 rounded-full mb-8 text-white text-sm">
+
+              <MapPin className="w-4 h-4" />
+
+              Modern Window Blinds in Chennai
+
+            </div>
+
+            <h1 className="text-white text-6xl md:text-7xl font-semibold leading-[0.95] tracking-tight">
+              Premium Window
+              <br />
+              Blinds in
+              <br />
+              Chennai
+            </h1>
+
+            <p className="text-white/70 text-xl leading-relaxed mt-8 max-w-2xl">
+              Elegant roller, zebra, wooden & motorized blinds
+              designed beautifully for modern homes and offices in Chennai.
+            </p>
+
+            <div className="flex flex-wrap gap-5 mt-10">
+
+              <a
+                href={`https://wa.me/${siteConfig.whatsapp}`}
+                target="_blank"
+                className="inline-flex items-center gap-3 bg-[#f26522] hover:bg-[#ff7b3d] text-white px-8 py-4 rounded-full text-lg font-medium transition duration-500 hover:scale-105"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Get Free Quote
+              </a>
+
+              <a
+                href={`tel:${siteConfig.phoneRaw}`}
+                className="inline-flex items-center gap-3 border border-white/20 bg-white/10 backdrop-blur-xl text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/20 transition duration-500"
+              >
+                <Phone className="w-5 h-5" />
+                Call Now
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* INTRO */}
+      <section className="py-28 bg-white">
+
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+            <div>
+
+              <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-5">
+                Modern Blinds Chennai
+              </p>
+
+              <h2 className="text-5xl font-semibold leading-tight mb-8">
+                Stylish Window
+                <br />
+                Blinds For
+                <br />
+                Modern Interiors
+              </h2>
+
+              <p className="text-gray-500 text-lg leading-relaxed mb-10">
+                Discover premium blinds in Chennai crafted beautifully
+                for apartments, villas, offices, and luxury interiors.
+              </p>
+
+              <div className="space-y-6">
+
+                {[
+                  "Custom Blind Solutions",
+                  "Motorized Smart Blinds",
+                  "Office & Home Installation",
+                  "Premium Finishing",
+                  "Professional Measurement",
+                ].map((item, i) => (
+
+                  <div
+                    key={i}
+                    className="flex items-center gap-4"
+                  >
+
+                    <div className="w-10 h-10 rounded-full bg-[#f26522]/10 flex items-center justify-center">
+
+                      <Check className="w-5 h-5 text-[#f26522]" />
+
+                    </div>
+
+                    <p className="text-lg font-medium">
+                      {item}
+                    </p>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            </div>
+
+            <div className="relative h-[700px] rounded-[36px] overflow-hidden shadow-2xl">
+
+              <Image
+                src="/images/chennai-blinds/interior.jpg"
+                alt="Luxury window blinds installed in a Chennai interior"
+                title="Luxury blinds installation Chennai"
+                fill
+                className="object-cover"
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* TYPES */}
+      <section className="py-28">
+
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="text-center mb-16">
+
+            <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-5">
+              Blind Collections
+            </p>
+
+            <h2 className="text-5xl font-semibold leading-tight">
+              Blinds We Offer
+              <br />
+              In Chennai
+            </h2>
+
+          </div>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+            {blinds.map((item, i) => (
+
+              <div
+                key={i}
+                className="bg-white rounded-[32px] p-10 shadow-lg hover:-translate-y-2 hover:shadow-2xl transition duration-500"
+              >
+
+                <div className="w-14 h-14 rounded-2xl bg-[#f26522]/10 flex items-center justify-center text-2xl mb-6">
+                  🪟
+                </div>
+
+                <h3 className="text-3xl font-semibold mb-4">
+                  {item}
+                </h3>
+
+                <p className="text-gray-500 leading-relaxed">
+                  Elegant {item.toLowerCase()} designed beautifully
+                  for modern Chennai interiors.
+                </p>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+  );
+}

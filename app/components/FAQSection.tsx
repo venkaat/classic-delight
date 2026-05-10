@@ -1,0 +1,115 @@
+"use client";
+
+import { useState } from "react";
+
+const faqs = [
+  {
+    question: "Which curtains are best for modern homes in Chennai?",
+    answer:
+      "Sheer curtains, blackout curtains and linen curtains are among the most popular choices for modern homes in Chennai. They provide elegance, privacy and effective light control while complementing contemporary interiors.",
+  },
+  {
+    question: "Do you provide curtain and blinds installation across Chennai?",
+    answer:
+      "Yes. Classic Delight provides professional curtain, blinds and mosquito net installation services across Virugambakkam, Anna Nagar, Vadapalani, KK Nagar, Porur, T Nagar and all major areas in Chennai.",
+  },
+  {
+    question: "Can curtains and blinds be customized for my windows?",
+    answer:
+      "Absolutely. We offer fully customized curtains and blinds tailored to your window dimensions, fabric preferences, colors and interior style requirements.",
+  },
+  {
+    question: "What types of blinds do you offer?",
+    answer:
+      "We offer zebra blinds, roller blinds, wooden blinds, vertical blinds and premium window blinds designed for homes, apartments and office interiors.",
+  },
+  {
+    question: "Do mosquito nets affect airflow or room ventilation?",
+    answer:
+      "No. Our customized mosquito nets are designed to maintain proper airflow and ventilation while protecting your home from insects and mosquitoes.",
+  },
+  {
+    question: "How long does curtain installation usually take?",
+    answer:
+      "Most curtain and blinds installations are completed within a few hours depending on the number of windows and customization requirements.",
+  },
+  {
+    question: "Do you help customers choose curtain fabrics and colors?",
+    answer:
+      "Yes. Our team provides design consultation and helps customers select suitable fabrics, textures, colors and styles that match their interiors perfectly.",
+  },
+  {
+    question: "Are blackout curtains suitable for bedrooms?",
+    answer:
+      "Yes. Blackout curtains are ideal for bedrooms because they reduce sunlight, improve privacy and help maintain a comfortable indoor atmosphere.",
+  },
+];
+
+export default function FAQSection() {
+  const [showAll, setShowAll] = useState(false);
+
+  const visibleFaqs = showAll ? faqs : faqs.slice(0, 5);
+
+  return (
+    <section className="py-24 bg-white">
+      <div className="max-w-5xl mx-auto px-6">
+
+        {/* HEADER */}
+        <div className="text-center mb-16">
+
+          <p className="uppercase tracking-[4px] text-[#f26522] text-sm font-semibold mb-4">
+            FAQs
+          </p>
+
+          <h2 className="text-4xl md:text-5xl font-semibold leading-tight text-[#111]">
+            Frequently Asked Questions
+          </h2>
+
+          <p className="text-gray-500 text-lg mt-6 max-w-3xl mx-auto leading-relaxed">
+            Find answers about custom curtains, blinds, zebra blinds,
+            mosquito nets, installation services and premium window
+            solutions offered by Classic Delight across Chennai.
+          </p>
+
+        </div>
+
+        {/* FAQ ITEMS */}
+        <div className="space-y-6">
+
+          {visibleFaqs.map((faq, index) => (
+            <div
+              key={index}
+              className="bg-[#faf8f5] border border-[#f1ede7] rounded-3xl p-8 hover:shadow-lg transition duration-300"
+            >
+
+              <h3 className="text-2xl font-semibold text-[#111] mb-4 leading-snug">
+                {faq.question}
+              </h3>
+
+              <p className="text-gray-600 text-lg leading-relaxed">
+                {faq.answer}
+              </p>
+
+            </div>
+          ))}
+
+        </div>
+
+        {/* LOAD MORE */}
+        {!showAll && (
+          <div className="text-center mt-12">
+
+            <button
+              onClick={() => setShowAll(true)}
+              className="bg-[#f26522] hover:bg-[#df5a1d] text-white px-8 py-4 rounded-full font-medium shadow-lg transition duration-300 hover:scale-105"
+            >
+              Load More Questions
+            </button>
+
+          </div>
+        )}
+
+      </div>
+    </section>
+  );
+}
