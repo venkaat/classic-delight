@@ -1,145 +1,234 @@
 import Link from "next/link";
+
 export default function Footer() {
   return (
-    <footer className="bg-[#2e2e2e] text-white mt-16">
+    <footer className="relative bg-black text-white overflow-hidden border-t border-white/10">
 
-      {/* MAIN FOOTER */}
-      <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-4 gap-8">
+      {/* GLOW */}
+      <div className="absolute left-0 bottom-0 w-[500px] h-[500px] bg-[#f26522]/10 blur-[140px] rounded-full" />
 
-        {/* BRAND */}
-        <div>
-          <h2 className="text-xl font-bold mb-4">
-            Classic Delight
-          </h2>
+      {/* MAIN */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
 
-          <p className="text-sm text-gray-300">
-            Premium curtains, blinds and insect nets tailored for your home.
-            Custom sizes, expert installation, and quality materials.
-          </p>
-        </div>
+        <div className="grid lg:grid-cols-5 gap-16">
 
-        {/* QUICK LINKS */}
-        {/* QUICK LINKS */}
-<div>
-  <h3 className="font-semibold mb-4 text-white">
-    Quick Links
-  </h3>
+          {/* BRAND */}
+          <div className="lg:col-span-2">
 
-  <ul className="space-y-3 text-sm text-gray-300">
+            <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-6">
+              Classic Delight
+            </p>
 
-    <li>
-      <Link
-        href="/"
-        className="hover:text-[#f26522] transition duration-300"
-      >
-        Home
-      </Link>
-    </li>
+            <h2 className="text-4xl md:text-5xl leading-[1] font-semibold tracking-[-0.04em] mb-8">
+              Premium Window
+              Solutions For
+              Modern Homes
+            </h2>
 
-    <li>
-      <Link
-        href="/about"
-        className="hover:text-[#f26522] transition duration-300"
-      >
-        About Us
-      </Link>
-    </li>
+            <p className="text-white/60 leading-relaxed text-lg max-w-xl mb-10">
+              Classic Delight specializes in luxury curtains,
+              premium blinds and mosquito net solutions tailored
+              for sophisticated interiors across Chennai.
+            </p>
 
-    <li>
-      <Link
-        href="/contact"
-        className="hover:text-[#f26522] transition duration-300"
-      >
-        Contact
-      </Link>
-    </li>
+            {/* CONTACT CTA */}
+            <a
+              href="https://wa.me/919840519955"
+              target="_blank"
+              className="inline-flex items-center gap-3 bg-[#f26522] px-8 py-4 rounded-2xl text-white hover:scale-105 transition duration-500 shadow-[0_15px_40px_rgba(242,101,34,0.3)]"
+            >
+              Get Free Consultation
+            </a>
 
-    <li>
-      <Link
-        href="/gallery"
-        className="hover:text-[#f26522] transition duration-300"
-      >
-        Gallery
-      </Link>
-    </li>
+          </div>
 
-  </ul>
-</div>
+          {/* QUICK LINKS */}
+          <div>
 
-{/* CATEGORIES */}
-<div>
-  <h3 className="font-semibold mb-4 text-white">
-    Categories
-  </h3>
+            <h3 className="text-white font-semibold text-lg mb-8">
+              Quick Links
+            </h3>
 
-  <ul className="space-y-3 text-sm text-gray-300">
+            <ul className="space-y-5 text-white/60">
 
-    <li>
-      <Link
-        href="/curtains"
-        className="hover:text-[#f26522] transition duration-300"
-      >
-        Premium Curtains
-      </Link>
-    </li>
+              <li>
+                <Link
+                  href="/"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Home
+                </Link>
+              </li>
 
-    <li>
-      <Link
-        href="/blinds"
-        className="hover:text-[#f26522] transition duration-300"
-      >
-        Window Blinds
-      </Link>
-    </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  About Us
+                </Link>
+              </li>
 
-    <li>
-      <Link
-        href="/mosquito-nets"
-        className="hover:text-[#f26522] transition duration-300"
-      >
-        Mosquito Nets
-      </Link>
-    </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Contact
+                </Link>
+              </li>
 
-    <li>
-      <Link
-        href="/chennai"
-        className="hover:text-[#f26522] transition duration-300"
-      >
-        Curtains in Chennai
-      </Link>
-    </li>
+              <li>
+                <Link
+                  href="/curtain-visualizer"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Curtain Visualizer
+                </Link>
+              </li>
 
-  </ul>
-</div>
+              <li>
+                <Link
+                  href="/gallery"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Gallery
+                </Link>
+              </li>
 
-        {/* CATEGORIES */}
-        <div>
-          <h3 className="font-semibold mb-4">Categories</h3>
+            </ul>
 
-          <ul className="space-y-2 text-sm text-gray-300">
-            <li className="hover:text-white cursor-pointer">Curtains</li>
-            <li className="hover:text-white cursor-pointer">Blinds</li>
-            <li className="hover:text-white cursor-pointer">Insect Nets</li>
-          </ul>
-        </div>
+          </div>
 
-        {/* CONTACT */}
-        <div>
-          <h3 className="font-semibold mb-4">Contact</h3>
+          {/* SERVICES */}
+          <div>
 
-          <ul className="space-y-2 text-sm text-gray-300">
-            <li>📞 +91 9840519955</li>
-            <li>📧 hello@classicdelight.in</li>
-            <li>📍16/49 Kattabomman Street, Gandhi Nagar,Virugambakkam,chennai-600092</li>
-          </ul>
+            <h3 className="text-white font-semibold text-lg mb-8">
+              Our Services
+            </h3>
+
+            <ul className="space-y-5 text-white/60">
+
+              <li>
+                <Link
+                  href="/curtains"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Luxury Curtains Chennai
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/blinds"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Premium Blinds Chennai
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/mosquito-nets"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Mosquito Nets Chennai
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/zebra-blinds"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Zebra Blinds Chennai
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/wooden-blinds"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Wooden Blinds Chennai
+                </Link>
+              </li>
+
+            </ul>
+
+          </div>
+
+          {/* CONTACT */}
+          <div>
+
+            <h3 className="text-white font-semibold text-lg mb-8">
+              Contact Info
+            </h3>
+
+            <div className="space-y-6 text-white/60">
+
+              <div>
+                <p className="text-white mb-2 font-medium">
+                  Phone
+                </p>
+
+                <a
+                  href="tel:+919840519955"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  +91 98405 19955
+                </a>
+              </div>
+
+              <div>
+                <p className="text-white mb-2 font-medium">
+                  Email
+                </p>
+
+                <a
+                  href="mailto:hello@classicdelight.in"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  hello@classicdelight.in
+                </a>
+              </div>
+
+              <div>
+                <p className="text-white mb-2 font-medium">
+                  Location
+                </p>
+
+                <p className="leading-relaxed">
+                  16/49 Kattabomman Street,
+                  Gandhi Nagar,
+                  Virugambakkam,
+                  Chennai - 600092
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
       </div>
 
       {/* BOTTOM BAR */}
-      <div className="border-t border-gray-700 text-center text-sm py-4 text-gray-400">
-        © 2026 Classic Delight. All rights reserved.
+      <div className="relative z-10 border-t border-white/10">
+
+        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/40">
+
+          <p>
+            © 2026 Classic Delight. All rights reserved.
+          </p>
+
+          <p>
+            Premium Curtains, Blinds & Mosquito Nets in Chennai
+          </p>
+
+        </div>
+
       </div>
 
     </footer>
