@@ -423,23 +423,28 @@ export default function AICurtainRecommendation() {
   <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
 
     {[
-      "Pleated Curtains",
-      "Ripple Curtains",
-      "Eyelid Curtains",
-      "Hospital Curtains",
-    ].map((item) => (
+      ["Pleated Curtains", "/images/curtain-styles/pleated.jpg"],
+      ["Ripple Curtains", "/images/curtain-styles/ripple.jpg"],
+      ["Eyelid Curtains", "/images/curtain-styles/eyelid.jpg"],
+      ["Hospital Curtains", "/images/curtain-styles/hospital.jpg"],
+    ].map(([name, imageUrl]) => (
 
       <div
-        key={item}
-        className="bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] border border-white/10 rounded-[32px] p-8 hover:border-[#f26522]/30 transition duration-500"
+        key={name}
+        className="group bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] border border-white/10 rounded-[32px] p-6 hover:border-[#f26522]/30 transition duration-500"
       >
 
-        <div className="w-14 h-14 rounded-2xl bg-[#f26522]/10 flex items-center justify-center text-[#f26522] text-2xl mb-8">
-          ✨
+        <div className="relative overflow-hidden rounded-2xl mb-8 aspect-[4/3]">
+          <Image
+            src={imageUrl}
+            alt={name}
+            fill
+            className="object-cover group-hover:scale-105 transition duration-700"
+          />
         </div>
 
         <h4 className="text-white text-2xl font-semibold leading-tight">
-          {item}
+          {name}
         </h4>
 
       </div>
