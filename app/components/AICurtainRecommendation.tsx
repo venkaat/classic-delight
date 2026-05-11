@@ -121,7 +121,7 @@ export default function AICurtainRecommendation() {
         </div>
 
         {/* MAIN GRID */}
-        <div className="grid grid-cols-2 gap-4 md:gap-10 items-stretch">
+        <div className="grid lg:grid-cols-2 gap-4 md:gap-10 items-stretch">
 
           {/* LEFT PANEL */}
           <div className="bg-white/5 border border-white/10 rounded-[40px] p-5 md:p-10 backdrop-blur-xl h-full">
