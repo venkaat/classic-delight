@@ -2,6 +2,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 
 const fabrics = {
   Cotton: 400,
@@ -14,7 +15,13 @@ const fabrics = {
   Sheer: 300,
 };
 
-const recommendations: any = {
+interface Recommendation {
+  curtain: string;
+  fabric: string;
+  description: string;
+}
+
+const recommendations: Record<string, Recommendation> = {
   Luxury: {
     curtain: "Ripple Curtains",
     fabric: "Linen",
@@ -47,21 +54,41 @@ const recommendations: any = {
 export default function AICurtainRecommendation() {
   const [room, setRoom] = useState("Living Room");
   const [style, setStyle] = useState("Luxury");
-  const [width, setWidth] = useState(8);
-  const [height, setHeight] = useState(8);
+  const [width, setWidth] = useState("");
+  const [height, setHeight] = useState("");
 
   const result = useMemo(() => {
     const selected = recommendations[style];
+    const fabricPrice = fabrics[selected.fabric as keyof typeof fabrics] || 300;
 
-    const pricePerFeet =
-      fabrics[selected.fabric as keyof typeof fabrics] || 300;
+    const parsedWidth = Number(width) || 0;
+    const parsedHeight = Number(height) || 0;
 
-    const total = width * height * pricePerFeet;
+    // Calculate fabric needed based on both width (for fullness) and height
+    // Approx formula: (Width * 2.2 fullness factor * (Height + margin)) / conversion to meters
+    const fabricNeeded = (parsedWidth > 0 && parsedHeight > 0)
+      ? Math.ceil((parsedWidth * 2.2 * (parsedHeight + 0.5)) / 3.28)
+      : 0;
+
+    const fabricCost = fabricNeeded * fabricPrice;
+
+    // Apply fixed costs only if dimensions are provided
+    const hasDimensions = parsedWidth > 0 && parsedHeight > 0;
+    const tailoringCost = hasDimensions ? 1250 : 0;
+    const trackCost = hasDimensions ? 1850 : 0;
+    const fixingCost = hasDimensions ? 1000 : 0;
+
+    const total = fabricCost + tailoringCost + trackCost + fixingCost;
 
     return {
       ...selected,
+      fabricNeeded,
+      fabricCost,
+      tailoringCost,
+      trackCost,
+      fixingCost,
       total,
-      pricePerFeet,
+      fabricPrice,
     };
   }, [style, width, height]);
 
@@ -94,10 +121,10 @@ export default function AICurtainRecommendation() {
         </div>
 
         {/* MAIN GRID */}
-        <div className="grid lg:grid-cols-2 gap-10 items-start">
+        <div className="grid grid-cols-2 gap-4 md:gap-10 items-stretch">
 
           {/* LEFT PANEL */}
-          <div className="bg-white/5 border border-white/10 rounded-[40px] p-8 md:p-10 backdrop-blur-xl">
+          <div className="bg-white/5 border border-white/10 rounded-[40px] p-5 md:p-10 backdrop-blur-xl h-full">
 
             <h3 className="text-3xl font-semibold text-white mb-10">
               Room Preferences
@@ -158,9 +185,10 @@ export default function AICurtainRecommendation() {
                 </label>
 
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="decimal"
                   value={width}
-                  onChange={(e) => setWidth(Number(e.target.value))}
+                  onChange={(e) => setWidth(e.target.value.replace(/[^0-9.]/g, ""))}
                   className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none"
                 />
               </div>
@@ -172,9 +200,10 @@ export default function AICurtainRecommendation() {
                 </label>
 
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="decimal"
                   value={height}
-                  onChange={(e) => setHeight(Number(e.target.value))}
+                  onChange={(e) => setHeight(e.target.value.replace(/[^0-9.]/g, ""))}
                   className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none"
                 />
               </div>
@@ -184,7 +213,7 @@ export default function AICurtainRecommendation() {
           </div>
 
           {/* RIGHT PANEL */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-[#1a1a1a] to-[#0e0e0e] border border-white/10 rounded-[40px] p-8 md:p-10 min-h-[650px]">
+          <div className="relative overflow-hidden bg-gradient-to-br from-[#1a1a1a] to-[#0e0e0e] border border-white/10 rounded-[40px] p-5 md:p-10 h-full">
 
             {/* GLOW */}
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#f26522]/20 blur-[120px] rounded-full" />
@@ -224,27 +253,49 @@ export default function AICurtainRecommendation() {
                 </div>
 
                 <div>
-                  <p className="text-white/50 text-sm uppercase tracking-[3px] mb-3">
-                    Estimated Pricing
-                  </p>
 
-                  <h4 className="text-4xl text-[#f26522] font-semibold">
-                    ₹{result.total.toLocaleString()}
-                  </h4>
+  <p className="text-white/50 text-sm uppercase tracking-[3px] mb-5">
+    Cost Breakdown
+  </p>
 
-                  <p className="text-white/50 mt-2">
-                    Starting from ₹{result.pricePerFeet} per feet
-                  </p>
-                </div>
+  <div className="space-y-5">
 
-                <div>
-                  <p className="text-white/50 text-sm uppercase tracking-[3px] mb-3">
-                    Why This Works
-                  </p>
+  <div className="flex justify-between text-white/70">
+    <span>Fabric Required</span>
+    <span>{result.fabricNeeded} meters</span>
+  </div>
 
-                  <p className="text-white/70 text-lg leading-relaxed">
-                    {result.description}
-                  </p>
+  <div className="flex justify-between text-white/70">
+    <span>Fabric Cost</span>
+    <span>₹{result.fabricCost.toLocaleString()}</span>
+  </div>
+
+  <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm text-white/60 leading-relaxed">
+    Includes tailoring, premium M-track rod and professional installation charges.
+  </div>
+
+    <div className="border-t border-white/10 pt-5 flex justify-between items-center">
+
+      <span className="text-white text-xl font-medium">
+        Estimated Total
+      </span>
+
+      <div className="text-right">
+
+  <p className="text-white/50 text-sm mb-2">
+    Starts From
+  </p>
+
+  <span className="text-[#f26522] text-4xl font-semibold">
+    ₹{result.total.toLocaleString()}
+  </span>
+
+</div>
+
+    </div>
+
+  </div>
+
                 </div>
 
               </div>
@@ -275,7 +326,131 @@ export default function AICurtainRecommendation() {
 
         </div>
 
+<div className="mt-28">
+
+  <div className="text-center max-w-3xl mx-auto mb-16">
+
+    <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-6">
+      Curtain Fabric Collection
+    </p>
+
+    <h3 className="text-white text-4xl md:text-6xl leading-tight font-semibold tracking-[-0.04em] mb-6">
+      Premium Curtain
+      Fabrics & Pricing
+    </h3>
+
+    <p className="text-white/60 text-lg leading-relaxed">
+      Explore luxury curtain fabrics designed for modern interiors,
+      elegant light control and premium finishing.
+    </p>
+
+  </div>
+
+  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+
+    {[
+  ["Cotton", "₹400 / meter", "/images/fabrics/cotton.jpg"],
+  ["Linen", "₹400 / meter", "/images/fabrics/linen.jpg"],
+  ["Polyester", "₹130 / meter", "/images/fabrics/polyester.jpg"],
+  ["Blackout", "₹220 / meter", "/images/fabrics/blackout.jpg"],
+  ["Silk", "₹300 / meter", "/images/fabrics/silk.jpg"],
+  ["Poly Cotton", "₹400 / meter", "/images/fabrics/polycotton.jpg"],
+  ["Custom Printed", "₹300 / meter", "/images/fabrics/printed.jpg"],
+  ["Sheer", "₹300 / meter", "/images/fabrics/sheer.jpg"],
+].map(([name, price,imageUrl]) => (
+
+      <div
+        key={name}
+        className="bg-white/5 border border-white/10 rounded-[28px] p-6 hover:bg-white/[0.07] transition duration-500"
+      >
+        <div className="relative overflow-hidden rounded-2xl mb-6">
+
+  <Image
+    src={imageUrl}
+    alt={name}
+    width={400}
+    height={176}
+    className="w-full h-44 object-cover hover:scale-105 transition duration-700"
+  />
+
+</div>
+
+        <p className="text-[#f26522] text-sm uppercase tracking-[3px] mb-4">
+          Fabric
+        </p>
+
+        <h4 className="text-white text-2xl font-semibold mb-3">
+          {name}
+        </h4>
+
+        <p className="text-white/60">
+          Starting from
+        </p>
+
+        <p className="text-white text-xl mt-2">
+          {price}
+        </p>
+
       </div>
+
+    ))}
+
+  </div>
+
+</div>
+
+{/* CURTAIN TYPES */}
+<div className="mt-28">
+
+  <div className="text-center max-w-3xl mx-auto mb-16">
+
+    <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-6">
+      Curtain Styles
+    </p>
+
+    <h3 className="text-white text-4xl md:text-6xl leading-tight font-semibold tracking-[-0.04em] mb-6">
+      Curtain Types
+      For Every Interior
+    </h3>
+
+    <p className="text-white/60 text-lg leading-relaxed">
+      Choose from elegant curtain styles tailored for luxury homes,
+      modern apartments and commercial interiors.
+    </p>
+
+  </div>
+
+  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+    {[
+      "Pleated Curtains",
+      "Ripple Curtains",
+      "Eyelid Curtains",
+      "Hospital Curtains",
+    ].map((item) => (
+
+      <div
+        key={item}
+        className="bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] border border-white/10 rounded-[32px] p-8 hover:border-[#f26522]/30 transition duration-500"
+      >
+
+        <div className="w-14 h-14 rounded-2xl bg-[#f26522]/10 flex items-center justify-center text-[#f26522] text-2xl mb-8">
+          ✨
+        </div>
+
+        <h4 className="text-white text-2xl font-semibold leading-tight">
+          {item}
+        </h4>
+
+      </div>
+
+    ))}
+
+  </div>
+
+</div>
+
+</div>
 
     </section>
   );

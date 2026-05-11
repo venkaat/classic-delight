@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, ChangeEvent } from "react";
+import Image from "next/image";
 
 
 const overlays: Record<string, string> = {
@@ -107,10 +108,12 @@ export default function RoomVisualizer() {
           <div className="relative aspect-video rounded-[40px] overflow-hidden bg-[#111] border border-white/10 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
 
             {/* ROOM IMAGE */}
-            <img
+            <Image
               src={uploadedImage || DEFAULT_ROOM}
               alt="Room"
-              className="absolute inset-0 w-full h-full object-cover z-10"
+              fill
+              priority
+              className="object-cover z-10"
             />
 
             {/* DARK OVERLAY */}
@@ -119,10 +122,11 @@ export default function RoomVisualizer() {
             {/* CURTAIN OVERLAY */}
             <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
 
-              <img
+              <Image
                 key={selected}
                 src={overlays[selected]}
-  alt="Curtain Overlay"
+                alt="Curtain Overlay"
+                fill
   className="transition-all duration-700"
   style={{
     width: "100%",

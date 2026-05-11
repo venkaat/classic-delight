@@ -74,7 +74,7 @@ export default function ContactPage() {
                   Location
                 </p>
 
-                <p>16/49 Kattabomman Street, Gandhi Nagar,Virugambakkam,chennai-600092</p>
+                <p>16/49 Kattabomman Street, Gandhi Nagar, Virugambakkam, Chennai - 600092</p>
               </div>
 
             </div>

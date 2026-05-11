@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const services = [
   {
@@ -68,10 +69,11 @@ export default function PremiumServices() {
                 href={service.href}
                 className="group relative block h-full overflow-hidden rounded-[32px] bg-black"
               >
-                <img
+                <Image
                   src={service.image}
                   alt={`${service.title} by Classic Delight Chennai`}
-                  title={`${service.title} in Chennai`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700"
                 />
 

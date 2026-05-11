@@ -81,7 +81,15 @@ export default function Header() {
 
     <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#f26522] transition-all duration-300 group-hover:w-full"></span>
   </Link>
-  <Link href="/faq">FAQ</Link>
+
+  <Link
+    href="/faq"
+    className="relative group hover:text-[#f26522] transition"
+  >
+    FAQ
+
+    <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#f26522] transition-all duration-300 group-hover:w-full"></span>
+  </Link>
 
 </nav>
         {/* RIGHT SIDE */}

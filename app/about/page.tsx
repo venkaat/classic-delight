@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "About Us | Classic Delight",
@@ -49,9 +50,11 @@ export default function AboutPage() {
           {/* IMAGE */}
           <div className="relative overflow-hidden rounded-[40px]">
 
-            <img
+            <Image
               src="/images/about/about.jpg"
               alt="Classic Delight"
+              width={800}
+              height={650}
               className="w-full h-[650px] object-cover"
             />
 
