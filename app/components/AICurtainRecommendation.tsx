@@ -54,15 +54,15 @@ const recommendations: Record<string, Recommendation> = {
 export default function AICurtainRecommendation() {
   const [room, setRoom] = useState("Living Room");
   const [style, setStyle] = useState("Luxury");
-  const [width, setWidth] = useState("");
-  const [height, setHeight] = useState("");
+  const [width, setWidth] = useState("5");
+  const [height, setHeight] = useState("5");
 
   const result = useMemo(() => {
     const selected = recommendations[style];
     const fabricPrice = fabrics[selected.fabric as keyof typeof fabrics] || 300;
 
-    const parsedWidth = Number(width) || 0;
-    const parsedHeight = Number(height) || 0;
+    const parsedWidth = width === "" ? 5 : (Number(width) || 0);
+    const parsedHeight = height === "" ? 5 : (Number(height) || 0);
 
     // Calculate fabric needed based on both width (for fullness) and height
     // Approx formula: (Width * 2.2 fullness factor * (Height + margin)) / conversion to meters
@@ -188,7 +188,19 @@ export default function AICurtainRecommendation() {
                   type="text"
                   inputMode="decimal"
                   value={width}
-                  onChange={(e) => setWidth(e.target.value.replace(/[^0-9.]/g, ""))}
+                  onChange={(e) => {
+                    let val = e.target.value.replace(/[^0-9.]/g, "");
+                    if (val.length > 1 && val[0] === '0' && val[1] !== '.') {
+                      val = val.replace(/^0+/, "");
+                    }
+                    setWidth(val);
+                  }}
+                  onFocus={(e) => {
+                    if (e.target.value === "5") setWidth("");
+                  }}
+                  onBlur={(e) => {
+                    if (e.target.value === "") setWidth("5");
+                  }}
                   className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none"
                 />
               </div>
@@ -203,7 +215,19 @@ export default function AICurtainRecommendation() {
                   type="text"
                   inputMode="decimal"
                   value={height}
-                  onChange={(e) => setHeight(e.target.value.replace(/[^0-9.]/g, ""))}
+                  onChange={(e) => {
+                    let val = e.target.value.replace(/[^0-9.]/g, "");
+                    if (val.length > 1 && val[0] === '0' && val[1] !== '.') {
+                      val = val.replace(/^0+/, "");
+                    }
+                    setHeight(val);
+                  }}
+                  onFocus={(e) => {
+                    if (e.target.value === "5") setHeight("");
+                  }}
+                  onBlur={(e) => {
+                    if (e.target.value === "") setHeight("5");
+                  }}
                   className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none"
                 />
               </div>
@@ -357,7 +381,7 @@ export default function AICurtainRecommendation() {
   ["Poly Cotton", "₹400 / meter", "/images/fabrics/polycotton.jpg"],
   ["Custom Printed", "₹300 / meter", "/images/fabrics/printed.jpg"],
   ["Sheer", "₹300 / meter", "/images/fabrics/sheer.jpg"],
-].map(([name, price,imageUrl]) => (
+].map(([name, price, imageUrl]) => (
 
       <div
         key={name}
@@ -370,6 +394,7 @@ export default function AICurtainRecommendation() {
     alt={name}
     width={400}
     height={176}
+    quality={60}
     className="w-full h-44 object-cover hover:scale-105 transition duration-700"
   />
 

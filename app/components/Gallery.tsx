@@ -156,6 +156,7 @@ export default function Gallery() {
                 alt={img.alt}
                 width={500}
                 height={280}
+                quality={60}
                 className="w-full h-[280px] object-cover group-hover:scale-105 transition duration-700"
               />
 

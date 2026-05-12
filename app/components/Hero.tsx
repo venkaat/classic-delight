@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ChevronDown, Phone, MessageCircle } from "lucide-react";
 import Image from "next/image";
 
-const MotionImage = motion(Image);
+const MotionImage = motion.create(Image);
 
 export default function Hero() {
   return (
@@ -22,6 +22,7 @@ export default function Hero() {
         fill
         priority
         sizes="100vw"
+        quality={75}
         className="object-cover"
       />
 

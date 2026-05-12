@@ -27,10 +27,11 @@ export default function Header() {
   src="/logo.png"
   alt="Classic Delight"
   title="Classic Delight curtains and blinds Chennai"
-  width={180}
-  height={70}
+  width={200}
+  height={90}
   priority
   className="object-contain"
+  style={{ height: 'auto' }}
 />
         </Link>
 
