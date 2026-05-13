@@ -26,7 +26,7 @@ export default function Header() {
           <p className="hidden md:block">
             Free Installation in Chennai and surrounding Area | Custom Sizes Available
           </p>
-          <p className="font-medium">📞 +91 9840519955</p>
+          <p className="font-medium">📞 +91 98405 19955, +91 99406 99797</p>
         </div>
       </div>
 
