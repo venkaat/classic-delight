@@ -13,145 +13,267 @@ interface GalleryItem {
 
 const data: GalleryItem[] = [
   {
-    src: "/images/gallery/floral-zebra-window-blinds-chennai.jpg",
-    category: "Blinds",
-    alt: "Floral zebra blinds installed for a modern home window in Chennai",
-  },
-  {
-    src: "/images/gallery/patterned-zebra-floral-blinds-chennai.jpg",
-    category: "Blinds",
-    alt: "Patterned zebra roller blinds with floral motif for a home office window",
-  },
-  {
-    src: "/images/gallery/modern-window-blinds-installation-chennai.jpg",
-    category: "Blinds",
-    alt: "Dark woven roller blinds installed across a wide window in Chennai",
-  },
-  {
-    src: "/images/gallery/roman-blinds-kitchen-window-chennai.jpg",
-    category: "Blinds",
-    alt: "Cream and black Roman blinds installed for a modern kitchen window",
-  },
-  {
-    src: "/images/gallery/beige-sheer-curtain-combo-chennai.jpeg",
-    category: "Curtains",
-    alt: "Beige blackout curtains with white sheer combination on ceiling-mounted track",
-  },
-  {
-    src: "/images/gallery/corner-window-curtain-installation-chennai.jpg",
-    category: "Curtains",
-    alt: "Corner window curtain installation with beige sheer and blackout drapes",
-  },
-  {
-    src: "/images/gallery/cream-blackout-curtains-living-room.jpg",
-    category: "Curtains",
-    alt: "Cream blackout curtains installed for a premium living room",
-  },
-  {
-    src: "/images/gallery/white-pinch-pleat-sheer-curtains-chennai.jpg",
-    category: "Curtains",
-    alt: "White pinch pleat sheer curtains for a bright apartment living area",
-  },
-  {
-    src: "/images/gallery/brown-pinch-pleat-curtains-balcony-chennai.jpg",
-    category: "Curtains",
-    alt: "Brown pinch pleat curtains with white sheer layer for a balcony door",
-  },
-  {
-    src: "/images/gallery/corner-window-dark-curtains-vertical-blinds.jpg",
-    category: "Curtains",
-    alt: "Corner window installation with dark curtains and vertical blinds panel",
-  },
-  {
-    src: "/images/gallery/cream-pinch-pleat-blackout-curtains-chennai.jpg",
-    category: "Curtains",
-    alt: "Cream pinch pleat blackout curtains for a modern bedroom with false ceiling",
-  },
-  {
-    src: "/images/gallery/brown-textured-curtains-dual-track-chennai.jpg",
-    category: "Curtains",
-    alt: "Brown textured curtains with white sheer combination on dual track rod",
-  },
-  {
-    src: "/images/gallery/black-ceiling-mounted-dramatic-curtains-chennai.jpg",
-    category: "Curtains",
-    alt: "Black ceiling-mounted curtains with dramatic drape for a dark-themed bedroom",
-  },
-  {
-    src: "/images/gallery/custom-tailored-pinch-pleat-curtains-chennai.jpeg",
-    category: "Curtains",
-    alt: "Custom tailored pinch pleat curtains recessed in wooden frame niche",
-  },
-  {
-    src: "/images/gallery/elegant-full-length-taupe-apartment-curtains.jpg",
-    category: "Curtains",
-    alt: "Elegant full-length taupe curtains with white sheer for a luxury apartment",
-  },
-  {
-    src: "/images/gallery/finished-custom-taupe-curtain-tieback-detail.jpeg",
-    category: "Curtains",
-    alt: "Finished custom curtain installation with taupe fabric and centre tieback detail",
-  },
-  {
-    src: "/images/gallery/premium-taupe-curtains-living-room-chennai.jpeg",
-    category: "Curtains",
-    alt: "Premium taupe curtains with white sheer layer for a spacious living room",
-  },
-  {
-    src: "/images/gallery/professional-curtain-fitting-sheer-blackout-chennai.jpeg",
-    category: "Curtains",
-    alt: "Professional curtain fitting with sheer and blackout combination in a bedroom",
-  },
-  {
-    src: "/images/gallery/soft-sheer-curtains-styling.jpg",
-    category: "Curtains",
-    alt: "Soft white sheer curtains tied back on large glass windows with garden view",
-  },
-  {
-    src: "/images/gallery/soft-white-sheer-curtains-apartment.jpg",
-    category: "Curtains",
-    alt: "Soft white sheer curtains on a high-rise apartment window with city view",
-  },
-  {
-    src: "/images/gallery/tailor-made-premium-residential-taupe-curtains.jpeg",
-    category: "Curtains",
-    alt: "Tailor-made taupe curtains with sheer across multiple windows in a luxury residence",
-  },
-  {
-    src: "/images/gallery/dark-green-beige-dual-layer-curtains-chennai.jpeg",
-    category: "Curtains",
-    alt: "Dark green and beige dual-layer curtains with sheer for a classic bedroom",
-  },
-  {
-    src: "/images/gallery/grey-pinch-pleat-curtains-modern-room-chennai.jpeg",
-    category: "Curtains",
-    alt: "Grey pinch pleat curtains with white sheer and tieback for a modern room",
-  },
-  {
-    src: "/images/gallery/grey-sheer-curtain-false-ceiling-installation.jpeg",
-    category: "Curtains",
-    alt: "Grey curtains with white sheer combination under a dark false ceiling",
-  },
-  {
-    src: "/images/gallery/taupe-beige-striped-premium-bedroom-curtains.jpeg",
-    category: "Curtains",
-    alt: "Taupe and beige striped curtains with sheer layer for a premium bedroom",
-  },
-  {
-    src: "/images/gallery/brown-damask-staircase-window-curtains-chennai.jpeg",
-    category: "Curtains",
-    alt: "Brown damask curtains with teal patterned sheer for a tall staircase window",
-  },
-  {
-    src: "/images/gallery/brown-damask-curtains-teal-sheer-staircase.jpeg",
-    category: "Curtains",
-    alt: "Close view of brown damask curtains layered with teal printed sheer near staircase",
-  },
-  {
-    src: "/images/gallery/brown-damask-fabric-motif-sheer-tieback.jpeg",
-    category: "Curtains",
-    alt: "Detail of brown damask curtain fabric with teal motif sheer tieback finish",
-  },
+  src: "/images/gallery/Curtains-001.jpeg",
+  category: "Curtains",
+  alt: "Luxury sheer curtains for modern balcony sliding door interiors in Chennai",
+},
+{
+  src: "/images/gallery/Curtains-002.jpg",
+  category: "Curtains",
+  alt: "Premium blackout curtains for elegant living room interiors",
+},
+
+{
+  src: "/images/gallery/Curtains-004.jpg",
+  category: "Curtains",
+  alt: "Custom window curtains for luxury apartment interiors in Chennai",
+},
+{
+  src: "/images/gallery/Curtains-005.jpg",
+  category: "Curtains",
+  alt: "Soft white sheer curtains for bright modern home interiors",
+},
+
+{
+  src: "/images/gallery/Curtains-007.jpg",
+  category: "Curtains",
+  alt: "Elegant beige curtains with sheer layer for contemporary homes",
+},
+{
+  src: "/images/gallery/Curtains-008.jpg",
+  category: "Curtains",
+  alt: "Modern bedroom blackout curtains with premium fabric finish",
+},
+
+{
+  src: "/images/gallery/Curtains-010.jpg",
+  category: "Curtains",
+  alt: "Custom made curtains for stylish modern home interiors",
+},
+
+{
+  src: "/images/gallery/Curtains-012.jpg",
+  category: "Curtains",
+  alt: "Premium curtain installation for modern homes in Chennai",
+},
+
+{
+  src: "/images/gallery/Curtains-014.jpg",
+  category: "Curtains",
+  alt: "Modern sheer window curtains for natural daylight interiors",
+},
+
+
+{
+  src: "/images/gallery/Curtains-017.jpg",
+  category: "Curtains",
+  alt: "Custom designer curtains for modern villas and apartments",
+},
+{
+  src: "/images/gallery/Curtains-018.jpg",
+  category: "Curtains",
+  alt: "Soft beige curtains with elegant pleated curtain styling",
+},
+{
+  src: "/images/gallery/Curtains-019.jpg",
+  category: "Curtains",
+  alt: "Luxury sheer curtain installation for spacious home interiors",
+},
+{
+  src: "/images/gallery/Curtains-020.jpg",
+  category: "Curtains",
+  alt: "Modern curtain design ideas for premium living room interiors",
+},
+{
+  src: "/images/gallery/Curtains-021.jpg",
+  category: "Curtains",
+  alt: "Elegant custom curtains for modern apartment living rooms",
+},
+{
+  src: "/images/gallery/Curtains-022.jpg",
+  category: "Curtains",
+  alt: "Premium sheer curtains for bright and airy home interiors",
+},
+{
+  src: "/images/gallery/Curtains-023.jpg",
+  category: "Curtains",
+  alt: "Modern blackout curtains for stylish bedroom window designs",
+},
+{
+  src: "/images/gallery/Curtains-024.jpg",
+  category: "Curtains",
+  alt: "Luxury double layer curtains with sheer fabric combination",
+},
+{
+  src: "/images/gallery/Curtains-025.jpg",
+  category: "Curtains",
+  alt: "Designer living room curtains for contemporary home interiors",
+},
+{
+  src: "/images/gallery/Curtains-026.jpg",
+  category: "Curtains",
+  alt: "Soft white curtains for elegant modern apartment interiors",
+},
+{
+  src: "/images/gallery/Curtains-027.jpg",
+  category: "Curtains",
+  alt: "Custom made window curtains with premium fabric finish",
+},
+{
+  src: "/images/gallery/Curtains-028.jpg",
+  category: "Curtains",
+  alt: "Floor to ceiling sheer curtains for luxury homes in Chennai",
+},
+{
+  src: "/images/gallery/Curtains-029.jpg",
+  category: "Curtains",
+  alt: "Modern taupe curtains with soft sheer curtain layering",
+},
+{
+  src: "/images/gallery/Curtains-030.jpg",
+  category: "Curtains",
+  alt: "Premium curtain installation services for luxury interiors",
+},
+{
+  src: "/images/gallery/Curtains-031.jpg",
+  category: "Curtains",
+  alt: "Elegant beige blackout curtains for modern living spaces",
+},
+{
+  src: "/images/gallery/Curtains-032.jpg",
+  category: "Curtains",
+  alt: "Stylish home curtains with contemporary interior curtain design",
+},
+
+{
+  src: "/images/gallery/Curtains-043.jpg",
+  category: "Curtains",
+  alt: "Modern blackout curtains for stylish bedroom interiors",
+},
+{
+  src: "/images/gallery/Curtains-044.jpg",
+  category: "Curtains",
+  alt: "Custom window curtain installation for luxury homes in Chennai",
+},
+
+{
+  src: "/images/gallery/Curtains-046.jpg",
+  category: "Curtains",
+  alt: "Soft beige curtains for premium apartment interiors",
+},
+{
+  src: "/images/gallery/Curtains-047.jpg",
+  category: "Curtains",
+  alt: "Designer curtains for contemporary living room interiors",
+},
+{
+  src: "/images/gallery/Curtains-048.jpg",
+  category: "Curtains",
+  alt: "Luxury floor to ceiling curtains for modern home styling",
+},
+{
+  src: "/images/gallery/Curtains-049.jpg",
+  category: "Curtains",
+  alt: "Modern sheer curtains for elegant window decoration",
+},
+{
+  src: "/images/gallery/Curtains-050.jpg",
+  category: "Curtains",
+  alt: "Premium custom made curtains for stylish home interiors",
+},
+
+
+{
+  src: "/images/gallery/Curtains-073.jpg",
+  category: "Curtains",
+  alt: "Soft white curtains with contemporary interior styling",
+},
+{
+  src: "/images/gallery/Curtains-074.jpg",
+  category: "Curtains",
+  alt: "Elegant custom blackout curtains for bedroom interiors",
+},
+{
+  src: "/images/gallery/Curtains-075.jpg",
+  category: "Curtains",
+  alt: "Luxury full length curtains for spacious modern homes",
+},
+{
+  src: "/images/gallery/Curtains-076.jpg",
+  category: "Curtains",
+  alt: "Premium sheer curtain installation for elegant interiors",
+},
+{
+  src: "/images/gallery/Curtains-077.jpg",
+  category: "Curtains",
+  alt: "Modern apartment curtains with stylish layered curtain design",
+},
+{
+  src: "/images/gallery/Curtains-078.jpg",
+  category: "Curtains",
+  alt: "Designer taupe curtains for luxury living room interiors",
+},
+{
+  src: "/images/gallery/Curtains-079.jpg",
+  category: "Curtains",
+  alt: "Custom made curtains for premium contemporary interiors",
+},
+{
+  src: "/images/gallery/Curtains-080.jpg",
+  category: "Curtains",
+  alt: "Elegant modern curtains for stylish window decoration",
+},
+{
+  src: "/images/gallery/Curtains-081.jpg",
+  category: "Curtains",
+  alt: "Luxury blackout curtains with soft sheer layering",
+},
+{
+  src: "/images/gallery/Curtains-082.jpg",
+  category: "Curtains",
+  alt: "Premium curtain solutions for modern apartment interiors",
+},
+{
+  src: "/images/gallery/Curtains-083.jpg",
+  category: "Curtains",
+  alt: "Modern sheer curtains with elegant natural lighting effect",
+},
+{
+  src: "/images/gallery/Curtains-084.jpg",
+  category: "Curtains",
+  alt: "Designer living room curtain installation for luxury homes",
+},
+{
+  src: "/images/gallery/Curtains-085.jpg",
+  category: "Curtains",
+  alt: "Soft beige blackout curtains for premium home interiors",
+},
+{
+  src: "/images/gallery/Curtains-086.jpg",
+  category: "Curtains",
+  alt: "Elegant window curtains for modern luxury apartments",
+},
+{
+  src: "/images/gallery/Curtains-087.jpg",
+  category: "Curtains",
+  alt: "Luxury sheer curtains for contemporary living room styling",
+},
+{
+  src: "/images/gallery/Curtains-088.jpg",
+  category: "Curtains",
+  alt: "Modern custom curtains with premium pleated fabric finish",
+},
+{
+  src: "/images/gallery/Curtains-089.jpg",
+  category: "Curtains",
+  alt: "Designer blackout curtains for elegant bedroom interiors",
+},
+{
+  src: "/images/gallery/Curtains-090.jpg",
+  category: "Curtains",
+  alt: "Premium floor to ceiling curtains for stylish modern homes",
+},
+
 ];
 
 export default function Gallery() {
