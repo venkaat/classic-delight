@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, ChangeEvent } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  useRef,
+  useEffect,
+} from "react";
+import { Canvas, FabricImage } from "fabric";
 import Image from "next/image";
 
 
@@ -10,25 +16,103 @@ const overlays: Record<string, string> = {
   Velvet: "/images/visualizer/overlays/sheer-white-open.png",
 };
 
+
 const DEFAULT_ROOM = "/images/visualizer/default-room.jpg";
 
-export default function RoomVisualizer() {
+export default function CurtainVisualizerExperience() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [selected, setSelected] = useState("Sheer");
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const fabricCanvasRef = useRef<Canvas | null>(null);
+  const currentOverlayRef = useRef<FabricImage | null>(null);
 
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
+    const file = e.target.files?.[0];
 
-  if (file) {
-    const reader = new FileReader();
+    if (file) {
+      const reader = new FileReader();
 
-    reader.onloadend = () => {
-      setUploadedImage(reader.result as string);
+      reader.onloadend = () => {
+        setUploadedImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    // Initialize Fabric Canvas
+    const canvas = new Canvas(canvasRef.current, {
+      width: 1200,
+      height: 675, // Maintains 16:9 aspect ratio
+    });
+
+    fabricCanvasRef.current = canvas;
+
+    // Set initial background
+    updateBackground(canvas, DEFAULT_ROOM);
+
+    return () => {
+      canvas.dispose();
+      fabricCanvasRef.current = null;
     };
+  }, []);
 
-    reader.readAsDataURL(file);
-  }
-};
+  // Helper to update background image
+  const updateBackground = (canvas: Canvas, url: string) => {
+    FabricImage.fromURL(url).then((img) => {
+      // Scale background to cover canvas
+      const scale = Math.max(
+        canvas.width! / img.width!,
+        canvas.height! / img.height!
+      );
+      
+      canvas.backgroundImage = img;
+      img.set({
+        scaleX: scale,
+        scaleY: scale,
+        originX: "left",
+        originY: "top",
+        left: 0,
+        top: 0,
+      });
+      canvas.renderAll();
+    });
+  };
+
+  // Handle Background Uploads
+  useEffect(() => {
+    if (fabricCanvasRef.current && uploadedImage) {
+      updateBackground(fabricCanvasRef.current, uploadedImage);
+    }
+  }, [uploadedImage]);
+
+  // Handle Overlay Selection
+  useEffect(() => {
+    if (!fabricCanvasRef.current) return;
+    const canvas = fabricCanvasRef.current;
+
+    FabricImage.fromURL(overlays[selected]).then((img) => {
+      // Remove previous overlay if it exists
+      if (currentOverlayRef.current) {
+        canvas.remove(currentOverlayRef.current);
+      }
+
+      img.set({
+        left: 300,
+        top: 100,
+        cornerColor: "#f26522",
+        cornerStyle: "circle",
+        transparentCorners: false,
+      });
+      img.scaleToWidth(700);
+      currentOverlayRef.current = img;
+      canvas.add(img);
+      canvas.setActiveObject(img);
+      canvas.renderAll();
+    });
+  }, [selected]);
 
   return (
     <section className="relative py-32 bg-black overflow-hidden">
@@ -104,75 +188,14 @@ export default function RoomVisualizer() {
 
         {/* VISUALIZER */}
         <div className="relative max-w-6xl mx-auto">
-
           <div className="relative aspect-video rounded-[40px] overflow-hidden bg-[#111] border border-white/10 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
-
-            {/* ROOM IMAGE */}
-            <Image
-              src={uploadedImage || DEFAULT_ROOM}
-              alt="Room"
-              fill
-              priority
-              className="object-cover z-10"
+            <canvas
+              ref={canvasRef}
+              className="w-full h-full"
             />
-
-            {/* DARK OVERLAY */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent z-20 pointer-events-none" />
-
-            {/* CURTAIN OVERLAY */}
-            <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
-
-              <Image
-                key={selected}
-                src={overlays[selected]}
-                alt="Curtain Overlay"
-                fill
-  className="transition-all duration-700"
-  style={{
-    width: "100%",
-    height: "100%",
-    objectFit: "contain",
-    opacity: 1,
-    mixBlendMode: "multiply",
-    filter: "drop-shadow(0px 20px 40px rgba(0,0,0,0.35))",
-  }}
-              />
-
-            </div>
-
-            {/* INFO CARD */}
-            <div className="absolute bottom-6 left-6 z-40 bg-white/10 border border-white/10 backdrop-blur-2xl rounded-2xl px-5 py-4">
-
-              <p className="text-white text-sm font-medium mb-1">
-                Current Style
-              </p>
-
-              <p className="text-white/70 text-sm">
-                {selected} Curtains
-              </p>
-
-            </div>
-
-            {/* EMPTY STATE */}
-            {!uploadedImage && (
-
-              <div className="absolute top-6 right-6 z-40 bg-black/50 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-4 max-w-xs">
-
-                <p className="text-white text-sm leading-relaxed">
-                  Upload your own room image to preview how
-                  curtains transform your interiors.
-                </p>
-
-              </div>
-
-            )}
-
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 }

@@ -12,80 +12,80 @@ interface GalleryItem {
 
 const data: GalleryItem[] = [
   {
-    src: "/images/gallery/curtains_1.jpg",
-    category: "Curtains",
-    alt: "Custom living room curtains installed by Classic Delight in Chennai",
-  },
-  {
-    src: "/images/gallery/Blinds_1.jpg",
-    category: "Blinds",
-    alt: "Modern window blinds installed for a Chennai home",
-  },
-  {
-    src: "/images/gallery/Blinds_3.jpg",
-    category: "Blinds",
-    alt: "Premium blinds fitted for a contemporary Chennai interior",
-  },
-  {
-    src: "/images/gallery/curtains_2.jpg",
-    category: "Curtains",
-    alt: "Elegant full length curtains for a modern Chennai apartment",
-  },
-  {
-    src: "/images/gallery/curtains_4.jpg",
-    category: "Curtains",
-    alt: "Designer curtain installation with premium fabric finish",
-  },
-  {
-    src: "/images/gallery/curtains_5.jpg",
-    category: "Curtains",
-    alt: "Soft curtain styling for a bright residential window",
-  },
-  {
-    src: "/images/gallery/curtains_6.jpg",
-    category: "Curtains",
-    alt: "Classic Delight curtain project with tailored measurements",
-  },
-  {
-    src: "/images/gallery/curtains_7.jpg",
-    category: "Curtains",
-    alt: "Luxury curtains installed for a Chennai living space",
-  },
-  {
-    src: "/images/gallery/curtains_9.jpg",
-    category: "Curtains",
-    alt: "Premium curtain fabric and installation for home interiors",
-  },
-  {
-    src: "/images/gallery/curtains_10.jpg",
-    category: "Curtains",
-    alt: "Custom curtain design for a modern bedroom window",
-  },
-  {
-    src: "/images/gallery/curtains_11.jpg",
-    category: "Curtains",
-    alt: "Elegant curtains with professional fitting and finishing",
-  },
-  {
-    src: "/images/gallery/curtains_12.jpg",
-    category: "Curtains",
-    alt: "Classic Delight recent curtain installation in Chennai",
-  },
-  {
-    src: "/images/gallery/curtains_13.jpg",
-    category: "Curtains",
-    alt: "Tailor made curtains for a premium residential interior",
-  },
-  {
-    src: "/images/gallery/curtains_14.jpg",
-    category: "Curtains",
-    alt: "Luxury window curtain styling for a Chennai home",
-  },
-  {
-    src: "/images/gallery/curtains_15.jpg",
-    category: "Curtains",
-    alt: "Finished custom curtains with neat installation detail",
-  },
+  src: "/images/gallery/floral-zebra-window-blinds-chennai.jpg",
+  category: "Blinds",
+  alt: "Floral zebra blinds installed for a modern home window in Chennai",
+},
+{
+  src: "/images/gallery/curtains_15.jpg",
+  category: "Blinds",
+  alt: "Floral zebra blinds installed for a modern home window in Chennai",
+},
+{
+  src: "/images/gallery/luxury-sheer-curtains-balcony-door-chennai.jpg",
+  category: "Curtains",
+  alt: "Luxury sheer and blackout curtains for a balcony door in Chennai",
+},
+{
+  src: "/images/gallery/corner-window-curtain-installation-chennai.jpg",
+  category: "Curtains",
+  alt: "Corner window curtain installation with elegant fabric styling",
+},
+{
+  src: "/images/gallery/cream-blackout-curtains-living-room.jpg",
+  category: "Curtains",
+  alt: "Cream blackout curtains installed for a premium living room",
+},
+{
+  src: "/images/gallery/beige-sheer-curtain-combo-chennai.jpeg",
+  category: "Curtains",
+  alt: "Beige curtain and sheer combination for modern interiors in Chennai",
+},
+{
+  src: "/images/gallery/soft-white-sheer-curtains-apartment.jpg",
+  category: "Curtains",
+  alt: "Soft white sheer curtains for a bright apartment living area",
+},
+{
+  src: "/images/gallery/minimal-black-bedroom-curtains.jpg",
+  category: "Curtains",
+  alt: "Minimal black curtains installed for a modern bedroom window",
+},
+{
+  src: "/images/gallery/floor-to-ceiling-sheer-curtains.jpg",
+  category: "Curtains",
+  alt: "Floor to ceiling sheer curtains for luxury living room interiors",
+},
+{
+  src: "/images/gallery/beige-window-curtains-modern-home.jpg",
+  category: "Curtains",
+  alt: "Beige modern window curtains installed for a contemporary home",
+},
+{
+  src: "/images/gallery/white-sheer-window-curtains-chennai.jpg",
+  category: "Curtains",
+  alt: "White sheer window curtains creating soft natural lighting",
+},
+{
+  src: "/images/gallery/kitchen-window-curtain-installation.jpg",
+  category: "Curtains",
+  alt: "Compact kitchen window curtain installation with elegant finish",
+},
+{
+  src: "/images/gallery/luxury-double-layer-curtains-chennai.jpg",
+  category: "Curtains",
+  alt: "Luxury double layer curtains with sheer and blackout combination",
+},
+{
+  src: "/images/gallery/warm-tone-sheer-curtain-design.jpg",
+  category: "Curtains",
+  alt: "Warm tone curtain styling with sheer layers for modern homes",
+},
+{
+  src: "/images/gallery/textured-beige-blackout-curtains.jpg",
+  category: "Curtains",
+  alt: "Textured beige blackout curtains with premium fabric finish",
+},
 ];
 
 export default function Gallery() {
