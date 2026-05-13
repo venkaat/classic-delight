@@ -11,14 +11,12 @@ export default function HomeCTA() {
           Start Your Project
         </p>
         <h2 className="text-5xl md:text-6xl font-semibold leading-tight">
-          Ready For A More
-          <br />
-          Beautiful Window?
-        </h2>
+          Ready For 
+          Custom Curtains?
+        </h2> 
         <p className="text-white/70 text-lg mt-7 max-w-2xl mx-auto leading-relaxed">
-          Book a consultation for curtains, blinds, or mosquito nets tailored to your home.
+          Book a free consultation for custom curtains or blinds with free installation in Virugambakkam, Koyembedu, and Chennai.
         </p>
-
         <div className="flex flex-wrap justify-center gap-5 mt-10">
           <a
             href={`https://wa.me/${siteConfig.whatsapp}`}

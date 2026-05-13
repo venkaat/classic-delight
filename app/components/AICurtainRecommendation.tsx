@@ -110,18 +110,18 @@ export default function AICurtainRecommendation() {
         <div className="text-center max-w-4xl mx-auto mb-20">
 
           <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-2 rounded-full text-sm text-white/70 mb-8">
-            ✨ AI Powered Recommendations
+            ✨ AI Powered Custom Curtain Recommendations
           </div>
 
           <h2 className="text-white text-5xl md:text-7xl leading-[0.92] font-semibold tracking-[-0.04em] mb-8">
             Find Your
             <br />
-            Perfect Curtains
+            Perfect Custom Curtains
           </h2>
 
           <p className="text-white/60 text-lg md:text-xl leading-relaxed">
-            Get personalized curtain recommendations and instant
-            pricing tailored to your room style and interior needs.
+            Get personalized custom curtain recommendations and instant pricing with 
+            free installation across Chennai, including Virugambakkam and Koyembedu.
           </p>
 
         </div>
@@ -346,7 +346,7 @@ export default function AICurtainRecommendation() {
   </div>
 
   <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm text-white/60 leading-relaxed">
-    Includes tailoring, premium M-track rod and professional installation charges.
+    Includes custom stitching, premium M-track rod and free professional installation charges.
   </div>
 
     <div className="border-t border-white/10 pt-5 flex justify-between items-center">

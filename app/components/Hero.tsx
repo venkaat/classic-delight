@@ -65,11 +65,11 @@ export default function Hero() {
             transition={{ duration: 1, delay: 0.2 }}
             className="text-white text-5xl md:text-7xl leading-[0.95] font-semibold tracking-tight"
           >
+            Custom Curtains &
+            <br />
             Luxury Window
             <br />
-            Solutions For
-            <br />
-            Modern Homes
+            Solutions
           </motion.h1>
 
           {/* DESCRIPTION */}
@@ -79,8 +79,8 @@ export default function Hero() {
             transition={{ duration: 1, delay: 0.4 }}
             className="text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mt-8"
           >
-            Elegant curtains, premium blinds, and custom mosquito nets
-            crafted beautifully to elevate your interiors with timeless sophistication.
+            Elegant custom curtains, premium blinds, and mosquito nets with free installation in 
+            Virugambakkam, Koyembedu, and across Chennai.
           </motion.p>
 
           {/* BUTTONS */}

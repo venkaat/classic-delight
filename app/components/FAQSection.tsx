@@ -11,7 +11,7 @@ const faqs = [
   {
     question: "Do you provide curtain and blinds installation across Chennai?",
     answer:
-      "Yes. Classic Delight provides professional curtain, blinds and mosquito net installation services across Virugambakkam, Anna Nagar, Vadapalani, KK Nagar, Porur, T Nagar and all major areas in Chennai.",
+      "Yes. Classic Delight provides professional custom curtain, blinds and mosquito net installation services across Virugambakkam, Koyembedu, Anna Nagar, Vadapalani, KK Nagar, Porur, T Nagar and all major areas in Chennai.",
   },
   {
     question: "Can curtains and blinds be customized for my windows?",
@@ -31,7 +31,7 @@ const faqs = [
   {
     question: "How long does curtain installation usually take?",
     answer:
-      "Most curtain and blinds installations are completed within a few hours depending on the number of windows and customization requirements.",
+      "Most custom curtain and blinds installations are completed within a few hours. We offer free professional installation across Chennai to ensure a perfect fit.",
   },
   {
     question: "Do you help customers choose curtain fabrics and colors?",

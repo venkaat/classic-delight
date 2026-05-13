@@ -12,7 +12,7 @@ export const metadata = {
     "Premium Custom Curtains in Chennai | Classic Delight",
 
   description:
-    "Luxury custom curtains in Chennai including blackout, sheer, linen & motorized curtains with free consultation and professional installation.",
+    "Luxury custom curtains in Chennai. We provide blackout, sheer, linen & motorized curtains with free installation in Virugambakkam, Koyembedu, Anna Nagar & Adyar.",
 };
 
 const curtainTypes = [
@@ -33,6 +33,7 @@ const areas = [
   "Tambaram",
   "Porur",
   "T Nagar",
+  "Koyembedu",
   "Sholinganallur",
   "Nungambakkam",
   "Medavakkam",

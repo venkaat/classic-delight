@@ -26,9 +26,9 @@ export default function Footer() {
             </h2>
 
             <p className="text-white/60 leading-relaxed text-lg max-w-xl mb-10">
-              Classic Delight specializes in luxury curtains,
-              premium blinds and mosquito net solutions tailored
-              for sophisticated interiors across Chennai.
+              Classic Delight specializes in custom curtains, premium blinds and 
+              mosquito net solutions with free installation across Virugambakkam, 
+              Koyembedu, and all of Chennai.
             </p>
 
             {/* CONTACT CTA */}

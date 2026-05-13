@@ -45,5 +45,41 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       priority: 0.8,
     },
+
+    {
+      url: `${baseUrl}/gallery`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/mosquito-nets`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/zebra-blinds`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/wooden-blinds`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/chennai`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/chennai/curtains`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
   ];
 }
