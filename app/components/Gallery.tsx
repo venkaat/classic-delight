@@ -12,80 +12,75 @@ interface GalleryItem {
 
 const data: GalleryItem[] = [
   {
-  src: "/images/gallery/floral-zebra-window-blinds-chennai.jpg",
-  category: "Blinds",
-  alt: "Floral zebra blinds installed for a modern home window in Chennai",
-},
-{
-  src: "/images/gallery/curtains_15.jpg",
-  category: "Blinds",
-  alt: "Floral zebra blinds installed for a modern home window in Chennai",
-},
-{
-  src: "/images/gallery/luxury-sheer-curtains-balcony-door-chennai.jpg",
-  category: "Curtains",
-  alt: "Luxury sheer and blackout curtains for a balcony door in Chennai",
-},
-{
-  src: "/images/gallery/corner-window-curtain-installation-chennai.jpg",
-  category: "Curtains",
-  alt: "Corner window curtain installation with elegant fabric styling",
-},
-{
-  src: "/images/gallery/cream-blackout-curtains-living-room.jpg",
-  category: "Curtains",
-  alt: "Cream blackout curtains installed for a premium living room",
-},
-{
-  src: "/images/gallery/beige-sheer-curtain-combo-chennai.jpeg",
-  category: "Curtains",
-  alt: "Beige curtain and sheer combination for modern interiors in Chennai",
-},
-{
-  src: "/images/gallery/soft-white-sheer-curtains-apartment.jpg",
-  category: "Curtains",
-  alt: "Soft white sheer curtains for a bright apartment living area",
-},
-{
-  src: "/images/gallery/minimal-black-bedroom-curtains.jpg",
-  category: "Curtains",
-  alt: "Minimal black curtains installed for a modern bedroom window",
-},
-{
-  src: "/images/gallery/floor-to-ceiling-sheer-curtains.jpg",
-  category: "Curtains",
-  alt: "Floor to ceiling sheer curtains for luxury living room interiors",
-},
-{
-  src: "/images/gallery/beige-window-curtains-modern-home.jpg",
-  category: "Curtains",
-  alt: "Beige modern window curtains installed for a contemporary home",
-},
-{
-  src: "/images/gallery/white-sheer-window-curtains-chennai.jpg",
-  category: "Curtains",
-  alt: "White sheer window curtains creating soft natural lighting",
-},
-{
-  src: "/images/gallery/kitchen-window-curtain-installation.jpg",
-  category: "Curtains",
-  alt: "Compact kitchen window curtain installation with elegant finish",
-},
-{
-  src: "/images/gallery/luxury-double-layer-curtains-chennai.jpg",
-  category: "Curtains",
-  alt: "Luxury double layer curtains with sheer and blackout combination",
-},
-{
-  src: "/images/gallery/warm-tone-sheer-curtain-design.jpg",
-  category: "Curtains",
-  alt: "Warm tone curtain styling with sheer layers for modern homes",
-},
-{
-  src: "/images/gallery/textured-beige-blackout-curtains.jpg",
-  category: "Curtains",
-  alt: "Textured beige blackout curtains with premium fabric finish",
-},
+    src: "/images/gallery/floral-zebra-window-blinds-chennai.jpg",
+    category: "Blinds",
+    alt: "Floral zebra blinds installed for a modern home window in Chennai",
+  },
+  {
+    src: "/images/gallery/Blinds_3.jpg",
+    category: "Blinds",
+    alt: "Patterned zebra roller blinds with floral motif for a home office window",
+  },
+  {
+    src: "/images/gallery/beige-sheer-curtain-combo-chennai.jpeg",
+    category: "Curtains",
+    alt: "Beige blackout curtains with white sheer combination on ceiling-mounted track",
+  },
+  {
+    src: "/images/gallery/corner-window-curtain-installation-chennai.jpg",
+    category: "Curtains",
+    alt: "Corner window curtain installation with beige sheer and blackout drapes",
+  },
+  {
+    src: "/images/gallery/cream-blackout-curtains-living-room.jpg",
+    category: "Curtains",
+    alt: "Cream blackout curtains installed for a premium living room",
+  },
+  {
+    src: "/images/gallery/curtains_4.jpg",
+    category: "Curtains",
+    alt: "White pinch pleat sheer curtains for a bright apartment living area",
+  },
+  {
+    src: "/images/gallery/curtains_5.jpg",
+    category: "Curtains",
+    alt: "Brown pinch pleat curtains with white sheer layer for a balcony door",
+  },
+  {
+    src: "/images/gallery/curtains_6.jpg",
+    category: "Curtains",
+    alt: "Corner window installation with dark curtains and vertical blinds panel",
+  },
+  {
+    src: "/images/gallery/curtains_7.jpg",
+    category: "Curtains",
+    alt: "Cream pinch pleat blackout curtains for a modern bedroom with false ceiling",
+  },
+  {
+    src: "/images/gallery/curtains_10.jpg",
+    category: "Curtains",
+    alt: "Brown textured curtains with white sheer combination on dual track rod",
+  },
+  {
+    src: "/images/gallery/curtains_15.jpg",
+    category: "Curtains",
+    alt: "Black ceiling-mounted curtains with dramatic drape for a dark-themed bedroom",
+  },
+  {
+    src: "/images/gallery/custom-tailored-curtains-chennai.jpeg",
+    category: "Curtains",
+    alt: "Custom tailored pinch pleat curtains recessed in wooden frame niche",
+  },
+  {
+    src: "/images/gallery/elegant-full-length-apartment-curtains.jpg",
+    category: "Curtains",
+    alt: "Elegant full-length taupe curtains with white sheer for a luxury apartment",
+  },
+  {
+    src: "/images/gallery/finished-custom-curtain-detail.jpeg",
+    category: "Curtains",
+    alt: "Finished custom curtain installation with taupe fabric and centre tieback detail",
+  },
 ];
 
 export default function Gallery() {
@@ -143,30 +138,24 @@ export default function Gallery() {
         {/* GALLERY GRID */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
 
-          {visibleImages.map((img, index) => (
+         {visibleImages.map((img, index) => (
+  <div
+    key={index}
+    onClick={() => openImage(img, index)}
+    className="group relative overflow-hidden rounded-[28px] cursor-pointer h-[280px]"
+  >
+    <Image
+      src={img.src}
+      alt={img.alt}
+      fill
+      quality={60}
+      priority={index === 0}
+      className="object-cover group-hover:scale-105 transition duration-700"
+    />
 
-            <div
-              key={index}
-              onClick={() => openImage(img, index)}
-              className="group relative overflow-hidden rounded-[28px] cursor-pointer"
-            >
-
-              <Image
-                src={img.src}
-                alt={img.alt}
-                width={500}
-                height={280}
-                quality={60}
-                priority={index === 0}
-                style={{ height: 'auto' }}
-                className="w-full h-[280px] object-cover group-hover:scale-105 transition duration-700"
-              />
-
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition duration-500" />
-
-            </div>
-
-          ))}
+    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition duration-500" />
+  </div>
+))}
 
         </div>
 
