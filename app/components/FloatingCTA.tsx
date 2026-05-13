@@ -2,7 +2,12 @@
 
 export default function FloatingCTA() {
   return (
-    <div className="fixed right-5 bottom-5 z-[999] flex flex-col gap-4">
+    <div className="fixed right-5 bottom-5 z-[999] flex flex-col items-end gap-4">
+
+      {/* CONVERSION GRAPHIC */}
+      <div className="bg-[#f26522] text-white text-[10px] font-bold uppercase tracking-[2px] px-3 py-1.5 rounded-lg shadow-2xl animate-bounce mb-[-10px] mr-2 origin-bottom border border-white/20">
+        Book Free Visit
+      </div>
 
       {/* CALL BUTTON */}
       <a

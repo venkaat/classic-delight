@@ -36,9 +36,9 @@ export default function RootLayout({
 }
 export const metadata: Metadata = {
   title: {
-    default: "Classic Delight | Curtains & Blinds in Chennai",
+    default: "Curtains in Chennai | Custom Curtains & Blinds | Classic Delight",
     template: "%s | Classic Delight",
   },
   description:
-    "Premium curtains, blinds, zebra blinds, wooden blinds and mosquito nets in Chennai. Custom window solutions and professional installation by Classic Delight in Virugambakkam.",
+    "Premium curtains, blinds and mosquito nets in Chennai including Virugambakkam, Anna Nagar, Vadapalani and KK Nagar.",
 };

@@ -54,8 +54,8 @@ const recommendations: Record<string, Recommendation> = {
 export default function AICurtainRecommendation() {
   const [room, setRoom] = useState("Living Room");
   const [style, setStyle] = useState("Luxury");
-  const [width, setWidth] = useState("5");
-  const [height, setHeight] = useState("5");
+  const [width, setWidth] = useState("");
+const [height, setHeight] = useState("");
   const [step, setStep] = useState(1);
   const completed =
   room && style && width && height;
@@ -109,8 +109,8 @@ export default function AICurtainRecommendation() {
         {/* HEADER */}
         <div className="text-center max-w-4xl mx-auto mb-20">
 
-          <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-2 rounded-full text-sm text-white/70 mb-8">
-            ✨ AI Powered Custom Curtain Recommendations
+          <div className="inline-flex items-center gap-3 bg-[#f26522]/10 border border-[#f26522]/30 px-5 py-2 rounded-full text-sm text-white/90 mb-8 animate-pulse md:animate-none">
+            ✨ <span className="hidden sm:inline">AI Powered</span> Custom Curtain Recommendations
           </div>
 
           <h2 className="text-white text-5xl md:text-7xl leading-[0.92] font-semibold tracking-[-0.04em] mb-8">
@@ -228,8 +228,7 @@ export default function AICurtainRecommendation() {
   )}
 
   {/* STEP 3 */}
-  {step >= 3 && (
-
+  {completed && (
     <div className="bg-white/5 border border-white/10 rounded-[32px] p-6 md:p-8 transition-all duration-700">
 
       <p className="text-[#f26522] uppercase tracking-[4px] text-sm mb-4">
@@ -249,8 +248,9 @@ export default function AICurtainRecommendation() {
           </label>
 
           <input
-            type="text"
+            type="number"
             inputMode="numeric"
+            placeholder="10"
             value={width}
             onChange={(e) =>
               setWidth(e.target.value.replace(/[^0-9]/g, ""))
