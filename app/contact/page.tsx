@@ -6,6 +6,28 @@ export const metadata: Metadata = {
   title: "Contact Us | Classic Delight",
   description:
     "Contact Classic Delight for premium curtains, blinds and mosquito nets in Chennai.",
+  openGraph: {
+    title: "Contact Us | Classic Delight",
+    description:
+      "Contact Classic Delight for premium curtains, blinds and mosquito nets in Chennai.",
+    url: "https://classicdelight.in/contact",
+    siteName: "Classic Delight",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Contact Us | Classic Delight",
+    description: "Get in touch for premium interior solutions in Chennai.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function ContactPage() {

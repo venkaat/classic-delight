@@ -7,6 +7,29 @@ export const metadata: Metadata = {
   title: "About Us | Classic Delight",
   description:
     "Learn more about Classic Delight — premium curtains, blinds and mosquito net solutions in Chennai.",
+  openGraph: {
+    title: "About Us | Classic Delight",
+    description:
+      "Learn more about Classic Delight — premium curtains, blinds and mosquito net solutions in Chennai.",
+    url: "https://classicdelight.in/about",
+    siteName: "Classic Delight",
+    images: [
+      {
+        url: "/images/about/about.jpg",
+        width: 1200,
+        height: 630,
+        alt: "About Classic Delight Chennai",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | Classic Delight",
+    description: "Premium window solutions in Chennai.",
+    images: ["/images/about/about.jpg"],
+  },
 };
 
 export default function AboutPage() {

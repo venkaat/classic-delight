@@ -56,9 +56,15 @@ export default function AICurtainRecommendation() {
   const [style, setStyle] = useState("Luxury");
   const [width, setWidth] = useState("5");
   const [height, setHeight] = useState("5");
+  const [step, setStep] = useState(1);
+  const completed =
+  room && style && width && height;
+  
 
   const result = useMemo(() => {
-    const selected = recommendations[style];
+   const selected =
+  recommendations[style as keyof typeof recommendations] ||
+  recommendations["Luxury"];
     const fabricPrice = fabrics[selected.fabric as keyof typeof fabrics] || 300;
 
     const parsedWidth = width === "" ? 5 : (Number(width) || 0);
@@ -121,123 +127,168 @@ export default function AICurtainRecommendation() {
         </div>
 
         {/* MAIN GRID */}
-        <div className="grid lg:grid-cols-2 gap-4 md:gap-10 items-stretch">
+        <div className="max-w-3xl mx-auto space-y-12">
 
           {/* LEFT PANEL */}
-          <div className="bg-white/5 border border-white/10 rounded-[40px] p-5 md:p-10 backdrop-blur-xl h-full">
+          <div className="space-y-6">
 
-            <h3 className="text-3xl font-semibold text-white mb-10">
-              Room Preferences
-            </h3>
+  {/* STEP 1 */}
+  <div className="bg-white/5 border border-white/10 rounded-[32px] p-6 md:p-8">
 
-            <div className="space-y-8">
+    <p className="text-[#f26522] uppercase tracking-[4px] text-sm mb-4">
+      Step 1
+    </p>
 
-              {/* ROOM TYPE */}
-              <div>
-                <label className="block text-white mb-3 font-medium">
-                  Room Type
-                </label>
+    <h3 className="text-3xl md:text-4xl font-semibold text-white mb-8">
+      What room are we styling?
+    </h3>
 
-                <select
-                  value={room}
-                  onChange={(e) => setRoom(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none"
-                >
-                  <option>Living Room</option>
-                  <option>Bedroom</option>
-                  <option>Office</option>
-                  <option>Dining Room</option>
-                  <option>Commercial Space</option>
-                </select>
-              </div>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 
-              {/* STYLE */}
-              <div>
-                <label className="block text-white mb-3 font-medium">
-                  Preferred Style
-                </label>
+      {[
+  ["🛋", "Living Room"],
+  ["🛏", "Bedroom"],
+  ["💼", "Office"],
+  ["🍽", "Dining"],
+].map(([icon, item]) => (
 
-                <div className="grid grid-cols-2 gap-4">
+  <button
+    key={item}
+    onClick={() => {
+      setRoom(item as string);
+      setStep(2);
+    }}
+    className={`rounded-[28px] px-5 py-7 border transition-all duration-500 ${
+      room === item
+        ? "bg-[#f26522] border-[#f26522] text-white"
+        : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
+    }`}
+  >
 
-                  {Object.keys(recommendations).map((item) => (
+    <div className="text-3xl mb-4">
+      {icon}
+    </div>
 
-                    <button
-                      key={item}
-                      onClick={() => setStyle(item)}
-                      className={`rounded-2xl px-5 py-4 border transition-all duration-500 ${
-                        style === item
-                          ? "bg-[#f26522] border-[#f26522] text-white"
-                          : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
-                      }`}
-                    >
-                      {item}
-                    </button>
+    <div className="text-lg">
+      {item}
+    </div>
 
-                  ))}
+  </button>
 
-                </div>
-              </div>
+))}
 
-              {/* WIDTH */}
-              <div>
-                <label className="block text-white mb-3 font-medium">
-                  Window Width (Feet)
-                </label>
+    </div>
 
-                <input
-                  type="text"
-                  inputMode="decimal"
-                  value={width}
-                  onChange={(e) => {
-                    let val = e.target.value.replace(/[^0-9.]/g, "");
-                    if (val.length > 1 && val[0] === '0' && val[1] !== '.') {
-                      val = val.replace(/^0+/, "");
-                    }
-                    setWidth(val);
-                  }}
-                  onFocus={(e) => {
-                    if (e.target.value === "5") setWidth("");
-                  }}
-                  onBlur={(e) => {
-                    if (e.target.value === "") setWidth("5");
-                  }}
-                  className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none"
-                />
-              </div>
+  </div>
 
-              {/* HEIGHT */}
-              <div>
-                <label className="block text-white mb-3 font-medium">
-                  Window Height (Feet)
-                </label>
+  {/* STEP 2 */}
+  {step >= 2 && (
 
-                <input
-                  type="text"
-                  inputMode="decimal"
-                  value={height}
-                  onChange={(e) => {
-                    let val = e.target.value.replace(/[^0-9.]/g, "");
-                    if (val.length > 1 && val[0] === '0' && val[1] !== '.') {
-                      val = val.replace(/^0+/, "");
-                    }
-                    setHeight(val);
-                  }}
-                  onFocus={(e) => {
-                    if (e.target.value === "5") setHeight("");
-                  }}
-                  onBlur={(e) => {
-                    if (e.target.value === "") setHeight("5");
-                  }}
-                  className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none"
-                />
-              </div>
+    <div className="bg-white/5 border border-white/10 rounded-[32px] p-6 md:p-8 transition-all duration-700">
 
-            </div>
+      <p className="text-[#f26522] uppercase tracking-[4px] text-sm mb-4">
+        Step 2
+      </p>
+
+      <h3 className="text-3xl md:text-4xl font-semibold text-white mb-8">
+        Choose your preferred style
+      </h3>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+
+        {[
+          "Luxury",
+          "Modern",
+          "Cozy",
+          "Privacy",
+          "Office",
+        ].map((item) => (
+
+          <button
+            key={item}
+            onClick={() => {
+              setStyle(item);
+              setStep(3);
+            }}
+            className={`rounded-2xl px-5 py-5 border transition-all duration-500 ${
+              style === item
+                ? "bg-[#f26522] border-[#f26522] text-white"
+                : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
+            }`}
+          >
+            {item}
+          </button>
+
+        ))}
+
+      </div>
+
+    </div>
+
+  )}
+
+  {/* STEP 3 */}
+  {step >= 3 && (
+
+    <div className="bg-white/5 border border-white/10 rounded-[32px] p-6 md:p-8 transition-all duration-700">
+
+      <p className="text-[#f26522] uppercase tracking-[4px] text-sm mb-4">
+        Step 3
+      </p>
+
+      <h3 className="text-3xl md:text-4xl font-semibold text-white mb-8">
+        Tell us your window size
+      </h3>
+
+      <div className="grid md:grid-cols-2 gap-6">
+
+        <div>
+
+          <label className="block text-white mb-3">
+            Window Width (Feet)
+          </label>
+
+          <input
+            type="text"
+            inputMode="numeric"
+            value={width}
+            onChange={(e) =>
+              setWidth(e.target.value.replace(/[^0-9]/g, ""))
+            }
+            className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none"
+          />
+
+        </div>
+
+        <div>
+
+          <label className="block text-white mb-3">
+            Window Height (Feet)
+          </label>
+
+          <input
+            type="text"
+            inputMode="numeric"
+            value={height}
+            onChange={(e) =>
+              setHeight(e.target.value.replace(/[^0-9]/g, ""))
+            }
+            className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none"
+          />
+
+        </div>
+
+      </div>
+
+    </div>
+  )}
 
           </div>
 
+
           {/* RIGHT PANEL */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-[#1a1a1a] to-[#0e0e0e] border border-white/10 rounded-[40px] p-5 md:p-10 h-full">
+          {step >= 3 && (
+            <div className="relative overflow-hidden bg-gradient-to-br from-[#1a1a1a] to-[#0e0e0e] border border-white/10 rounded-[40px] p-8 md:p-12 transition-all duration-1000">
 
             {/* GLOW */}
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#f26522]/20 blur-[120px] rounded-full" />
@@ -347,6 +398,7 @@ export default function AICurtainRecommendation() {
             </div>
 
           </div>
+          )}
 
         </div>
 
@@ -395,6 +447,7 @@ export default function AICurtainRecommendation() {
     width={400}
     height={176}
     quality={60}
+    style={{ height: 'auto' }}
     className="w-full h-44 object-cover hover:scale-105 transition duration-700"
   />
 
@@ -450,7 +503,7 @@ export default function AICurtainRecommendation() {
     {[
       ["Pleated Curtains", "/images/curtain-styles/pleated.jpg"],
       ["Ripple Curtains", "/images/curtain-styles/ripple.jpg"],
-      ["Eyelid Curtains", "/images/curtain-styles/eyelid.jpg"],
+      ["Eyelid Curtains", "/images/curtain-styles/eyelet.jpg"],
       ["Hospital Curtains", "/images/curtain-styles/hospital.jpg"],
     ].map(([name, imageUrl]) => (
 
@@ -464,6 +517,7 @@ export default function AICurtainRecommendation() {
             src={imageUrl}
             alt={name}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             className="object-cover group-hover:scale-105 transition duration-700"
           />
         </div>
