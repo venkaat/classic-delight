@@ -178,6 +178,15 @@ export default function Footer() {
                 >
                   +91 98405 19955
                 </a>
+
+                <div className="mt-2">
+                  <a
+                    href="tel:+919940699797"
+                    className="hover:text-[#f26522] transition duration-300"
+                  >
+                    +91 99406 99797
+                  </a>
+                </div>
               </div>
 
               <div>

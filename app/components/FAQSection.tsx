@@ -43,6 +43,59 @@ const faqs = [
     answer:
       "Yes. Blackout curtains are ideal for bedrooms because they reduce sunlight, improve privacy and help maintain a comfortable indoor atmosphere.",
   },
+  {
+  question: "Do you provide curtain track installation in Chennai?",
+  answer:
+    "Yes. Classic Delight provides professional curtain track installation services across Chennai for homes, apartments, offices and commercial interiors. We install premium curtain tracks with smooth sliding systems and clean finishing.",
+},
+
+{
+  question: "What curtain fabrics do you offer?",
+  answer:
+    "We offer premium curtain fabrics including linen, cotton, blackout fabric, polyester, silk, sheer fabric, poly cotton and custom printed curtain fabrics tailored for modern interiors.",
+},
+
+{
+  question: "Do you have experienced curtain makers for custom curtains?",
+  answer:
+    "Yes. Our experienced curtain makers create customized curtains tailored to your exact window size, fabric preferences and interior style requirements.",
+},
+
+{
+  question: "Do you provide professional curtain installation services?",
+  answer:
+    "Yes. We provide complete curtain installation services including curtain rod fitting, track installation, measurements and finishing across all major areas in Chennai.",
+},
+
+{
+  question: "What is the difference between curtains and drapes?",
+  answer:
+    "Curtains are generally lighter window coverings used for decoration and light filtering, while drapes are thicker and often lined for better privacy, insulation and blackout performance.",
+},
+
+{
+  question: "Do you offer curtain rail installation?",
+  answer:
+    "Yes. We install curtain rails, curtain rods and premium M-track systems for smooth curtain movement and modern interior styling.",
+},
+
+{
+  question: "Can you install curtain wall brackets?",
+  answer:
+    "Absolutely. We provide secure curtain wall bracket installation for all types of curtain rods, rails and track systems to ensure proper support and durability.",
+},
+
+{
+  question: "Do you offer custom roller shades and blinds?",
+  answer:
+    "Yes. We provide custom roller shades, roller blinds, zebra blinds and modern window blind solutions tailored for residential and commercial interiors.",
+},
+
+{
+  question: "Do you provide curtain wire installation services?",
+  answer:
+    "Yes. We offer curtain wire installation solutions for lightweight curtains, sheer fabrics and compact modern window styling requirements.",
+},
 ];
 
 export default function FAQSection() {
