@@ -10,14 +10,14 @@ import Link from "next/link";
 // Note: Metadata must be moved to a layout.tsx file or handled in a server component wrapper.
 
 const heroGallery = [
-  "/images/gallery/curtains-140.jpg",
-  "/images/gallery/curtains-012.jpg",
-  "/images/gallery/curtains-020.jpg",
-  "/images/gallery/curtains-004.jpg",
-  "/images/gallery/curtains-005.jpg",
-  "/images/gallery/curtains-130.jpg",
-  "/images/gallery/curtains-007.jpg",
-  "/images/gallery/curtains-008.jpg",
+  "/images/gallery/Curtains-140.jpg",
+  "/images/gallery/Curtains-012.jpg",
+  "/images/gallery/Curtains-020.jpg",
+  "/images/gallery/Curtains-004.jpg",
+  "/images/gallery/Curtains-005.jpg",
+  "/images/gallery/Curtains-130.jpg",
+  "/images/gallery/Curtains-007.jpg",
+  "/images/gallery/Curtains-008.jpg",
 ];
 
 const curtainTypes = [
