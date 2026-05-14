@@ -1,23 +1,24 @@
 const testimonials = [
   {
-    name: "Priya Raman",
-    location: "Anna Nagar",
-    text:
-      "Excellent curtain quality and very professional installation. The team helped us choose the perfect fabric combination for our interiors.",
-  },
-
-  {
-    name: "Karthik Subramanian",
-    location: "Vadapalani",
-    text:
-      "Very impressed with the zebra blinds installation. Premium finish, clean fitting and timely completion.",
-  },
-
-  {
-    name: "Divya Krishnan",
+    name: "ranjith paramesh",
     location: "Virugambakkam",
     text:
-      "The ripple fold curtains completely transformed our living room. Highly recommended for modern interiors.",
+      "Got a new curtains for my home from classic delight,Installation was very Professional and Good with their Quality of work and materials, thank you."
+
+  },
+
+  {
+    name: "M.R. Kavitha",
+    location: "Vadapalani",
+    text:
+      "New and elegant designs which is easy to clean and maintain.",
+  },
+
+  {
+    name: "Bhagavathy thangaraj",
+    location: "Virugambakkam",
+    text:
+      "I'm very much satisfied with your team work.... Curtains quality and installations are neatly done... Thank you for your service...",
   },
 ];
 

@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/blinds", label: "Blinds" },
   { href: "/nets", label: "nets" },
   { href: "/#ai-guide", label: "AI Guide" },
+  { href: "/gallery", label: "Gallery" },
   
   { href: "/contact", label: "Contact" },
   { href: "/faq", label: "FAQ" },

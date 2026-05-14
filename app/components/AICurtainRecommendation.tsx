@@ -531,7 +531,7 @@ const [height, setHeight] = useState("");
     {[
       ["Pleated Curtains", "/images/curtain-styles/pleated.jpg"],
       ["Ripple Curtains", "/images/curtain-styles/ripple.jpg"],
-      ["Eyelid Curtains", "/images/curtain-styles/eyelet.jpg"],
+      ["Eyelet Curtains", "/images/curtain-styles/eyelet.png"],
       ["Hospital Curtains", "/images/curtain-styles/hospital.jpg"],
     ].map(([name, imageUrl]) => (
 

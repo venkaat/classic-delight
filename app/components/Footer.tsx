@@ -129,7 +129,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  href="/mosquito-nets"
+                  href="/nets"
                   className="hover:text-[#f26522] transition duration-300"
                 >
                   Mosquito Nets Chennai
@@ -138,7 +138,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  href="/zebra-blinds"
+                  href="/blinds"
                   className="hover:text-[#f26522] transition duration-300"
                 >
                   Zebra Blinds Chennai
@@ -147,7 +147,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  href="/wooden-blinds"
+                  href="/blinds"
                   className="hover:text-[#f26522] transition duration-300"
                 >
                   Wooden Blinds Chennai
