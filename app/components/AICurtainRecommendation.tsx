@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const fabrics = {
   Cotton: 400,
@@ -99,7 +100,10 @@ const [height, setHeight] = useState("");
   }, [style, width, height]);
 
   return (
-    <section className="relative py-32 bg-[#0b0b0b] overflow-hidden border-y border-white/10">
+    <section 
+      id="ai-guide" 
+      className="relative py-32 bg-[#0b0b0b] overflow-hidden border-y border-white/10"
+    >
 
       {/* GLOW */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#f26522]/20 blur-[140px] rounded-full" />
@@ -107,9 +111,15 @@ const [height, setHeight] = useState("");
       <div className="relative z-10 max-w-7xl mx-auto px-6">
 
         {/* HEADER */}
-        <div className="text-center max-w-4xl mx-auto mb-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center max-w-4xl mx-auto mb-20"
+        >
 
-          <div className="inline-flex items-center gap-3 bg-[#f26522]/10 border border-[#f26522]/30 px-5 py-2 rounded-full text-sm text-white/90 mb-8 animate-pulse md:animate-none">
+          <div className="inline-flex items-center gap-3 bg-[#f26522]/10 border border-[#f26522]/30 px-5 py-2 rounded-full text-sm text-white/90 mb-8 animate-pulse">
             ✨ <span className="hidden sm:inline">AI Powered</span> Custom Curtain Recommendations
           </div>
 
@@ -119,15 +129,23 @@ const [height, setHeight] = useState("");
             Perfect Custom Curtains
           </h2>
 
-          <p className="text-white/60 text-lg md:text-xl leading-relaxed">
-            Get personalized custom curtain recommendations and instant pricing with 
-            free installation across Chennai, including Virugambakkam and Koyembedu.
+          <p className="text-white/70 text-lg md:text-xl leading-relaxed bg-white/5 border border-white/10 px-8 py-6 rounded-[32px] inline-block backdrop-blur-sm shadow-2xl">
+            Get <span className="text-white font-medium">personalized custom curtain recommendations</span> and 
+            <span className="text-white font-medium"> instant pricing</span> with 
+            <span className="text-[#f26522] font-semibold"> free installation</span> across Chennai, 
+            including <span className="text-white/90">Virugambakkam</span> and <span className="text-white/90">Koyembedu</span>.
           </p>
 
-        </div>
+        </motion.div>
 
         {/* MAIN GRID */}
-        <div className="max-w-3xl mx-auto space-y-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="max-w-3xl mx-auto space-y-12"
+        >
 
           {/* LEFT PANEL */}
           <div className="space-y-6">
@@ -228,7 +246,7 @@ const [height, setHeight] = useState("");
   )}
 
   {/* STEP 3 */}
-  {completed && (
+  {step >= 3 && (
     <div className="bg-white/5 border border-white/10 rounded-[32px] p-6 md:p-8 transition-all duration-700">
 
       <p className="text-[#f26522] uppercase tracking-[4px] text-sm mb-4">
@@ -248,7 +266,7 @@ const [height, setHeight] = useState("");
           </label>
 
           <input
-            type="number"
+            type="text"
             inputMode="numeric"
             placeholder="10"
             value={width}
@@ -269,6 +287,7 @@ const [height, setHeight] = useState("");
           <input
             type="text"
             inputMode="numeric"
+            placeholder="10"
             value={height}
             onChange={(e) =>
               setHeight(e.target.value.replace(/[^0-9]/g, ""))
@@ -285,10 +304,14 @@ const [height, setHeight] = useState("");
 
           </div>
 
-
           {/* RIGHT PANEL */}
           {step >= 3 && (
-            <div className="relative overflow-hidden bg-gradient-to-br from-[#1a1a1a] to-[#0e0e0e] border border-white/10 rounded-[40px] p-8 md:p-12 transition-all duration-1000">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="relative overflow-hidden bg-gradient-to-br from-[#1a1a1a] to-[#0e0e0e] border border-white/10 rounded-[40px] p-8 md:p-12"
+            >
 
             {/* GLOW */}
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#f26522]/20 blur-[120px] rounded-full" />
@@ -334,6 +357,11 @@ const [height, setHeight] = useState("");
   </p>
 
   <div className="space-y-5">
+
+  <div className="flex justify-between text-white/70">
+    <span>Window Size</span>
+    <span>{width || "0"} ft x {height || "0"} ft</span>
+  </div>
 
   <div className="flex justify-between text-white/70">
     <span>Fabric Required</span>
@@ -397,10 +425,10 @@ const [height, setHeight] = useState("");
 
             </div>
 
-          </div>
+            </motion.div>
           )}
 
-        </div>
+        </motion.div>
 
 <div className="mt-28">
 

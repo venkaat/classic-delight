@@ -80,7 +80,8 @@ export default function ContactPage() {
                   Phone
                 </p>
 
-                <p>+91-9840519955</p>
+                <p>+91-98405 19955</p>
+                <p>+91-99406 99797</p>
               </div>
 
               <div>

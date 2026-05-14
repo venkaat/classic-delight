@@ -1,28 +1,24 @@
+'use client';
 
-import type { Metadata } from "next";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FloatingCTA from "../components/FloatingCTA";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title:
-    "Premium Curtains in Chennai | Custom Curtains & Installation | Classic Delight",
-  description:
-    "Premium curtains in Chennai including blackout curtains, sheer curtains, ripple fold curtains and custom window curtain solutions. Professional curtain installation across Chennai.",
-  keywords: [
-    "Curtains Chennai",
-    "Premium Curtains Chennai",
-    "Custom Curtains Chennai",
-    "Designer Curtains Chennai",
-    "Luxury Curtains Chennai",
-    "Blackout Curtains Chennai",
-    "Sheer Curtains Chennai",
-    "Ripple Fold Curtains Chennai",
-    "Curtain Shop Chennai",
-    "Curtain Installation Chennai",
-  ],
-};
+// Note: Metadata must be moved to a layout.tsx file or handled in a server component wrapper.
+
+const heroGallery = [
+  "/images/gallery/curtains-001.jpg",
+  "/images/gallery/curtains-002.jpg",
+  "/images/gallery/curtains-003.jpg",
+  "/images/gallery/curtains-004.jpg",
+  "/images/gallery/curtains-005.jpg",
+  "/images/gallery/curtains-006.jpg",
+  "/images/gallery/curtains-007.jpg",
+  "/images/gallery/curtains-008.jpg",
+];
 
 const curtainTypes = [
   "Pleated Curtains",
@@ -77,6 +73,15 @@ const faqs = [
 ];
 
 export default function CurtainsPage() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % heroGallery.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden">
 
@@ -128,14 +133,37 @@ export default function CurtainsPage() {
 
           </div>
 
-          <div className="relative overflow-hidden rounded-[40px] border border-white/10">
+          <div className="relative h-[500px] lg:h-[650px] w-full group">
+            <div className="absolute inset-0 bg-[#f26522]/10 blur-[100px] rounded-full opacity-50" />
+            
+            {heroGallery.map((src, i) => (
+              <div
+                key={i}
+                className={`absolute inset-0 transition-all duration-[1500ms] ease-in-out ${
+                  i === activeIndex ? "opacity-100 scale-100 translate-x-0 z-10" : "opacity-0 scale-105 translate-x-4 z-0"
+                }`}
+              >
+                <Image
+                  src={src}
+                  alt={`Luxury curtains gallery slide ${i + 1}`}
+                  fill
+                  className="object-cover rounded-[40px] border border-white/10 shadow-2xl"
+                />
+              </div>
+            ))}
 
-            <img
-              src="/images/gallery/curtains_1.jpg"
-              alt="Premium curtains installed in Chennai by Classic Delight"
-              className="w-full h-[650px] object-cover"
-            />
-
+            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+              {heroGallery.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveIndex(i)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${
+                    i === activeIndex ? "bg-[#f26522] w-12" : "bg-white/20 w-4 hover:bg-white/40"
+                  }`}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
 
         </div>
