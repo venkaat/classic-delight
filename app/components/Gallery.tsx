@@ -337,11 +337,6 @@ const data: GalleryItem[] = [
   alt: "Soft neutral tone curtains for luxury apartment styling",
 },
 {
-  src: "/images/gallery/Curtains-102.jpg",
-  category: "Curtains",
-  alt: "Soft neutral tone curtains for luxury apartment styling",
-},
-{
   src: "/images/gallery/Curtains-103.jpg",
   category: "Curtains",
   alt: "Elegant sheer curtains with premium pleated detailing",
@@ -525,11 +520,6 @@ const data: GalleryItem[] = [
   src: "/images/gallery/Curtains-139.jpg",
   category: "Curtains",
   alt: "Soft neutral curtains with elegant layered styling",
-},
-{
-  src: "/images/gallery/Curtains-140.jpg",
-  category: "Curtains",
-  alt: "Luxury pleated curtains with premium residential finish",
 },
 {
   src: "/images/gallery/Curtains-140.jpg",
