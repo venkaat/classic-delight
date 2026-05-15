@@ -1,7 +1,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { siteConfig } from "@/app/lib/siteConfig";
+import { siteConfig } from "@/lib/siteConfig";
 import {
   MapPin,
   Phone,

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Calculator, MessageCircle } from "lucide-react";
 
-import { siteConfig } from "@/app/lib/siteConfig";
+import { siteConfig } from "@/lib/siteConfig";
 
 type CurtainType = "Standard" | "Linen" | "Blackout" | "Motorized";
 

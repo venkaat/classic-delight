@@ -28,6 +28,7 @@ export default function RootLayout({
   `}
 </Script>
 
+
         {children}
         
       </body>

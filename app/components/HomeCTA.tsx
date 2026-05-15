@@ -1,5 +1,5 @@
 import { MessageCircle, Phone } from "lucide-react";
-import { siteConfig } from "@/app/lib/siteConfig";
+import { siteConfig } from "@/lib/siteConfig";
 
 export default function HomeCTA() {
   return (
