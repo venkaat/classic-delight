@@ -18,7 +18,7 @@ export default function AIPage() {
         </div>
 
         <iframe 
-          src="https://ais-pre-rvcmuhsgnkvflyahhs6gvf-410534104855.asia-east1.run.app?embed=true" 
+           src="https://ais-pre-rvcmuhsgnkvflyahhs6gvf-410534104855.asia-east1.run.app?embed=true" 
           style={{ width: '100%', height: '800px', border: 'none', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }} 
           allow="camera; microphone"
         />
