@@ -19,13 +19,16 @@ export default function RootLayout({
 />
 
 
-<Script id="google-ads" strategy="afterInteractive">
+<Script
+  src="https://www.googletagmanager.com/gtag/js?id=G-JV7CG8KTT3"
+  strategy="afterInteractive"
+/>
+<Script id="google-analytics" strategy="afterInteractive">
   {`
     window.dataLayer = window.dataLayer || [];
-    function gtag(){window.dataLayer.push(arguments);}
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
-    gtag('config', 'AW-998359476');
+    gtag('config', 'G-JV7CG8KTT3');
   `}
 </Script>
 
