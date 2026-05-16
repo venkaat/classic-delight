@@ -13,13 +13,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Script
-  src="https://www.googletagmanager.com/gtag/js?id=AW-998359476"
-  strategy="afterInteractive"
-/>
-
-
-
+        
 
 <script
   type="application/ld+json"
@@ -121,15 +115,6 @@ export default function RootLayout({
 />
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JV7CG8KTT3">
-</script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-JV7CG8KTT3');
-</script>
 
         {children}
         
