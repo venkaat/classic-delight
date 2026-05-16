@@ -19,6 +19,25 @@ export const metadata: Metadata = {
     "Mosquito Nets Virugambakkam",
   ],
 };
+const mosquitonetSchema = {
+
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.classicdelight.in/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Mosquito Nets Chennai",
+      "item": "https://www.classicdelight.in/nets"
+    }
+  ]
+};
 
 const mosquitoNets = [
   {

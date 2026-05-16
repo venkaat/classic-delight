@@ -4,6 +4,25 @@ import Footer from "../components/Footer";
 import FloatingCTA from "../components/FloatingCTA";
 import Link from "next/link";
 
+const blindschema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.classicdelight.in/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blinds Chennai",
+      "item": "https://www.classicdelight.in/blinds"
+    }
+  ]
+};
+
 export const metadata: Metadata = {
   title:
     "Premium Blinds in Chennai | Zebra, Roller & Wooden Blinds | Classic Delight",
