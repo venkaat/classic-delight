@@ -9,6 +9,23 @@ import Link from "next/link";
 
 // Note: Metadata must be moved to a layout.tsx file or handled in a server component wrapper.
 
+const curtainschema={"@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.classicdelight.in/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Curtains Chennai",
+      "item": "https://www.classicdelight.in/curtains"
+    }
+  ]};
+
 const heroGallery = [
   "/images/gallery/Curtains-140.jpg",
   "/images/gallery/Curtains-012.jpg",

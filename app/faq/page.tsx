@@ -18,6 +18,50 @@ export const metadata: Metadata = {
     "Custom curtains Chennai",
   ],
 };
+const faqSchema = {"@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do you provide free installation for curtains in Chennai?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, Classic Delight provides free professional installation for all curtains, blinds and mosquito nets across Chennai including Virugambakkam, Anna Nagar, KK Nagar and Koyembedu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the price of curtains in Chennai?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Curtain fabric prices at Classic Delight start from Rs.130 per meter for polyester and go up to Rs.400 per meter for cotton, linen and poly-cotton blends. Final price depends on fabric, style and window measurements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of blinds do you offer in Chennai?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We offer zebra blinds, wooden blinds, roller blinds and venetian blinds in Chennai. All blinds are custom-made to fit your windows with free installation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I book a free consultation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can book a free home visit by calling +91 98405 19955 or WhatsApp us directly. Our team will visit your home, take measurements and guide you through fabric and style options."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you install mosquito nets for sliding doors?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, we install custom mosquito nets for all window and door types including sliding doors, casement windows and French doors across Chennai."
+      }
+    }
+  ]};
 
 const faqs = [
   {

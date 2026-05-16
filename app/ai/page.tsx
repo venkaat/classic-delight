@@ -19,8 +19,16 @@ export default function AIPage() {
 
         <iframe 
            src="https://ais-pre-rvcmuhsgnkvflyahhs6gvf-410534104855.asia-east1.run.app?embed=true" 
-          style={{ width: '100%', height: '800px', border: 'none', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }} 
-          allow="camera; microphone"
+          style={{ 
+            width: '100%', 
+            height: '800px', 
+            border: 'none', 
+            borderRadius: '24px', 
+            boxShadow: '0 20px 50px rgba(0,0,0,0.15)' 
+          }} 
+  allow="camera; microphone; clipboard-write; encrypted-media; picture-in-picture"
+  sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-downloads"
+          referrerPolicy="no-referrer-when-downgrade"
         />
       </div>
 
