@@ -18,10 +18,11 @@ export default function RootLayout({
   strategy="afterInteractive"
 />
 
+
 <Script id="google-ads" strategy="afterInteractive">
   {`
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){window.dataLayer.push(arguments);}
     gtag('js', new Date());
 
     gtag('config', 'AW-998359476');
@@ -127,6 +128,16 @@ export default function RootLayout({
   }}
 />
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JV7CG8KTT3">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JV7CG8KTT3');
+</script>
 
         {children}
         
