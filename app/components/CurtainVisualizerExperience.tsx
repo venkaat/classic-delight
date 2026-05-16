@@ -78,8 +78,12 @@ export default function CurtainVisualizerExperience() {
     const { width } = wrapper.getBoundingClientRect();
     const height = Math.round((width * 9) / 16); // maintain 16:9
 
-    canvas.setWidth(width);
-    canvas.setHeight(height);
+    canvas.width = width;
+    canvas.height = height;
+    // Also resize the underlying HTML canvas element
+    const el = canvas.getElement();
+    el.width = width;
+    el.height = height;
     canvas.renderAll();
   }, []);
 
