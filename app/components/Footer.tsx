@@ -198,7 +198,7 @@ export default function Footer() {
                   href="mailto:hello@classicdelight.in"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  hello@classicdelight.in
+                  sam@classicdelight.in
                 </a>
               </div>
 
