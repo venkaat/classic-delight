@@ -453,12 +453,7 @@ export default function AICurtainRecommendation() {
                     >
                       📲 Get Exact Quote on WhatsApp
                     </a>
-                    <a
-                      href="/curtain-visualizer"
-                      className="flex-1 text-center bg-white/5 border border-white/10 px-6 py-4 rounded-xl md:rounded-2xl text-white hover:bg-white/10 active:bg-white/15 transition duration-300 text-sm md:text-base"
-                    >
-                      Try Visualizer
-                    </a>
+                   
                   </div>
                 </div>
               </motion.div>
