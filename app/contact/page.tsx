@@ -89,7 +89,7 @@ export default function ContactPage() {
                   Email
                 </p>
 
-                <p>hello@classicdelight.in</p>
+                <p>sam@classicdelight.in</p>
               </div>
 
               <div>
@@ -107,37 +107,131 @@ export default function ContactPage() {
           {/* FORM */}
           <div className="bg-white/5 border border-white/10 rounded-[40px] p-10">
 
-            <form className="space-y-6">
+           <form
+  action="https://formsubmit.co/sam@classicdelight.in"
+  method="POST"
+  className="space-y-6"
+>
 
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="w-full bg-black/30 border border-white/10 rounded-2xl px-6 py-4 outline-none text-white"
-              />
+  {/* Hidden Config */}
 
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="w-full bg-black/30 border border-white/10 rounded-2xl px-6 py-4 outline-none text-white"
-              />
+  <input
+    type="hidden"
+    name="_subject"
+    value="New Classic Delight Inquiry"
+  />
 
-              <input
-                type="text"
-                placeholder="Phone Number"
-                className="w-full bg-black/30 border border-white/10 rounded-2xl px-6 py-4 outline-none text-white"
-              />
+  <input
+    type="hidden"
+    name="_captcha"
+    value="false"
+  />
 
-              <textarea
-                placeholder="Tell us about your requirement"
-                rows={5}
-                className="w-full bg-black/30 border border-white/10 rounded-2xl px-6 py-4 outline-none text-white"
-              />
+  <input
+    type="hidden"
+    name="_template"
+    value="table"
+  />
 
-              <button className="bg-[#f26522] text-white px-8 py-4 rounded-2xl hover:scale-105 transition-all duration-500">
-                Send Inquiry
-              </button>
+  {/* Name */}
 
-            </form>
+  <input
+    type="text"
+    name="name"
+    placeholder="Your Name"
+    required
+    className="
+      w-full
+      bg-black/30
+      border
+      border-white/10
+      rounded-2xl
+      px-6
+      py-4
+      outline-none
+      text-white
+    "
+  />
+
+  {/* Email */}
+
+  <input
+    type="email"
+    name="email"
+    placeholder="Email Address"
+    required
+    className="
+      w-full
+      bg-black/30
+      border
+      border-white/10
+      rounded-2xl
+      px-6
+      py-4
+      outline-none
+      text-white
+    "
+  />
+
+  {/* Phone */}
+
+  <input
+    type="text"
+    name="phone"
+    placeholder="Phone Number"
+    className="
+      w-full
+      bg-black/30
+      border
+      border-white/10
+      rounded-2xl
+      px-6
+      py-4
+      outline-none
+      text-white
+    "
+  />
+
+  {/* Message */}
+
+  <textarea
+    name="message"
+    placeholder="Tell us about your requirement"
+    rows={5}
+    required
+    className="
+      w-full
+      bg-black/30
+      border
+      border-white/10
+      rounded-2xl
+      px-6
+      py-4
+      outline-none
+      text-white
+    "
+  />
+
+  {/* Submit */}
+
+  <button
+    type="submit"
+    className="
+      w-full
+      bg-[#f26522]
+      text-white
+      px-8
+      py-4
+      rounded-2xl
+      hover:scale-105
+      transition-all
+      duration-500
+    "
+  >
+    Send Inquiry
+  </button>
+
+</form>
 
           </div>
 
