@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { Minus, Plus } from "lucide-react";
 
 const fabrics = {
   Cotton: 400,
@@ -54,14 +55,105 @@ const recommendations: Record<string, Recommendation> = {
   },
 };
 
+// Common window sizes in feet for quick-select
+const COMMON_WIDTHS = [4, 5, 6, 7, 8, 10, 12];
+const COMMON_HEIGHTS = [7, 8, 9, 10, 12];
+
+function DimensionPicker({
+  label,
+  value,
+  onChange,
+  presets,
+  unit = "ft",
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  presets: number[];
+  unit?: string;
+}) {
+  const numVal = Number(value) || 0;
+
+  const decrement = () => {
+    const next = Math.max(1, numVal - 1);
+    onChange(String(next));
+  };
+
+  const increment = () => {
+    onChange(String(numVal + 1));
+  };
+
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-4 md:p-6">
+      {/* Label */}
+      <p className="text-white/50 text-xs uppercase tracking-[3px] mb-4">
+        {label}
+      </p>
+
+      {/* Stepper row */}
+      <div className="flex items-center gap-3 mb-5">
+        <button
+          onClick={decrement}
+          className="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 border border-white/10 text-white hover:bg-[#f26522]/20 hover:border-[#f26522]/40 active:scale-90 transition"
+          aria-label={`Decrease ${label}`}
+        >
+          <Minus className="w-4 h-4" />
+        </button>
+
+        <div className="flex-1 text-center">
+          <span className="text-white text-4xl font-semibold">
+            {value || "—"}
+          </span>
+          <span className="text-white/40 text-base ml-1.5">{unit}</span>
+        </div>
+
+        <button
+          onClick={increment}
+          className="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 border border-white/10 text-white hover:bg-[#f26522]/20 hover:border-[#f26522]/40 active:scale-90 transition"
+          aria-label={`Increase ${label}`}
+        >
+          <Plus className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Quick-select chips */}
+      <div className="flex flex-wrap gap-2">
+        {presets.map((p) => (
+          <button
+            key={p}
+            onClick={() => onChange(String(p))}
+            className={`px-3 py-1.5 rounded-full text-sm border transition-all duration-300 ${
+              value === String(p)
+                ? "bg-[#f26522] border-[#f26522] text-white"
+                : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10"
+            }`}
+          >
+            {p} {unit}
+          </button>
+        ))}
+        {/* Custom input for non-preset values */}
+        <label className="px-3 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 text-white/40 cursor-pointer hover:bg-white/10 transition">
+          Custom
+          <input
+            type="number"
+            inputMode="numeric"
+            min={1}
+            value={value}
+            onChange={(e) => onChange(e.target.value.replace(/[^0-9]/g, ""))}
+            className="sr-only"
+          />
+        </label>
+      </div>
+    </div>
+  );
+}
+
 export default function AICurtainRecommendation() {
   const [room, setRoom] = useState("Living Room");
   const [style, setStyle] = useState("Luxury");
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [step, setStep] = useState(1);
-
-  const showResult = step >= 3 && (width !== "" || height !== "");
 
   const result = useMemo(() => {
     const selected =
@@ -98,7 +190,6 @@ export default function AICurtainRecommendation() {
     };
   }, [style, width, height]);
 
-  // Build WhatsApp pre-filled message
   const whatsappMessage = encodeURIComponent(
     `Hi! I used the AI Curtain Recommendation tool and got the following details:\n\n` +
       `🏠 Room: ${room}\n` +
@@ -244,7 +335,7 @@ export default function AICurtainRecommendation() {
             )}
           </AnimatePresence>
 
-          {/* STEP 3 — Window Size */}
+          {/* STEP 3 — Window Size (mobile-friendly) */}
           <AnimatePresence>
             {step >= 3 && (
               <motion.div
@@ -256,47 +347,45 @@ export default function AICurtainRecommendation() {
                 <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm mb-3 md:mb-4">
                   Step 3
                 </p>
-                <h3 className="text-2xl md:text-4xl font-semibold text-white mb-5 md:mb-8">
+                <h3 className="text-2xl md:text-4xl font-semibold text-white mb-2">
                   Tell us your window size
                 </h3>
+                <p className="text-white/40 text-sm mb-6">
+                  Tap a common size or use +/− to set your exact measurement
+                </p>
 
-                <div className="grid grid-cols-2 gap-4 md:gap-6">
-                  <div>
-                    <label className="block text-white text-sm md:text-base mb-2 md:mb-3">
-                      Width (Feet)
-                    </label>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      placeholder="e.g. 10"
-                      value={width}
-                      onChange={(e) =>
-                        setWidth(e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                      className="w-full bg-black/40 border border-white/10 rounded-xl md:rounded-2xl px-4 py-3 md:px-5 md:py-4 text-white text-sm md:text-base outline-none focus:border-[#f26522]/50 transition"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white text-sm md:text-base mb-2 md:mb-3">
-                      Height (Feet)
-                    </label>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      placeholder="e.g. 10"
-                      value={height}
-                      onChange={(e) =>
-                        setHeight(e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                      className="w-full bg-black/40 border border-white/10 rounded-xl md:rounded-2xl px-4 py-3 md:px-5 md:py-4 text-white text-sm md:text-base outline-none focus:border-[#f26522]/50 transition"
-                    />
-                  </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                  <DimensionPicker
+                    label="Width"
+                    value={width}
+                    onChange={setWidth}
+                    presets={COMMON_WIDTHS}
+                  />
+                  <DimensionPicker
+                    label="Height"
+                    value={height}
+                    onChange={setHeight}
+                    presets={COMMON_HEIGHTS}
+                  />
                 </div>
+
+                {/* Live preview of selected size */}
+                {width && height && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="mt-4 flex items-center justify-center gap-2 bg-[#f26522]/10 border border-[#f26522]/20 rounded-xl px-4 py-3"
+                  >
+                    <span className="text-[#f26522] text-sm font-medium">
+                      📐 {width} ft × {height} ft window selected
+                    </span>
+                  </motion.div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* RESULT PANEL — shows immediately after step 3 */}
+          {/* RESULT PANEL */}
           <AnimatePresence>
             {step >= 3 && (
               <motion.div
@@ -305,7 +394,6 @@ export default function AICurtainRecommendation() {
                 transition={{ duration: 0.5 }}
                 className="relative overflow-hidden bg-gradient-to-br from-[#1a1a1a] to-[#0e0e0e] border border-white/10 rounded-[28px] md:rounded-[40px] p-6 sm:p-8 md:p-12"
               >
-                {/* GLOW */}
                 <div className="absolute top-0 right-0 w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-[#f26522]/20 blur-[100px] md:blur-[120px] rounded-full pointer-events-none" />
 
                 <div className="relative z-10">
@@ -319,7 +407,7 @@ export default function AICurtainRecommendation() {
                     Curtain Setup
                   </h3>
 
-                  {/* ESTIMATED TOTAL — prominent, at the top */}
+                  {/* ESTIMATED TOTAL */}
                   <div className="bg-[#f26522]/10 border border-[#f26522]/20 rounded-2xl md:rounded-3xl p-5 md:p-6 mb-6 md:mb-8 flex items-center justify-between">
                     <div>
                       <p className="text-white/50 text-xs uppercase tracking-[3px] mb-1">
@@ -367,7 +455,6 @@ export default function AICurtainRecommendation() {
                       Cost Breakdown
                     </p>
 
-                    {/* Window size row */}
                     <div className="flex justify-between text-sm md:text-base text-white/60 py-2 border-b border-white/5">
                       <span>Window Size</span>
                       <span className="text-white/80 font-medium">
@@ -378,9 +465,7 @@ export default function AICurtainRecommendation() {
                     <div className="flex justify-between text-sm md:text-base text-white/60 py-2 border-b border-white/5">
                       <span>Fabric Required</span>
                       <span className="text-white/80">
-                        {result.fabricNeeded > 0
-                          ? `${result.fabricNeeded} meters`
-                          : "—"}
+                        {result.fabricNeeded > 0 ? `${result.fabricNeeded} meters` : "—"}
                       </span>
                     </div>
 
@@ -392,48 +477,37 @@ export default function AICurtainRecommendation() {
                         </span>
                       </span>
                       <span className="text-white/80">
-                        {result.fabricCost > 0
-                          ? `₹${result.fabricCost.toLocaleString()}`
-                          : "—"}
+                        {result.fabricCost > 0 ? `₹${result.fabricCost.toLocaleString()}` : "—"}
                       </span>
                     </div>
 
                     <div className="flex justify-between text-sm md:text-base text-white/60 py-2 border-b border-white/5">
                       <span>Tailoring</span>
                       <span className="text-white/80">
-                        {result.tailoringCost > 0
-                          ? `₹${result.tailoringCost.toLocaleString()}`
-                          : "—"}
+                        {result.tailoringCost > 0 ? `₹${result.tailoringCost.toLocaleString()}` : "—"}
                       </span>
                     </div>
 
                     <div className="flex justify-between text-sm md:text-base text-white/60 py-2 border-b border-white/5">
                       <span>Premium M-Track Rod</span>
                       <span className="text-white/80">
-                        {result.trackCost > 0
-                          ? `₹${result.trackCost.toLocaleString()}`
-                          : "—"}
+                        {result.trackCost > 0 ? `₹${result.trackCost.toLocaleString()}` : "—"}
                       </span>
                     </div>
 
                     <div className="flex justify-between text-sm md:text-base text-white/60 py-2 border-b border-white/5">
                       <span>Installation</span>
                       <span className="text-[#f26522]">
-                        {result.fixingCost > 0
-                          ? `₹${result.fixingCost.toLocaleString()}`
-                          : "—"}
+                        {result.fixingCost > 0 ? `₹${result.fixingCost.toLocaleString()}` : "—"}
                       </span>
                     </div>
 
-                    {/* Total row */}
                     <div className="flex justify-between items-center pt-2">
                       <span className="text-white text-base md:text-lg font-medium">
                         Estimated Total
                       </span>
                       <span className="text-[#f26522] text-2xl md:text-3xl font-semibold">
-                        {result.total > 0
-                          ? `₹${result.total.toLocaleString()}`
-                          : "—"}
+                        {result.total > 0 ? `₹${result.total.toLocaleString()}` : "—"}
                       </span>
                     </div>
                   </div>
@@ -443,7 +517,7 @@ export default function AICurtainRecommendation() {
                     professional installation charges across Chennai.
                   </div>
 
-                  {/* CTA BUTTONS */}
+                  {/* CTA */}
                   <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                     <a
                       href={whatsappUrl}
@@ -453,7 +527,6 @@ export default function AICurtainRecommendation() {
                     >
                       📲 Get Exact Quote on WhatsApp
                     </a>
-                   
                   </div>
                 </div>
               </motion.div>

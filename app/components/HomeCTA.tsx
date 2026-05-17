@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/siteConfig";
 
 export default function HomeCTA() {
   return (
-    <section className="relative overflow-hidden bg-black py-28 text-white">
+    <section className="hidden md:block relative overflow-hidden bg-black py-28 text-white">
       <div className="absolute top-0 right-0 w-[520px] h-[520px] rounded-full bg-[#f26522]/20 blur-[140px]" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
@@ -21,6 +21,7 @@ export default function HomeCTA() {
           <a
             href={`https://wa.me/${siteConfig.whatsapp}`}
             target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-3 bg-[#f26522] hover:bg-[#ff7b3d] text-white px-8 py-4 rounded-full text-lg font-medium transition duration-500 hover:scale-105"
           >
             <MessageCircle className="w-5 h-5" />
