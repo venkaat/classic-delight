@@ -144,6 +144,8 @@ export default function RootLayout({
   );
 }
 export const metadata: Metadata = {
+
+  metadataBase: new URL("https://classicdelight.in"),
   title: {
     default: "Curtains in Chennai | Custom Curtains & Blinds | Classic Delight",
     template: "%s | Classic Delight",
