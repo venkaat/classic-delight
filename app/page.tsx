@@ -11,6 +11,8 @@ import HomeCTA from "./components/HomeCTA";
 import Footer from "./components/Footer";
 import FloatingCTA from "./components/FloatingCTA";
 import AICurtainRecommendation from "./components/AICurtainRecommendation";
+import dynamic from "next/dynamic";
+
 
 export const metadata: Metadata = {
   title: "Curtains, Blinds & Mosquito Nets in Chennai | Classic Delight",
