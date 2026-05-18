@@ -150,4 +150,16 @@ export const metadata: Metadata = {
   },
   description:
     "Premium curtains, blinds and mosquito nets in Chennai including Virugambakkam, Anna Nagar, Vadapalani and KK Nagar.",
+
+    openGraph: {
+    title: "Classic Delight Curtains & Blinds",
+    description:
+      "Premium curtains, blinds, and window solutions in Chennai.",
+    images: "/og-image.jpg",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    images: "/og-image.jpg",
+  },
 };
