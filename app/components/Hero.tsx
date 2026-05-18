@@ -16,7 +16,7 @@ export default function Hero() {
         className="absolute inset-0"
       >
         <Image
-          src="/images/hero.png"
+          src="/images/hero.webp"
           alt="Classic Delight luxury curtains and blinds for modern Chennai homes"
           title="Luxury curtains, blinds and mosquito nets in Chennai"
           fill
