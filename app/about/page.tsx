@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About Us | Classic Delight",
     description: "Premium window solutions in Chennai.",
-    images: ["/images/about/about.jpg"],
+    images: ["/images/about/Curtains-004.jpg"],
   },
 };
 
