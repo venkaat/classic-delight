@@ -39,7 +39,7 @@ export default function Home() {
           <Gallery />
       <ProcessSection />
       <HomeTestimonials />
-      <HomeCTA />
+     
       <Footer />
       <FloatingCTA />
     </main>
