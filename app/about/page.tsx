@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About Us | Classic Delight",
     description: "Premium window solutions in Chennai.",
-    images: ["/images/about/Curtains-004.jpg"],
+    images: ["/images/about/about.jpg"],
   },
 };
 
@@ -74,7 +74,7 @@ export default function AboutPage() {
           <div className="relative overflow-hidden rounded-[40px]">
 
             <Image
-              src="/images/about/about.jpg"
+              src="/images/about/Curtains-004.jpg"
               alt="Classic Delight"
               width={800}
               height={650}
