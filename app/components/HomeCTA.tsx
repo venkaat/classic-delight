@@ -106,7 +106,7 @@ export default function HomeCTA() {
                 }}
               >
                 <Image
-                  src="/images/gallery/luxury-living-room-curtains-chennai.jpg"
+                  src="/images/gallery/curtains-004.jpg"
                   alt="Luxury Living Room Curtains"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -142,7 +142,7 @@ export default function HomeCTA() {
                 }}
               >
                 <Image
-                  src="/images/gallery/modern-window-blinds-installation-chennai.jpg"
+                  src="/images/gallery/Curtains-016.jpg"
                   alt="Premium Window Blinds"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -178,7 +178,7 @@ export default function HomeCTA() {
                 }}
               >
                 <Image
-                  src="/images/gallery/finished-custom-curtain-detail.jpeg"
+                  src="/images/gallery/luxury-sheer-curtains-balcony-door-chennai.jpeg"
                   alt="Premium Fabric Detail"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
