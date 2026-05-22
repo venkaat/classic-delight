@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Sparkles } from "lucide-react";
 
 const fabrics = {
   Cotton: 400,
@@ -14,6 +14,24 @@ const fabrics = {
   "Poly Cotton": 400,
   "Custom Printed": 300,
   Sheer: 300,
+};
+
+const fabricImages: Record<string, string> = {
+  Cotton: "/images/fabrics/cotton.jpg",
+  Linen: "/images/fabrics/linen.jpg",
+  Polyester: "/images/fabrics/polyester.jpg",
+  Blackout: "/images/fabrics/blackout.jpg",
+  Silk: "/images/fabrics/silk.jpg",
+  "Poly Cotton": "/images/fabrics/polycotton.jpg",
+  "Custom Printed": "/images/fabrics/printed.jpg",
+  Sheer: "/images/fabrics/sheer.jpg",
+};
+
+const curtainImages: Record<string, string> = {
+  "Pleated Curtains": "/images/curtain-styles/pleated.jpg",
+  "Ripple Curtains": "/images/curtain-styles/ripple.jpg",
+  "Eyelet Curtains": "/images/curtain-styles/eyelet.png",
+  "Hospital Curtains": "/images/curtain-styles/hospital.jpg",
 };
 
 interface Recommendation {
@@ -73,18 +91,21 @@ function DimensionPicker({
   unit?: string;
 }) {
   const numVal = Number(value) || 0;
+  const isPreset = presets.includes(numVal);
+  const [isCustomMode, setIsCustomMode] = useState(!isPreset && numVal > 0);
 
   const decrement = () => {
-    const next = Math.max(1, numVal - 1);
+    const next = Math.max(2, numVal - 1);
     onChange(String(next));
   };
 
   const increment = () => {
-    onChange(String(numVal + 1));
+    const next = numVal === 0 ? presets[0] : numVal + 1;
+    onChange(String(Math.min(20, next)));
   };
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-4 md:p-6">
+    <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-4 md:p-6 transition-all duration-300 hover:border-white/20">
       {/* Label */}
       <p className="text-white/50 text-xs uppercase tracking-[3px] mb-4">
         {label}
@@ -116,34 +137,88 @@ function DimensionPicker({
         </button>
       </div>
 
-      {/* Quick-select chips */}
-      <div className="flex flex-wrap gap-2">
-        {presets.map((p) => (
-          <button
-            key={p}
-            onClick={() => onChange(String(p))}
-            className={`px-3 py-1.5 rounded-full text-sm border transition-all duration-300 ${
-              value === String(p)
-                ? "bg-[#f26522] border-[#f26522] text-white"
-                : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10"
-            }`}
-          >
-            {p} {unit}
-          </button>
-        ))}
-        {/* Custom input for non-preset values */}
-        <label className="px-3 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 text-white/40 cursor-pointer hover:bg-white/10 transition">
-          Custom
-          <input
-            type="number"
-            inputMode="numeric"
-            min={1}
-            value={value}
-            onChange={(e) => onChange(e.target.value.replace(/[^0-9]/g, ""))}
-            className="sr-only"
-          />
-        </label>
+      {/* Quick-select chips / visible Custom Input */}
+      <div className="min-h-[44px] flex items-center">
+        {isCustomMode ? (
+          <div className="flex items-center gap-2 w-full animate-fade-in">
+            <div className="relative flex-1">
+              <input
+                type="number"
+                placeholder="Enter size..."
+                value={value}
+                min={2}
+                max={20}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/[^0-9]/g, "");
+                  const num = Number(val);
+                  if (num > 20) {
+                    onChange("20");
+                  } else {
+                    onChange(val);
+                  }
+                }}
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white text-sm outline-none focus:border-[#f26522] focus:ring-1 focus:ring-[#f26522]/20 transition"
+                autoFocus
+              />
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 text-xs">
+                {unit}
+              </span>
+            </div>
+            <button
+              onClick={() => {
+                setIsCustomMode(false);
+                if (!presets.includes(numVal)) {
+                  onChange(String(presets[0]));
+                }
+              }}
+              className="text-xs text-white/50 hover:text-white px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition"
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-2 w-full">
+            {presets.map((p) => (
+              <button
+                key={p}
+                onClick={() => onChange(String(p))}
+                className={`px-3 py-1.5 rounded-full text-sm border transition-all duration-300 ${
+                  value === String(p)
+                    ? "bg-[#f26522] border-[#f26522] text-white"
+                    : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10"
+                }`}
+              >
+                {p} {unit}
+              </button>
+            ))}
+            <button
+              onClick={() => setIsCustomMode(true)}
+              className={`px-3 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 text-white/40 hover:bg-white/10 hover:text-white transition`}
+            >
+              Custom...
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Premium Range Slider */}
+      <div className="mt-6 pt-4 border-t border-white/5 w-full">
+        <input
+          type="range"
+          min={2}
+          max={20}
+          step={1}
+          value={numVal || 6}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#f26522] focus:outline-none"
+        />
+        <div className="flex justify-between text-[10px] text-white/30 mt-2 font-medium">
+          <span>2 {unit}</span>
+          <span>11 {unit}</span>
+          <span>20 {unit}</span>
+        </div>
+      </div>
+
     </div>
   );
 }
@@ -151,8 +226,8 @@ function DimensionPicker({
 export default function AICurtainRecommendation() {
   const [room, setRoom] = useState("Living Room");
   const [style, setStyle] = useState("Luxury");
-  const [width, setWidth] = useState("");
-  const [height, setHeight] = useState("");
+  const [width, setWidth] = useState("6");
+  const [height, setHeight] = useState("8");
   const [step, setStep] = useState(1);
 
   const result = useMemo(() => {
@@ -227,8 +302,8 @@ export default function AICurtainRecommendation() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center max-w-4xl mx-auto mb-12 md:mb-20"
         >
-          <div className="inline-flex items-center gap-2 bg-[#f26522]/10 border border-[#f26522]/30 px-4 py-2 rounded-full text-xs sm:text-sm text-white/90 mb-6 md:mb-8 animate-pulse">
-            ✨ <span>AI Powered</span> Custom Curtain Recommendations
+          <div className="inline-flex items-center gap-2 bg-[#f26522]/10 border border-[#f26522]/30 px-4 py-2 rounded-full text-xs sm:text-sm text-white/90 mb-6 md:mb-8">
+            <Sparkles className="w-4 h-4 text-[#f26522] animate-pulse" /> <span>AI Powered</span> Custom Curtain Recommendations
           </div>
 
           <h2 className="text-white text-4xl sm:text-5xl md:text-7xl leading-[0.92] font-semibold tracking-[-0.04em] mb-6 md:mb-8">
@@ -263,10 +338,17 @@ export default function AICurtainRecommendation() {
         >
 
           {/* STEP 1 */}
-          <div className="bg-white/5 border border-white/10 rounded-[24px] md:rounded-[32px] p-5 md:p-8">
-            <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm mb-3 md:mb-4">
-              Step 1
-            </p>
+          <div className="bg-white/5 border border-white/10 rounded-[24px] md:rounded-[32px] p-5 md:p-8 transition-all duration-300 hover:border-white/20">
+            <div className="flex items-center justify-between mb-3 md:mb-4">
+              <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm font-semibold">
+                Step 1
+              </p>
+              {step >= 2 && (
+                <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-1.5">
+                  ✓ Styling {room}
+                </span>
+              )}
+            </div>
             <h3 className="text-2xl md:text-4xl font-semibold text-white mb-5 md:mb-8">
               What room are we styling?
             </h3>
@@ -286,12 +368,12 @@ export default function AICurtainRecommendation() {
                   }}
                   className={`rounded-[20px] md:rounded-[28px] px-3 py-5 md:px-5 md:py-7 border transition-all duration-500 ${
                     room === item
-                      ? "bg-[#f26522] border-[#f26522] text-white"
-                      : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
+                      ? "bg-[#f26522] border-[#f26522] text-white shadow-[0_10px_20px_rgba(242,101,34,0.25)]"
+                      : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20"
                   }`}
                 >
                   <div className="text-2xl md:text-3xl mb-2 md:mb-4">{icon}</div>
-                  <div className="text-sm md:text-lg">{item}</div>
+                  <div className="text-sm md:text-lg font-medium">{item}</div>
                 </button>
               ))}
             </div>
@@ -304,16 +386,23 @@ export default function AICurtainRecommendation() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-white/5 border border-white/10 rounded-[24px] md:rounded-[32px] p-5 md:p-8"
+                className="bg-white/5 border border-white/10 rounded-[24px] md:rounded-[32px] p-5 md:p-8 transition-all duration-300 hover:border-white/20"
               >
-                <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm mb-3 md:mb-4">
-                  Step 2
-                </p>
+                <div className="flex items-center justify-between mb-3 md:mb-4">
+                  <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm font-semibold">
+                    Step 2
+                  </p>
+                  {step >= 3 && (
+                    <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-1.5">
+                      ✓ {style} Vibe
+                    </span>
+                  )}
+                </div>
                 <h3 className="text-2xl md:text-4xl font-semibold text-white mb-5 md:mb-8">
                   Choose your preferred style
                 </h3>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 md:gap-4">
                   {["Luxury", "Modern", "Cozy", "Privacy", "Office"].map((item) => (
                     <button
                       key={item}
@@ -321,10 +410,10 @@ export default function AICurtainRecommendation() {
                         setStyle(item);
                         setStep(3);
                       }}
-                      className={`rounded-xl md:rounded-2xl px-4 py-4 md:px-5 md:py-5 border text-sm md:text-base transition-all duration-500 ${
+                      className={`rounded-xl md:rounded-2xl px-4 py-4 md:px-5 md:py-5 border text-sm md:text-base font-medium transition-all duration-500 ${
                         style === item
-                          ? "bg-[#f26522] border-[#f26522] text-white"
-                          : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
+                          ? "bg-[#f26522] border-[#f26522] text-white shadow-[0_10px_20px_rgba(242,101,34,0.25)]"
+                          : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20"
                       }`}
                     >
                       {item}
@@ -342,16 +431,23 @@ export default function AICurtainRecommendation() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-white/5 border border-white/10 rounded-[24px] md:rounded-[32px] p-5 md:p-8"
+                className="bg-white/5 border border-white/10 rounded-[24px] md:rounded-[32px] p-5 md:p-8 transition-all duration-300 hover:border-white/20"
               >
-                <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm mb-3 md:mb-4">
-                  Step 3
-                </p>
+                <div className="flex items-center justify-between mb-3 md:mb-4">
+                  <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm font-semibold">
+                    Step 3
+                  </p>
+                  {width && height && (
+                    <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-1.5">
+                      ✓ {width} × {height} ft
+                    </span>
+                  )}
+                </div>
                 <h3 className="text-2xl md:text-4xl font-semibold text-white mb-2">
                   Tell us your window size
                 </h3>
                 <p className="text-white/40 text-sm mb-6">
-                  Tap a common size or use +/− to set your exact measurement
+                  Select a common preset size, drag the slider, or tap Custom to type
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
@@ -421,7 +517,7 @@ export default function AICurtainRecommendation() {
                     </div>
                     <div className="text-right">
                       <p className="text-white/40 text-xs mb-1">Starts From</p>
-                      <span className="text-[#f26522] text-3xl sm:text-4xl font-semibold">
+                      <span className="text-[#f26522] text-3xl sm:text-4xl font-bold">
                         {result.total > 0
                           ? `₹${result.total.toLocaleString()}`
                           : "—"}
@@ -429,29 +525,54 @@ export default function AICurtainRecommendation() {
                     </div>
                   </div>
 
-                  {/* CURTAIN + FABRIC ROW */}
-                  <div className="grid grid-cols-2 gap-4 mb-6 md:mb-8">
-                    <div className="bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5">
-                      <p className="text-white/40 text-xs uppercase tracking-[2px] mb-2">
-                        Curtain Type
-                      </p>
-                      <h4 className="text-white text-lg md:text-2xl font-semibold leading-tight">
-                        {result.curtain}
-                      </h4>
+                  {/* CURTAIN + FABRIC ROW - Dynamic Image Previews */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 md:mb-8">
+                    
+                    {/* CURTAIN TYPE WITH IMAGE PREVIEW */}
+                    <div className="bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5 flex items-center gap-4 transition-all duration-300 hover:border-white/20">
+                      <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border border-white/15 bg-white/5 flex-shrink-0">
+                        <Image
+                          src={curtainImages[result.curtain] || "/images/curtain-styles/ripple.jpg"}
+                          alt={result.curtain}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="text-white/45 text-[10px] sm:text-xs uppercase tracking-[1.5px] mb-1">
+                          Curtain Style
+                        </p>
+                        <h4 className="text-white text-base sm:text-lg font-semibold leading-tight">
+                          {result.curtain}
+                        </h4>
+                      </div>
                     </div>
-                    <div className="bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5">
-                      <p className="text-white/40 text-xs uppercase tracking-[2px] mb-2">
-                        Best Fabric
-                      </p>
-                      <h4 className="text-white text-lg md:text-2xl font-semibold leading-tight">
-                        {result.fabric}
-                      </h4>
+
+                    {/* BEST FABRIC WITH IMAGE PREVIEW */}
+                    <div className="bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5 flex items-center gap-4 transition-all duration-300 hover:border-white/20">
+                      <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border border-white/15 bg-white/5 flex-shrink-0">
+                        <Image
+                          src={fabricImages[result.fabric] || "/images/fabrics/linen.jpg"}
+                          alt={result.fabric}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="text-white/45 text-[10px] sm:text-xs uppercase tracking-[1.5px] mb-1">
+                          Best Fabric
+                        </p>
+                        <h4 className="text-white text-base sm:text-lg font-semibold leading-tight">
+                          {result.fabric}
+                        </h4>
+                      </div>
                     </div>
+
                   </div>
 
                   {/* COST BREAKDOWN */}
                   <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
-                    <p className="text-white/40 text-xs uppercase tracking-[3px]">
+                    <p className="text-white/40 text-xs uppercase tracking-[3px] font-semibold">
                       Cost Breakdown
                     </p>
 
@@ -472,7 +593,7 @@ export default function AICurtainRecommendation() {
                     <div className="flex justify-between text-sm md:text-base text-white/60 py-2 border-b border-white/5">
                       <span>
                         Fabric Cost{" "}
-                        <span className="text-white/30 text-xs">
+                        <span className="text-white/35 text-xs font-mono">
                           (₹{result.fabricPrice}/m)
                         </span>
                       </span>
@@ -497,16 +618,16 @@ export default function AICurtainRecommendation() {
 
                     <div className="flex justify-between text-sm md:text-base text-white/60 py-2 border-b border-white/5">
                       <span>Installation</span>
-                      <span className="text-[#f26522]">
-                        {result.fixingCost > 0 ? `₹${result.fixingCost.toLocaleString()}` : "—"}
+                      <span className="text-[#f26522] font-medium">
+                        {result.fixingCost > 0 ? "FREE" : "—"}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center pt-2">
-                      <span className="text-white text-base md:text-lg font-medium">
+                      <span className="text-white text-base md:text-lg font-semibold">
                         Estimated Total
                       </span>
-                      <span className="text-[#f26522] text-2xl md:text-3xl font-semibold">
+                      <span className="text-[#f26522] text-2xl md:text-3xl font-bold">
                         {result.total > 0 ? `₹${result.total.toLocaleString()}` : "—"}
                       </span>
                     </div>
@@ -523,7 +644,7 @@ export default function AICurtainRecommendation() {
                       href={whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 text-center bg-[#f26522] px-6 py-4 rounded-xl md:rounded-2xl text-white font-medium hover:scale-105 active:scale-95 transition duration-300 shadow-[0_15px_40px_rgba(242,101,34,0.3)] text-sm md:text-base"
+                      className="flex-1 text-center bg-[#f26522] hover:bg-[#ff7b3d] px-6 py-4 rounded-xl md:rounded-2xl text-white font-semibold hover:scale-105 active:scale-95 transition duration-300 shadow-[0_15px_40px_rgba(242,101,34,0.3)] text-sm md:text-base"
                     >
                       📲 Get Exact Quote on WhatsApp
                     </a>
