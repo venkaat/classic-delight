@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Contact Us | Classic Delight",
     description:
       "Contact Classic Delight for premium curtains, blinds and mosquito nets in Chennai.",
-    url: "https://classicdelight.in/contact",
+    url: "https://www.classicdelight.in/contact",
     siteName: "Classic Delight",
     images: [
       {
