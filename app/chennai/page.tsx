@@ -78,8 +78,9 @@ export default function ChennaiPage() {
             <div className="flex flex-wrap gap-5 mt-10">
 
               <a
-                href="https://wa.me/919840519955"
+                href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-[#f26522] hover:bg-[#ff7b3d] text-white px-8 py-4 rounded-full text-lg font-medium transition duration-500 hover:scale-105"
               >
                 <MessageCircle className="w-5 h-5" />

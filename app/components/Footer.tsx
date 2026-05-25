@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { siteConfig } from "@/lib/siteConfig";
 
 export default function Footer() {
   return (
@@ -33,8 +34,9 @@ export default function Footer() {
 
             {/* CONTACT CTA */}
             <a
-              href="https://wa.me/919840519955"
+              href={`https://wa.me/${siteConfig.whatsapp}`}
               target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-3 bg-[#f26522] px-8 py-4 rounded-2xl text-white hover:scale-105 transition duration-500 shadow-[0_15px_40px_rgba(242,101,34,0.3)]"
             >
               Get Free Consultation
@@ -173,20 +175,11 @@ export default function Footer() {
                 </p>
 
                 <a
-                  href="tel:+919840519955"
+                  href={`tel:${siteConfig.phoneRaw}`}
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  +91 98405 19955
+                  {siteConfig.phone}
                 </a>
-
-                <div className="mt-2">
-                  <a
-                    href="tel:+919940699797"
-                    className="hover:text-[#f26522] transition duration-300"
-                  >
-                    +91 99406 99797
-                  </a>
-                </div>
               </div>
 
               <div>

@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FloatingCTA from "../components/FloatingCTA";
 import Link from "next/link";
+import { siteConfig } from "@/lib/siteConfig";
 
 // Note: Metadata must be moved to a layout.tsx file or handled in a server component wrapper.
 
@@ -132,8 +133,9 @@ export default function CurtainsPage() {
             <div className="flex flex-wrap gap-4">
 
               <a
-                href="https://wa.me/919840519955"
+                href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#f26522] px-8 py-4 rounded-2xl text-white hover:scale-105 transition duration-500 shadow-[0_15px_40px_rgba(242,101,34,0.3)]"
               >
                 Get Instant Quote
@@ -441,8 +443,9 @@ export default function CurtainsPage() {
           <div className="flex flex-wrap justify-center gap-4">
 
             <a
-              href="https://wa.me/919840519955"
+              href={`https://wa.me/${siteConfig.whatsapp}`}
               target="_blank"
+              rel="noopener noreferrer"
               className="bg-[#f26522] px-8 py-4 rounded-2xl text-white hover:scale-105 transition duration-500 shadow-[0_15px_40px_rgba(242,101,34,0.3)]"
             >
               Get Instant Quote

@@ -5,6 +5,7 @@ import { Search, Menu, X, Phone, MessageCircle, ChevronDown } from "lucide-react
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { siteConfig } from "@/lib/siteConfig";
 
 const navLinks = [
   { href: "/curtains", label: "Curtains" },
@@ -56,11 +57,11 @@ export default function Header() {
             </p>
             {/* Phone numbers — always visible */}
             <a
-              href="tel:+919840519955"
+              href={`tel:${siteConfig.phoneRaw}`}
               className="text-xs font-semibold tracking-wide flex items-center gap-1.5 hover:underline ml-auto sm:ml-0"
             >
               <Phone className="w-3 h-3" />
-              98405 19955
+              {siteConfig.phone}
             </a>
           </div>
         </div>
@@ -108,7 +109,7 @@ export default function Header() {
 
             {/* WhatsApp CTA — desktop */}
             <a
-              href="https://wa.me/919840519955"
+              href={`https://wa.me/${siteConfig.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:inline-flex items-center gap-2 bg-gradient-to-r from-[#f26522] to-orange-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition font-medium"
@@ -119,7 +120,7 @@ export default function Header() {
 
             {/* MOBILE — Call button (icon only) */}
             <a
-              href="tel:+919840519955"
+              href={`tel:${siteConfig.phoneRaw}`}
               aria-label="Call us"
               className="md:hidden flex items-center justify-center w-9 h-9 rounded-full bg-[#f26522] text-white shadow-md active:scale-95 transition"
             >
@@ -128,7 +129,7 @@ export default function Header() {
 
             {/* MOBILE — WhatsApp button (icon only) */}
             <a
-              href="https://wa.me/919840519955"
+              href={`https://wa.me/${siteConfig.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp us"
@@ -229,14 +230,14 @@ export default function Header() {
               {/* Drawer Footer CTAs */}
               <div className="px-4 py-5 border-t border-gray-100 flex flex-col gap-3">
                 <a
-                  href="tel:+919840519955"
+                  href={`tel:${siteConfig.phoneRaw}`}
                   className="flex items-center justify-center gap-2 w-full py-3 rounded-full border-2 border-[#f26522] text-[#f26522] font-semibold text-sm hover:bg-[#f26522]/5 transition"
                 >
                   <Phone className="w-4 h-4" />
-                  Call: 98405 19955
+                  Call: {siteConfig.phone}
                 </a>
                 <a
-                  href="https://wa.me/919840519955"
+                  href={`https://wa.me/${siteConfig.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-green-500 text-white font-semibold text-sm hover:bg-green-600 transition shadow-md"

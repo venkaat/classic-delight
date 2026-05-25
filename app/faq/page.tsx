@@ -50,7 +50,7 @@ const faqSchema = {"@context": "https://schema.org",
       "name": "How do I book a free consultation?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "You can book a free home visit by calling +91 98405 19955 or WhatsApp us directly. Our team will visit your home, take measurements and guide you through fabric and style options."
+        "text": "You can book a free home visit by calling +91 99406 99797 or WhatsApp us directly. Our team will visit your home, take measurements and guide you through fabric and style options."
       }
     },
     {

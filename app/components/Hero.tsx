@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ChevronDown, Phone, MessageCircle } from "lucide-react";
 import Image from "next/image";
+import { siteConfig } from "@/lib/siteConfig";
 
 export default function Hero() {
   return (
@@ -90,7 +91,7 @@ export default function Hero() {
 
             {/* PRIMARY */}
             <a
-              href="https://wa.me/919840519955"
+              href={`https://wa.me/${siteConfig.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 bg-[#f26522] hover:bg-[#ff7b3d] text-white px-8 py-4 rounded-full text-lg font-medium shadow-[0_10px_40px_rgba(242,101,34,0.35)] transition duration-500 hover:scale-105"
@@ -101,7 +102,7 @@ export default function Hero() {
 
             {/* SECONDARY */}
             <a
-              href="tel:+919840519955"
+              href={`tel:${siteConfig.phoneRaw}`}
               className="group inline-flex items-center gap-3 border border-white/20 bg-white/10 hover:bg-white/20 backdrop-blur-xl text-white px-8 py-4 rounded-full text-lg font-medium transition duration-500 hover:scale-105"
             >
               <Phone className="w-5 h-5" />

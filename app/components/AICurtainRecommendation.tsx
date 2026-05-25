@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Minus, Plus, Sparkles } from "lucide-react";
+import { siteConfig } from "@/lib/siteConfig";
 
 const fabrics = {
   Cotton: 400,
@@ -282,7 +283,7 @@ export default function AICurtainRecommendation() {
       `Please provide me an exact quote. Thank you!`
   );
 
-  const whatsappUrl = `https://wa.me/919840519955?text=${whatsappMessage}`;
+  const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}?text=${whatsappMessage}`;
 
   return (
     <section

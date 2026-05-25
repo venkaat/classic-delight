@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { siteConfig } from "@/lib/siteConfig";
 import {
   Check,
   Phone,
@@ -88,8 +89,9 @@ export default function ChennaiMosquitoPage() {
             <div className="flex flex-wrap gap-5 mt-10">
 
               <a
-                href="https://wa.me/919840519955"
+                href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-[#f26522] hover:bg-[#ff7b3d] text-white px-8 py-4 rounded-full text-lg font-medium transition duration-500 hover:scale-105"
               >
                 <MessageCircle className="w-5 h-5" />
@@ -97,7 +99,7 @@ export default function ChennaiMosquitoPage() {
               </a>
 
               <a
-                href="tel:+919840519955"
+                href={`tel:${siteConfig.phoneRaw}`}
                 className="inline-flex items-center gap-3 border border-white/20 bg-white/10 backdrop-blur-xl text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/20 transition duration-500"
               >
                 <Phone className="w-5 h-5" />

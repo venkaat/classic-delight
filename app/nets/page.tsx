@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FloatingCTA from "../components/FloatingCTA";
+import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
   title:
@@ -132,8 +133,9 @@ export default function MosquitoNetsPage() {
             <div className="flex flex-wrap gap-5 mt-12">
 
               <a
-                href="https://wa.me/919840519955"
+                href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#f26522] px-8 py-4 rounded-2xl text-white hover:scale-105 transition duration-500 shadow-[0_15px_40px_rgba(242,101,34,0.3)]"
               >
                 Get Instant Quote
@@ -337,15 +339,16 @@ export default function MosquitoNetsPage() {
             <div className="flex flex-wrap justify-center gap-5">
 
               <a
-                href="https://wa.me/919840519955"
+                href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#f26522] px-8 py-4 rounded-2xl text-white hover:scale-105 transition duration-500 shadow-[0_15px_40px_rgba(242,101,34,0.3)]"
               >
                 WhatsApp Us
               </a>
 
               <a
-                href="tel:+919840519955"
+                href={`tel:${siteConfig.phoneRaw}`}
                 className="border border-white/10 bg-white/5 px-8 py-4 rounded-2xl hover:bg-white/10 transition duration-500"
               >
                 Call Now

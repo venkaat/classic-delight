@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
   title: "Contact Us | Classic Delight",
@@ -80,8 +81,7 @@ export default function ContactPage() {
                   Phone
                 </p>
 
-                <p>+91-98405 19955</p>
-                <p>+91-99406 99797</p>
+                <p>{siteConfig.phone}</p>
               </div>
 
               <div>

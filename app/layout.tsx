@@ -26,7 +26,7 @@ export default function RootLayout({
       "url": "https://www.classicdelight.in",
       "logo": "https://www.classicdelight.in/logo.png",
       "image": "https://www.classicdelight.in/images/hero.png",
-      "telephone": ["+919840519955", "+919940699797"],
+      "telephone": "+919940699797",
       "email": "hello@classicdelight.in",
       "priceRange": "₹₹",
       "currenciesAccepted": "INR",
@@ -107,7 +107,7 @@ export default function RootLayout({
         ]
       },
       "sameAs": [
-        "https://wa.me/919840519955",
+        "https://wa.me/919940699797",
         "https://maps.app.goo.gl/ghZRyT2CtCSy6SRw5"
       ]
     })
