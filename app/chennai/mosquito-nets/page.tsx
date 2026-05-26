@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { siteConfig } from "@/lib/siteConfig";
 import {
   Check,
   Phone,
@@ -7,25 +6,7 @@ import {
   MapPin,
 } from "lucide-react";
 
-const mosquitonetSchema = {
 
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://www.classicdelight.in/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Mosquito Nets Chennai",
-      "item": "https://www.classicdelight.in/chennai/mosquito-nets"
-    }
-  ]
-};
 export const metadata = {
   title:
     "Mosquito Nets in Chennai | Invisible Window Mesh Solutions",
@@ -89,9 +70,8 @@ export default function ChennaiMosquitoPage() {
             <div className="flex flex-wrap gap-5 mt-10">
 
               <a
-                href={`https://wa.me/${siteConfig.whatsapp}`}
+                href="https://wa.me/919840519955"
                 target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-[#f26522] hover:bg-[#ff7b3d] text-white px-8 py-4 rounded-full text-lg font-medium transition duration-500 hover:scale-105"
               >
                 <MessageCircle className="w-5 h-5" />
@@ -99,7 +79,7 @@ export default function ChennaiMosquitoPage() {
               </a>
 
               <a
-                href={`tel:${siteConfig.phoneRaw}`}
+                href="tel:+919840519955"
                 className="inline-flex items-center gap-3 border border-white/20 bg-white/10 backdrop-blur-xl text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/20 transition duration-500"
               >
                 <Phone className="w-5 h-5" />

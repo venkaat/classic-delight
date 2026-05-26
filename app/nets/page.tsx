@@ -101,6 +101,10 @@ const mosquitoNets = [
 export default function MosquitoNetsPage() {
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(mosquitonetSchema) }}
+      />
 
       <Header />
 

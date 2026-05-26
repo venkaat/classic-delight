@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f8f6f2] text-[#2e2e2e]">
+    <main className="min-h-screen bg-black text-white selection:bg-[#f26522]/30 overflow-hidden">
       <Header />
       <Hero />
       <AICurtainRecommendation />
