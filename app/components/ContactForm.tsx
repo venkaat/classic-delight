@@ -29,12 +29,21 @@ export default function ContactForm() {
     setErrorMessage("");
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("https://formsubmit.co/ajax/sam@classicdelight.in", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || "Not provided",
+          message: formData.message,
+          _subject: `New Classic Delight Inquiry from ${formData.name}`,
+          _cc: "vvvvkt@gmail.com",
+          _template: "table",
+        }),
       });
 
       let data;
@@ -45,12 +54,12 @@ export default function ContactForm() {
         const text = await response.text();
         console.error("Non-JSON Server Response:", text);
         throw new Error(
-          `Server responded with status ${response.status} (HTML/Text). If you just started your dev server or made file changes, please refresh the page or restart your Next.js dev server to register the new contact API route.`
+          `Server responded with status ${response.status} (HTML/Text) from FormSubmit.`
         );
       }
 
       if (!response.ok) {
-        throw new Error(data?.error || "Something went wrong. Please try again.");
+        throw new Error(data?.message || "Something went wrong. Please try again.");
       }
 
       setStatus("success");
