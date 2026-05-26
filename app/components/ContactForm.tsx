@@ -37,10 +37,20 @@ export default function ContactForm() {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        console.error("Non-JSON Server Response:", text);
+        throw new Error(
+          `Server responded with status ${response.status} (HTML/Text). If you just started your dev server or made file changes, please refresh the page or restart your Next.js dev server to register the new contact API route.`
+        );
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || "Something went wrong. Please try again.");
+        throw new Error(data?.error || "Something went wrong. Please try again.");
       }
 
       setStatus("success");
