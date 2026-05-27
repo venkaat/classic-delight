@@ -53,8 +53,28 @@ export default function ContactForm() {
       } else {
         const text = await response.text();
         console.error("Non-JSON Server Response:", text);
+        
+        // Strip HTML tags to get the readable text message from FormSubmit (e.g. activation notice)
+        const cleanText = text
+          .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
+          .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
+          .replace(/<[^>]+>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+        
+        const previewText = cleanText.length > 200 
+          ? cleanText.substring(0, 200) + "..." 
+          : cleanText;
+
+        // If the text contains activation keywords, let's make it a friendlier prompt
+        if (cleanText.toLowerCase().includes("activate") || cleanText.toLowerCase().includes("confirm")) {
+          throw new Error(
+            `Activation Required: ${previewText}. FormSubmit has sent a confirmation email to the recipient. Please check your inbox and click activate.`
+          );
+        }
+
         throw new Error(
-          `Server responded with status ${response.status} (HTML/Text) from FormSubmit.`
+          `FormSubmit Message: ${previewText}`
         );
       }
 
