@@ -188,10 +188,10 @@ export default function Footer() {
                 </p>
 
                 <a
-                  href="mailto:hello@classicdelight.in"
+                  href={`mailto:${siteConfig.email}`}
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  sam@classicdelight.in
+                  {siteConfig.email}
                 </a>
               </div>
 

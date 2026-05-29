@@ -39,12 +39,12 @@ const heroGallery = [
 ];
 
 const curtainTypes = [
-  "Pleated Curtains",
-  "Ripple Curtains",
-  "Eyelid Curtains",
-  "Blackout Curtains",
-  "Sheer Curtains",
-  "Designer Curtains",
+  { name: "Pleated Curtains", href: "/curtains/pleated", desc: "Timeless handcrafted gathers sewn into permanent, structured folds." },
+  { name: "Ripple Curtains", href: "#", desc: "Modern wave-like styling for minimal and contemporary interiors." },
+  { name: "Eyelid Curtains", href: "#", desc: "Metal eyelet grommets offering a clean gather with casual styling." },
+  { name: "Blackout Curtains", href: "#", desc: "Excellent room-darkening and thermal isolation for bedrooms." },
+  { name: "Sheer Curtains", href: "#", desc: "Delicate natural light filtering with elegant interior aesthetics." },
+  { name: "Designer Curtains", href: "#", desc: "Bespoke fabrics, patterns, and borders crafted to order." },
 ];
 
 const fabrics = [
@@ -220,20 +220,37 @@ export default function CurtainsPage() {
 
             {curtainTypes.map((item) => (
 
-              <div
-                key={item}
-                className="bg-white/5 border border-white/10 rounded-[32px] p-8 hover:border-[#f26522]/30 transition duration-500"
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`bg-white/5 border border-white/10 rounded-[32px] p-8 transition-all duration-500 flex flex-col justify-between ${
+                  item.href !== "#"
+                    ? "hover:border-[#f26522]/60 hover:bg-[#f26522]/5 hover:scale-[1.03] shadow-[0_0_30px_rgba(242,101,34,0.05)] cursor-pointer group"
+                    : "hover:border-white/20 opacity-70"
+                }`}
               >
 
-                <div className="w-14 h-14 rounded-2xl bg-[#f26522]/10 flex items-center justify-center text-[#f26522] text-2xl mb-8">
-                  ✨
+                <div>
+                  <div className="w-14 h-14 rounded-2xl bg-[#f26522]/10 flex items-center justify-center text-[#f26522] text-2xl mb-8 group-hover:bg-[#f26522]/20 transition-colors">
+                    ✨
+                  </div>
+
+                  <h3 className="text-2xl font-semibold leading-tight mb-3">
+                    {item.name}
+                  </h3>
+
+                  <p className="text-white/40 text-sm leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
 
-                <h3 className="text-2xl font-semibold leading-tight">
-                  {item}
-                </h3>
+                {item.href !== "#" && (
+                  <div className="text-[#f26522] text-sm font-semibold flex items-center gap-1 mt-6 group-hover:translate-x-1 transition-transform">
+                    Explore Style →
+                  </div>
+                )}
 
-              </div>
+              </Link>
 
             ))}
 

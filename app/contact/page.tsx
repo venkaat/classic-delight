@@ -90,7 +90,12 @@ export default function ContactPage() {
                   Email
                 </p>
 
-                <p>sam@classicdelight.in</p>
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  {siteConfig.email}
+                </a>
               </div>
 
               <div>

@@ -29,7 +29,7 @@ export default function ContactForm() {
     setErrorMessage("");
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/sam@classicdelight.in", {
+      const response = await fetch("https://formsubmit.co/ajax/vvvvkt@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,6 @@ export default function ContactForm() {
           phone: formData.phone || "Not provided",
           message: formData.message,
           _subject: `New Classic Delight Inquiry from ${formData.name}`,
-          _cc: "vvvvkt@gmail.com",
           _template: "table",
         }),
       });
