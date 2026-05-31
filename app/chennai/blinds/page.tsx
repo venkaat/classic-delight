@@ -8,6 +8,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/chennai/blinds",
+  },
   title:
     "Premium Window Blinds in Chennai | Roller & Zebra Blinds",
 

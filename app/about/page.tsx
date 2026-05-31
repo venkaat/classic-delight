@@ -4,6 +4,9 @@ import Footer from "../components/Footer";
 import Image from "next/image";
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/about",
+  },
   title: "About Us | Classic Delight",
   description:
     "Learn more about Classic Delight — premium curtains, blinds and mosquito net solutions in Chennai.",

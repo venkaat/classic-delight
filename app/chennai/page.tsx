@@ -10,6 +10,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/chennai",
+  },
   title:
     "Premium Curtains, Blinds & Mosquito Nets in Chennai | Classic Delight",
 

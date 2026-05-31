@@ -7,6 +7,9 @@ import FloatingCTA from "../components/FloatingCTA";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/pleated-curtains-chennai",
+  },
   title:
     "Pleated Curtains Chennai | Luxury Pleated Curtain Installation",
   description:

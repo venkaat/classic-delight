@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/landing",
+  },
   title: "Classic Delight AI Studio | Real-Time Custom Curtain & Drapery Visualizer",
   description: "Experience the future of home styling. Get instant pricing estimates with our AI Curtain Recommendation engine and try our interactive drag-and-scale 3D curtain visualizer.",
   keywords: [

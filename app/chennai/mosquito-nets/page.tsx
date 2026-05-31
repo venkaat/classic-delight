@@ -8,6 +8,9 @@ import {
 
 
 export const metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/chennai/mosquito-nets",
+  },
   title:
     "Mosquito Nets in Chennai | Invisible Window Mesh Solutions",
 

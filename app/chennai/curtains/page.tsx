@@ -8,6 +8,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/chennai/curtains",
+  },
   title:
     "Premium Custom Curtains in Chennai | Classic Delight",
 

@@ -5,6 +5,9 @@ import ContactForm from "../components/ContactForm";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/contact",
+  },
   title: "Contact Us | Classic Delight",
   description:
     "Contact Classic Delight for premium curtains, blinds and mosquito nets in Chennai.",

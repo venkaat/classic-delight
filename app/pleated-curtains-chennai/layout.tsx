@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/pleated-curtains-chennai",
+  },
   title: "Pleated Curtains in Chennai | Custom Pinch Pleated Drapery | Classic Delight",
   description: "Add classic sophistication to your rooms with custom-stitched pinch pleated curtains in Chennai. Handcrafted fabrics, custom sizing, and professional installation by Classic Delight window specialists.",
   keywords: ["Pleated Curtains Chennai", "Pinch Pleated Curtains", "Custom Pleated Drapes Chennai"],

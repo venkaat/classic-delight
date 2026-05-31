@@ -15,6 +15,9 @@ import dynamic from "next/dynamic";
 
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in",
+  },
   title: "Curtains, Blinds & Mosquito Nets in Chennai | Classic Delight",
   description:
     "Premium curtains, blinds, zebra blinds, wooden blinds and mosquito nets in Chennai. Custom window solutions with professional installation across Virugambakkam, Anna Nagar, KK Nagar and all Chennai areas.",

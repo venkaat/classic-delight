@@ -4,6 +4,9 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.classicdelight.in/faq",
+  },
   title:
     "FAQ | Curtains, Blinds & Mosquito Nets in Chennai | Classic Delight",
   description:
