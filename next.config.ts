@@ -7,6 +7,21 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60,
   },
   compress: true,
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'classicdelight.in',
+          },
+        ],
+        destination: 'https://www.classicdelight.in/:path*',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
