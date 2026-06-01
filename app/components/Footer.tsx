@@ -32,6 +32,32 @@ export default function Footer() {
               Koyembedu, and all of Chennai.
             </p>
 
+            {/* SOCIAL LINKS */}
+            <div className="flex items-center gap-4 mb-10">
+              <a
+                href="https://www.facebook.com/profile.php?id=61590602934553"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-11 h-11 rounded-full bg-white/5 hover:bg-[#f26522] border border-white/10 flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all duration-300"
+                aria-label="Follow us on Facebook"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
+                </svg>
+              </a>
+              <a
+                href="https://in.pinterest.com/sampathsivam3422/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-11 h-11 rounded-full bg-white/5 hover:bg-[#f26522] border border-white/10 flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all duration-300"
+                aria-label="Follow us on Pinterest"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.41 7.61 11.162-.102-.947-.19-2.4 0-3.434.174-.932 1.123-4.758 1.123-4.758s-.288-.573-.288-1.417c0-1.327.77-2.32 1.73-2.32.813 0 1.206.61 1.206 1.343 0 .817-.52 2.043-.788 3.18-.225.952.478 1.727 1.417 1.727 1.7 0 3.018-1.794 3.018-4.388 0-2.295-1.648-3.899-4.005-3.899-2.724 0-4.323 2.043-4.323 4.154 0 .822.317 1.7.713 2.181.078.096.09.18.066.276-.072.3-.234.954-.266 1.085-.042.174-.14.21-.32.128-1.18-.549-1.916-2.276-1.916-3.66 0-2.98 2.167-5.717 6.242-5.717 3.277 0 5.824 2.336 5.824 5.457 0 3.256-2.052 5.877-4.9 5.877-1.107 0-2.148-.575-2.504-1.258 0 0-.583 2.222-.724 2.766-.263 1.011-.974 2.278-1.453 3.056C9.9 23.955 10.957 24 12.017 24c6.621 0 11.986-5.368 11.986-11.987c0-6.62-5.365-11.987-11.986-11.987z"/>
+                </svg>
+              </a>
+            </div>
+
             {/* CONTACT CTA */}
             <a
               href={`https://wa.me/${siteConfig.whatsapp}`}
@@ -184,15 +210,29 @@ export default function Footer() {
 
               <div>
                 <p className="text-white mb-2 font-medium">
-                  Email
+                  Email Addresses
                 </p>
 
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="hover:text-[#f26522] transition duration-300"
-                >
-                  {siteConfig.email}
-                </a>
+                <div className="flex flex-col space-y-2">
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="hover:text-[#f26522] transition duration-300"
+                  >
+                    {siteConfig.email}
+                  </a>
+                  <a
+                    href="mailto:sam@classicdelight.in"
+                    className="hover:text-[#f26522] transition duration-300"
+                  >
+                    sam@classicdelight.in
+                  </a>
+                  <a
+                    href="mailto:dinesh@classicdelight.in"
+                    className="hover:text-[#f26522] transition duration-300"
+                  >
+                    dinesh@classicdelight.in
+                  </a>
+                </div>
               </div>
 
               <div>
