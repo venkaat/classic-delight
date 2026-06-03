@@ -6,10 +6,13 @@ import {
   MessageCircle,
   MapPin,
 } from "lucide-react";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import FloatingCTA from "../../components/FloatingCTA";
 
 export const metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/chennai/blinds",
+    canonical: "/chennai/blinds",
   },
   title:
     "Premium Window Blinds in Chennai | Roller & Zebra Blinds",
@@ -30,6 +33,7 @@ const blinds = [
 export default function ChennaiBlindsPage() {
   return (
     <main className="bg-[#f5f5f3] overflow-hidden">
+      <Header />
 
       {/* HERO */}
       <section className="relative h-[90vh] flex items-center">
@@ -225,6 +229,8 @@ export default function ChennaiBlindsPage() {
 
       </section>
 
+      <Footer />
+      <FloatingCTA />
     </main>
   );
 }

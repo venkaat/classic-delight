@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/curtains/ripple",
+    canonical: "/curtains/ripple",
   },
   title: "Premium Ripple Fold Curtains in Chennai | Modern S-Wave Custom Drapes",
   description: "Luxury ripple fold curtains in Chennai. We offer customized S-Wave drapes, sheer curtains, motorized options, and professional installation with free home measurements.",

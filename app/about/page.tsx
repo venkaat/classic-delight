@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/about",
+    canonical: "/about",
   },
   title: "About Us | Classic Delight",
   description:

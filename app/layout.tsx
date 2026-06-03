@@ -215,7 +215,7 @@ export const metadata: Metadata = {
 
   metadataBase: new URL("https://www.classicdelight.in"),
   alternates: {
-    canonical: "https://www.classicdelight.in",
+    canonical: "/",
   },
   title: {
     default: "Curtains in Chennai | Custom Curtains & Blinds | Classic Delight",

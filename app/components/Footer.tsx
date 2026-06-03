@@ -135,6 +135,33 @@ export default function Footer() {
                 </Link>
               </li>
 
+              <li>
+                <Link
+                  href="/visualizer"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  AI Room Visualizer
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/ai"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  AI Interior Assistant
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/landing"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  AI Design Studio
+                </Link>
+              </li>
+
             </ul>
 
           </div>
@@ -153,7 +180,7 @@ export default function Footer() {
                   href="/curtains"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Luxury Curtains Chennai
+                  Luxury Curtains
                 </Link>
               </li>
 
@@ -162,7 +189,7 @@ export default function Footer() {
                   href="/blinds"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Premium Blinds Chennai
+                  Premium Blinds
                 </Link>
               </li>
 
@@ -171,25 +198,52 @@ export default function Footer() {
                   href="/nets"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Mosquito Nets Chennai
+                  Mosquito Nets
                 </Link>
               </li>
 
               <li>
                 <Link
-                  href="/blinds"
+                  href="/chennai"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Zebra Blinds Chennai
+                  Chennai Branch Hub
                 </Link>
               </li>
 
               <li>
                 <Link
-                  href="/blinds"
+                  href="/chennai/curtains"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Wooden Blinds Chennai
+                  Chennai Custom Curtains
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/chennai/blinds"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Chennai Window Blinds
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/chennai/mosquito-nets"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Chennai Mosquito Nets
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/pleated-curtains-chennai"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Pleated Curtains Chennai
                 </Link>
               </li>
 

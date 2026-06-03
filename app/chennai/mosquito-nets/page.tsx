@@ -5,11 +5,14 @@ import {
   MessageCircle,
   MapPin,
 } from "lucide-react";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import FloatingCTA from "../../components/FloatingCTA";
 
 
 export const metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/chennai/mosquito-nets",
+    canonical: "/chennai/mosquito-nets",
   },
   title:
     "Mosquito Nets in Chennai | Invisible Window Mesh Solutions",
@@ -30,6 +33,7 @@ const nets = [
 export default function ChennaiMosquitoPage() {
   return (
     <main className="bg-[#f8f6f2] overflow-hidden">
+      <Header />
 
       {/* HERO */}
       <section className="relative h-[90vh] flex items-center">
@@ -225,6 +229,8 @@ export default function ChennaiMosquitoPage() {
 
       </section>
 
+      <Footer />
+      <FloatingCTA />
     </main>
   );
 }

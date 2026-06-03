@@ -12,6 +12,9 @@ import {
   ArrowRight,
   HelpCircle
 } from "lucide-react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import FloatingCTA from "../components/FloatingCTA";
 
 export default function VisualizerPage() {
   const [prompt, setPrompt] = useState("");
@@ -155,7 +158,9 @@ export default function VisualizerPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 selection:bg-amber-500/30 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <main className="bg-black min-h-screen">
+      <Header />
+      <div className="min-h-screen bg-neutral-950 text-neutral-100 selection:bg-amber-500/30 pt-28 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       
       {/* Background Decorative Ambient Glows */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-amber-500/[0.03] blur-[140px] pointer-events-none" />
@@ -444,5 +449,8 @@ export default function VisualizerPage() {
 
       </div>
     </div>
+    <Footer />
+    <FloatingCTA />
+  </main>
   );
 }

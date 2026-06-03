@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/contact",
+    canonical: "/contact",
   },
   title: "Contact Us | Classic Delight",
   description:

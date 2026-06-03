@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/gallery",
+    canonical: "/gallery",
   },
   title: "Window Solutions Showcase | Curtain & Blind Installation Photos | Classic Delight",
   description: "Explore our project gallery showing high-end curtain drape installations, motorized zebra blinds, pleated mosquito mesh, and customized window setups across luxury homes in Chennai.",

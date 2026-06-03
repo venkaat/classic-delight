@@ -8,10 +8,13 @@ import {
   MessageCircle,
   Check,
 } from "lucide-react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import FloatingCTA from "../components/FloatingCTA";
 
 export const metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/chennai",
+    canonical: "/chennai",
   },
   title:
     "Premium Curtains, Blinds & Mosquito Nets in Chennai | Classic Delight",
@@ -38,6 +41,7 @@ const areas = [
 export default function ChennaiPage() {
   return (
     <main className="bg-[#f8f6f2] overflow-hidden">
+      <Header />
 
       {/* HERO */}
       <section className="relative h-[90vh] flex items-center overflow-hidden">
@@ -129,7 +133,7 @@ export default function ChennaiPage() {
 
             {/* CARD */}
             <Link
-              href="/curtains"
+              href="/chennai/curtains"
               className="group bg-[#faf7f2] rounded-[32px] overflow-hidden hover:-translate-y-3 transition duration-700 shadow-lg hover:shadow-2xl"
             >
 
@@ -162,7 +166,7 @@ export default function ChennaiPage() {
 
             {/* CARD */}
             <Link
-              href="/blinds"
+              href="/chennai/blinds"
               className="group bg-[#faf7f2] rounded-[32px] overflow-hidden hover:-translate-y-3 transition duration-700 shadow-lg hover:shadow-2xl"
             >
 
@@ -195,7 +199,7 @@ export default function ChennaiPage() {
 
             {/* CARD */}
             <Link
-              href="/mosquito-nets"
+              href="/chennai/mosquito-nets"
               className="group bg-[#faf7f2] rounded-[32px] overflow-hidden hover:-translate-y-3 transition duration-700 shadow-lg hover:shadow-2xl"
             >
 
@@ -444,6 +448,8 @@ export default function ChennaiPage() {
 
       </section>
 
+      <Footer />
+      <FloatingCTA />
     </main>
   );
 }

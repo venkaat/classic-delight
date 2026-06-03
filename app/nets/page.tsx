@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/nets",
+    canonical: "/nets",
   },
   title:
     "Mosquito Nets in Chennai | Sliding & Pleated Mosquito Nets | Classic Delight",

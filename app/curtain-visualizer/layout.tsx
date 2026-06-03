@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/curtain-visualizer",
+    canonical: "/curtain-visualizer",
   },
   title: "3D Custom Curtain Drapery Visualizer Experience | Classic Delight",
   description: "Experiment with custom fabric styles, header configurations, and colors. Visualize pleated, ripple fold, or eyelid curtains to find your perfect window match.",

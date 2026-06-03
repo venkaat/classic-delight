@@ -28,7 +28,7 @@ const blindschema = {
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/blinds",
+    canonical: "/blinds",
   },
   title:
     "Premium Blinds in Chennai | Zebra, Roller & Wooden Blinds | Classic Delight",

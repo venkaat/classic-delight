@@ -16,7 +16,7 @@ import dynamic from "next/dynamic";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in",
+    canonical: "/",
   },
   title: "Curtains, Blinds & Mosquito Nets in Chennai | Classic Delight",
   description:

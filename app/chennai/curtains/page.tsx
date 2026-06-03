@@ -6,10 +6,13 @@ import {
   Phone,
   MessageCircle,
 } from "lucide-react";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import FloatingCTA from "../../components/FloatingCTA";
 
 export const metadata = {
   alternates: {
-    canonical: "https://www.classicdelight.in/chennai/curtains",
+    canonical: "/chennai/curtains",
   },
   title:
     "Premium Custom Curtains in Chennai | Classic Delight",
@@ -46,6 +49,7 @@ const areas = [
 export default function ChennaiCurtainsPage() {
   return (
     <main className="bg-[#f8f6f2] overflow-hidden">
+      <Header />
 
       {/* HERO */}
       <section className="relative h-[90vh] flex items-center overflow-hidden">
@@ -382,6 +386,8 @@ export default function ChennaiCurtainsPage() {
 
       </section>
 
+      <Footer />
+      <FloatingCTA />
     </main>
   );
 }
