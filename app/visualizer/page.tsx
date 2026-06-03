@@ -28,6 +28,17 @@ export default function VisualizerPage() {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Pre-populate prompt from URL query parameter
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const urlPrompt = params.get("prompt");
+      if (urlPrompt) {
+        setPrompt(urlPrompt);
+      }
+    }
+  }, []);
+
   // Cycle through creative loading stages to engage the user
   useEffect(() => {
     if (!loading) {

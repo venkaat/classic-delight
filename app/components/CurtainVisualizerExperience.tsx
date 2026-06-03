@@ -210,6 +210,17 @@ export default function CurtainVisualizerExperience() {
     }
   }, [selectedTexture]);
 
+  // ── Read texture query parameter from URL ───────────────────────────────
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const urlTexture = params.get("texture");
+      if (urlTexture && textures[urlTexture]) {
+        setSelectedTexture(urlTexture);
+      }
+    }
+  }, [canvasReady]);
+
   // ── React to overlay selection ────────────────────────────────────────────
   useEffect(() => {
     if (!canvasReady || !fabricCanvasRef.current) return;
