@@ -57,7 +57,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://in.pinterest.com/sampathsivam3422/"
+                href="https://in.pinterest.com/classicdelightcurtains/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full bg-white/5 hover:bg-[#f26522] border border-white/10 flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all duration-300"
@@ -327,7 +327,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/40">
 
           <p>
-            © 2026 Classic Delight. All rights reserved.
+            © 2026 Classic Delight Curtains. All rights reserved.
           </p>
 
           <p>
