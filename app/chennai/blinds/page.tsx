@@ -163,7 +163,7 @@ export default function ChennaiBlindsPage() {
             <div className="relative h-[700px] rounded-[36px] overflow-hidden shadow-2xl">
 
               <Image
-                src="/images/chennai-blinds/interior.jpg"
+                src="/images/blinds/zebra.jpg"
                 alt="Luxury window blinds installed in a Chennai interior"
                 title="Luxury blinds installation Chennai"
                 fill

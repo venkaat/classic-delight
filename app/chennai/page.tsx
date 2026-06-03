@@ -47,7 +47,7 @@ export default function ChennaiPage() {
       <section className="relative h-[90vh] flex items-center overflow-hidden">
 
         <Image
-          src="/images/chennai/chennai-hero.jpg"
+          src="/images/hero.webp"
           alt="Premium curtains blinds and mosquito nets installed in Chennai"
           title="Curtains blinds and mosquito nets in Chennai"
           fill
@@ -140,7 +140,7 @@ export default function ChennaiPage() {
               <div className="relative h-[320px] overflow-hidden">
 
                 <Image
-                  src="/images/chennai/curtains.jpg"
+                  src="/images/services/curtains.png"
                   alt="Custom curtains for Chennai homes and apartments"
                   title="Custom curtains Chennai"
                   fill
@@ -173,7 +173,7 @@ export default function ChennaiPage() {
               <div className="relative h-[320px] overflow-hidden">
 
                 <Image
-                  src="/images/chennai/blinds.jpg"
+                  src="/images/services/blinds.png"
                   alt="Modern window blinds for Chennai homes and offices"
                   title="Window blinds Chennai"
                   fill
@@ -206,7 +206,7 @@ export default function ChennaiPage() {
               <div className="relative h-[320px] overflow-hidden">
 
                 <Image
-                  src="/images/chennai/nets.jpg"
+                  src="/images/services/mosquito.png"
                   alt="Invisible mosquito nets for Chennai windows and doors"
                   title="Mosquito nets Chennai"
                   fill
@@ -297,7 +297,7 @@ export default function ChennaiPage() {
             <div className="relative h-[700px] rounded-[36px] overflow-hidden shadow-2xl">
 
               <Image
-                src="/images/chennai/interior.jpg"
+                src="/images/chennai-curtains/interior.jpg"
                 alt="Luxury Chennai interior styled with premium window treatments"
                 title="Luxury window treatments Chennai"
                 fill

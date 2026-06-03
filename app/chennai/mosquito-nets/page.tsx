@@ -163,7 +163,7 @@ export default function ChennaiMosquitoPage() {
             <div className="relative h-[700px] rounded-[36px] overflow-hidden shadow-2xl">
 
               <Image
-                src="/images/chennai-nets/interior.jpg"
+                src="/images/nets/sliding-window.jpg"
                 alt="Invisible mosquito net installed on a Chennai home window"
                 title="Invisible mosquito net installation Chennai"
                 fill
