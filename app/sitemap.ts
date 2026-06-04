@@ -50,6 +50,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/curtains/sheer-curtain`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/blinds`,
       lastModified: new Date(),
       priority: 0.9,
