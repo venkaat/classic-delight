@@ -251,6 +251,12 @@ export default function AICurtainRecommendation() {
     trackEvent("open_estimator", { event_category: "Engagement" });
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setStep(1);
+    setOverrideFabric(null);
+  };
+
   // Reset fabric overrides when styling vibe changes
   useEffect(() => {
     setOverrideFabric(null);
@@ -412,7 +418,7 @@ export default function AICurtainRecommendation() {
         <AnimatePresence>
           {isModalOpen && (
             <div 
-              onClick={() => setIsModalOpen(false)}
+              onClick={handleCloseModal}
               className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
             >
               <motion.div
@@ -425,11 +431,11 @@ export default function AICurtainRecommendation() {
               >
                 {/* Close Button */}
                 <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="absolute top-6 right-6 text-white/40 hover:text-white bg-white/5 hover:bg-white/10 p-2.5 rounded-full transition-all duration-300 z-50 cursor-pointer animate-pulse"
+                  onClick={handleCloseModal}
+                  className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-[#f26522] border border-white/10 hover:border-[#f26522] p-3 rounded-full transition-all duration-300 z-50 cursor-pointer shadow-lg flex items-center justify-center group"
                   aria-label="Close Estimator"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6 transition-transform duration-300 group-hover:rotate-90" />
                 </button>
 
                 {/* HEADER */}
@@ -806,22 +812,13 @@ export default function AICurtainRecommendation() {
                             🎨 Preview with AI Text-to-Image
                           </Link>
 
-                          {/* Close / Start Over Buttons */}
-                          <div className="grid grid-cols-2 gap-2 mt-3 pt-2 border-t border-white/5">
+                          {/* Close Action Button */}
+                          <div className="mt-3 pt-2 border-t border-white/5">
                             <button
-                              onClick={() => {
-                                setStep(1);
-                                setOverrideFabric(null);
-                              }}
-                              className="py-3 bg-neutral-950 hover:bg-neutral-900 border border-white/10 text-white/70 hover:text-white rounded-xl text-xs font-bold transition active:scale-98 cursor-pointer text-center"
+                              onClick={handleCloseModal}
+                              className="w-full py-3 bg-white/5 hover:bg-red-500/10 border border-white/5 hover:border-red-500/20 text-white rounded-xl text-xs font-bold transition active:scale-98 cursor-pointer text-center"
                             >
-                              🔄 Restart Over
-                            </button>
-                            <button
-                              onClick={() => setIsModalOpen(false)}
-                              className="py-3 bg-white/5 hover:bg-white/10 border border-white/5 text-white rounded-xl text-xs font-bold transition active:scale-98 cursor-pointer text-center"
-                            >
-                              🚪 Close Estimator
+                              ❌ Close Estimator
                             </button>
                           </div>
                         </div>
