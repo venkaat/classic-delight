@@ -52,7 +52,7 @@ export default function Hero() {
           >
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             <span className="text-white/90 text-sm tracking-wide">
-              🎉 30% Off — Today's Callers Only | Call Now!
+              🎉 10% Off — Today's Callers Only | Call Now!
             </span>
           </motion.div>
 

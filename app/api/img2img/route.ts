@@ -137,7 +137,7 @@ export async function POST(req: Request) {
       const finalPrompt = `${enhancedPrompt}. Professional masterwork interior design showcase, architectural photography, realistic fabric textures and details, cozy elegant lighting, ultra-realistic.`;
       
       const seed = Math.floor(Math.random() * 1000000);
-      const pollinationsUrl = `https://image.pollinations.ai/p/${encodeURIComponent(finalPrompt)}?width=1024&height=1024&model=flux&nologo=true&seed=${seed}`;
+      const pollinationsUrl = `https://image.pollinations.ai/p/${encodeURIComponent(finalPrompt)}?width=1024&height=1024&nologo=true&seed=${seed}`;
       
       console.log("Fetching from Pollinations URL:", pollinationsUrl);
       const polResponse = await fetch(pollinationsUrl);

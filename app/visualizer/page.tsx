@@ -15,6 +15,7 @@ import {
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FloatingCTA from "../components/FloatingCTA";
+import Script from "next/script";
 
 export default function VisualizerPage() {
   const [prompt, setPrompt] = useState("");
@@ -105,9 +106,8 @@ export default function VisualizerPage() {
   };
 
   const generateImage = async () => {
-    const fileToUse = uploadedFile;
-    if (!fileToUse || !prompt) {
-      setError("Please upload a room image and specify your curtain prompt.");
+    if (!prompt) {
+      setError("Please specify your curtain prompt.");
       return;
     }
 
@@ -115,6 +115,36 @@ export default function VisualizerPage() {
     setError("");
     setCountdown(0);
 
+    const fileToUse = uploadedFile;
+
+    // Mode: Text-to-Image (Puter.js client-side)
+    if (!fileToUse) {
+      try {
+        console.log("No room image uploaded. Generating purely via Puter.js Text-to-Image...");
+        if (typeof window !== "undefined" && (window as any).puter) {
+          const puterObj = (window as any).puter;
+          // Apply enhanced styling descriptors for photorealism
+          const finalPrompt = `${prompt}. Professional masterwork interior design showcase, architectural photography, realistic fabric textures, cozy elegant lighting, photorealistic.`;
+          
+          const imageElement = await puterObj.ai.txt2img(finalPrompt, { model: "gpt-image-2" });
+          if (imageElement && imageElement.src) {
+            setImage(imageElement.src);
+          } else {
+            throw new Error("Puter AI engine did not return a valid image.");
+          }
+        } else {
+          throw new Error("Puter AI library is loading. Please try again in a second.");
+        }
+      } catch (err: any) {
+        console.warn("Puter Text-to-Image generation failed:", err);
+        setError(err.message || "Failed to generate AI concept. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    // Mode: Image-to-Image (Server-side overlay pipeline)
     try {
       const formData = new FormData();
       formData.append("image", fileToUse);
@@ -137,6 +167,19 @@ export default function VisualizerPage() {
           );
         }
 
+        // Try Puter fallback before throwing
+        if (typeof window !== "undefined" && (window as any).puter) {
+          console.warn("Backend server failed. Falling back to Puter client-side text-to-image...");
+          const puterObj = (window as any).puter;
+          const finalPrompt = `${prompt}. Professional masterwork interior design showcase, architectural photography, realistic fabric textures, cozy elegant lighting, photorealistic.`;
+          const imageElement = await puterObj.ai.txt2img(finalPrompt, { model: "gpt-image-2" });
+          if (imageElement && imageElement.src) {
+            setImage(imageElement.src);
+            setError("Note: Room-overlay visualization failed due to server capacity. Showing AI conceptual design matching your prompt.");
+            return;
+          }
+        }
+
         throw new Error(
           errorJson.error || "We encountered an issue during generation. Please try again."
         );
@@ -146,7 +189,24 @@ export default function VisualizerPage() {
       const imageUrl = URL.createObjectURL(blob);
       setImage(imageUrl);
     } catch (err: any) {
-      console.error("Image generation failed:", err);
+      console.warn("Image-to-image generation failed, trying Puter fallback:", err);
+      
+      // Attempt client-side Puter.js as a final fallback
+      if (typeof window !== "undefined" && (window as any).puter) {
+        try {
+          const puterObj = (window as any).puter;
+          const finalPrompt = `${prompt}. Professional masterwork interior design showcase, architectural photography, realistic fabric textures, cozy elegant lighting, photorealistic.`;
+          const imageElement = await puterObj.ai.txt2img(finalPrompt, { model: "gpt-image-2" });
+          if (imageElement && imageElement.src) {
+            setImage(imageElement.src);
+            setError("Note: Room-overlay visualization failed. Showing AI conceptual design matching your prompt.");
+            return;
+          }
+        } catch (puterErr: any) {
+          console.warn("Puter final fallback failed:", puterErr);
+        }
+      }
+      
       setError(err.message || "Failed to connect to the AI service. Please try again.");
     } finally {
       setLoading(false);
@@ -170,6 +230,7 @@ export default function VisualizerPage() {
 
   return (
     <main className="bg-black min-h-screen">
+      <Script src="https://js.puter.com/v2/" strategy="afterInteractive" />
       <Header />
       <div className="min-h-screen bg-neutral-950 text-neutral-100 selection:bg-amber-500/30 pt-28 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       
@@ -203,7 +264,7 @@ export default function VisualizerPage() {
             <div className="bg-neutral-900/60 backdrop-blur-xl border border-neutral-800/80 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
               <h2 className="text-lg font-bold text-neutral-200 mb-4 flex items-center gap-2">
                 <span className="w-1.5 h-6 rounded-full bg-amber-500" />
-                1. Upload Your Room Canvas
+                1. Upload Your Room Canvas (Optional)
               </h2>
 
               {!uploadedImage ? (
@@ -232,7 +293,7 @@ export default function VisualizerPage() {
                     Drag and drop your room photo
                   </p>
                   <p className="text-xs text-neutral-500 max-w-xs">
-                    Supports JPG, PNG or WEBP. Make sure the window space is clearly visible for the best AI rendering.
+                    Supports JPG, PNG or WEBP. Upload a photo to style curtains in your own room, or skip to generate a design from scratch.
                   </p>
                   <button type="button" className="mt-4 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-semibold rounded-lg transition-all">
                     Browse Files
@@ -330,7 +391,7 @@ export default function VisualizerPage() {
             {/* Main CTA Design Action Button */}
             <button
               onClick={generateImage}
-              disabled={loading || !uploadedFile || !prompt}
+              disabled={loading || !prompt}
               className="w-full bg-gradient-to-r from-amber-500 to-amber-700 hover:from-amber-600 hover:to-amber-800 text-neutral-950 font-bold py-4 px-8 rounded-2xl shadow-xl shadow-amber-500/5 hover:shadow-amber-500/15 disabled:opacity-30 active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer"
             >
               {loading ? (
