@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minus, Plus, Sparkles, ArrowRight, Bot, Image as ImageIcon } from "lucide-react";
+import { Minus, Plus, Sparkles, ArrowRight, Bot, Image as ImageIcon, X } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 
 const fabrics = {
@@ -271,6 +271,7 @@ export default function AICurtainRecommendation() {
   const [height, setHeight] = useState("8");
   const [step, setStep] = useState(1);
   const [overrideFabric, setOverrideFabric] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Reset fabric overrides when styling vibe changes
   useEffect(() => {
@@ -339,506 +340,459 @@ export default function AICurtainRecommendation() {
       `💎 Estimated Total: ₹${result.total.toLocaleString()}\n\n` +
       `Please provide me an exact quote. Thank you!`
   );
-
   const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}?text=${whatsappMessage}`;
 
   return (
     <section
       id="ai-guide"
-      className="relative py-16 md:py-32 bg-[#0b0b0b] overflow-hidden border-y border-white/10"
+      className="relative py-16 md:py-24 bg-black overflow-hidden border-y border-white/10"
     >
       {/* GLOW */}
-      <div className="absolute top-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#f26522]/20 blur-[120px] md:blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#f26522]/10 blur-[120px] md:blur-[140px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
 
-        {/* HEADER */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center max-w-4xl mx-auto mb-12 md:mb-20"
-        >
-          <div className="inline-flex items-center gap-2 bg-[#f26522]/10 border border-[#f26522]/30 px-4 py-2 rounded-full text-xs sm:text-sm text-white/90 mb-6 md:mb-8">
-            <Sparkles className="w-4 h-4 text-[#f26522] animate-pulse" /> <span>AI Powered</span> Custom Curtain Recommendations
-          </div>
+        {/* NOBROKER-STYLE ESTIMATOR BANNER */}
+        <div className="max-w-6xl mx-auto mb-16">
+          <div className="bg-white text-black p-6 md:p-8 rounded-[28px] md:rounded-[32px] shadow-2xl border border-neutral-100 flex flex-col lg:flex-row items-center justify-between gap-6 relative overflow-hidden transition-all duration-300 hover:shadow-3xl hover:translate-y-[-2px]">
+            {/* Left Accent Stripe and Content */}
+            <div className="flex items-center gap-4 w-full lg:w-auto">
+              <div className="w-1.5 h-14 bg-[#f26522] rounded-full shrink-0 animate-pulse" />
+              <div className="text-left">
+                <h3 className="text-xl md:text-2xl font-extrabold text-neutral-900 tracking-tight">
+                  Wondering about the cost?
+                </h3>
+                <p className="text-neutral-500 text-sm md:text-base mt-1 font-medium">
+                  Get a free window-wise estimate for your custom curtains.
+                </p>
+              </div>
+            </div>
 
-          <h2 className="text-white text-4xl sm:text-5xl md:text-7xl leading-[0.92] font-semibold tracking-[-0.04em] mb-6 md:mb-8">
-            Find Your
-            <br />
-            Perfect Custom Curtains
-          </h2>
+            {/* Pills Group */}
+            <div className="flex flex-wrap items-center gap-2.5 w-full lg:w-auto justify-start lg:justify-center">
+              <span className="px-3.5 py-2 bg-neutral-100 rounded-full text-[11px] font-extrabold text-neutral-600 uppercase tracking-wider">
+                1-5+ Windows
+              </span>
+              <span className="px-3.5 py-2 bg-neutral-100 rounded-full text-[11px] font-extrabold text-neutral-600 uppercase tracking-wider">
+                Economy • Premium • Luxury
+              </span>
+              <span className="px-3.5 py-2 bg-neutral-100 rounded-full text-[11px] font-extrabold text-neutral-600 uppercase tracking-wider">
+                ~2 Min Estimate
+              </span>
+            </div>
 
-          <p className="text-white/70 text-base md:text-xl leading-relaxed bg-white/5 border border-white/10 px-5 sm:px-8 py-5 sm:py-6 rounded-[24px] sm:rounded-[32px] inline-block backdrop-blur-sm shadow-2xl">
-            Get{" "}
-            <span className="text-white font-medium">
-              personalized custom curtain recommendations
-            </span>{" "}
-            and{" "}
-            <span className="text-white font-medium">instant pricing</span> with{" "}
-            <span className="text-[#f26522] font-semibold">
-              free installation
-            </span>{" "}
-            across Chennai, including{" "}
-            <span className="text-white/90">Virugambakkam</span> and{" "}
-            <span className="text-white/90">Koyembedu</span>.
-          </p>
-        </motion.div>
-
-        {/* PROGRESS WIZARD INDICATOR */}
-        <div className="max-w-3xl mx-auto mb-8 px-4">
-          <div className="flex justify-between items-center text-xs text-white/40 mb-2 font-mono">
-            <span>Progress</span>
-            <span className="text-orange-400 font-bold">
-              {step === 1 ? "33% Complete" : step === 2 ? "66% Complete" : "100% Complete"}
-            </span>
-          </div>
-          <div className="w-full h-1.5 bg-neutral-900 rounded-full overflow-hidden border border-white/5">
-            <motion.div
-              initial={{ width: "33%" }}
-              animate={{ width: step === 1 ? "33%" : step === 2 ? "66%" : "100%" }}
-              className="h-full bg-gradient-to-r from-orange-500 to-[#f26522] rounded-full"
-              transition={{ duration: 0.4 }}
-            />
+            {/* CTA Button */}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="w-full lg:w-auto bg-[#f26522] hover:bg-[#d94f14] text-white font-extrabold py-4 px-8 rounded-2xl flex items-center justify-center gap-2 group transition-all duration-300 shadow-lg shadow-[#f26522]/20 active:scale-98 cursor-pointer shrink-0 text-sm tracking-wide"
+            >
+              <span>Try the Estimator</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
           </div>
         </div>
 
-        {/* MAIN CONTENT */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="max-w-3xl mx-auto space-y-4 md:space-y-6"
-        >
-
-          {/* STEP 1 */}
-          <div className="bg-white/5 border border-white/10 rounded-[24px] md:rounded-[32px] p-5 md:p-8 transition-all duration-300 hover:border-white/20">
-            <div className="flex items-center justify-between mb-3 md:mb-4">
-              <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm font-semibold">
-                Step 1
-              </p>
-              {step >= 2 && (
-                <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-1.5">
-                  ✓ Styling {room}
-                </span>
-              )}
-            </div>
-            <h3 className="text-2xl md:text-4xl font-semibold text-white mb-5 md:mb-8">
-              What room are we styling?
-            </h3>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
-              {[
-                ["🛋", "Living Room"],
-                ["🛏", "Bedroom"],
-                ["💼", "Office"],
-                ["🍽", "Dining"],
-              ].map(([icon, item]) => (
-                <button
-                  key={item}
-                  onClick={() => {
-                    setRoom(item as string);
-                    setStep(2);
-                  }}
-                  className={`rounded-[20px] md:rounded-[28px] px-3 py-5 md:px-5 md:py-7 border transition-all duration-550 active:scale-98 ${
-                    room === item
-                      ? "bg-[#f26522] border-[#f26522] text-white shadow-[0_10px_20px_rgba(242,101,34,0.25)]"
-                      : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20"
-                  }`}
-                >
-                  <div className="text-2xl md:text-3xl mb-2 md:mb-4">{icon}</div>
-                  <div className="text-sm md:text-lg font-medium">{item}</div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* STEP 2 */}
-          <AnimatePresence>
-            {step >= 2 && (
+        {/* MODAL WIZARD CONTAINER */}
+        <AnimatePresence>
+          {isModalOpen && (
+            <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white/5 border border-white/10 rounded-[24px] md:rounded-[32px] p-5 md:p-8 transition-all duration-300 hover:border-white/20"
-              >
-                <div className="flex items-center justify-between mb-3 md:mb-4">
-                  <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm font-semibold">
-                    Step 2
-                  </p>
-                  {step >= 3 && (
-                    <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-1.5">
-                      ✓ {style} Vibe
-                    </span>
-                  )}
-                </div>
-                <h3 className="text-2xl md:text-4xl font-semibold text-white mb-5 md:mb-8">
-                  Choose your preferred style
-                </h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-                  {Object.entries(recommendations).map(([key, item]) => (
-                    <button
-                      key={key}
-                      onClick={() => {
-                        setStyle(key);
-                        setStep(3);
-                      }}
-                      className={`rounded-2xl px-5 py-5 border text-left transition-all duration-500 active:scale-98 flex flex-col justify-between min-h-[110px] ${
-                        style === key
-                          ? "bg-[#f26522] border-[#f26522] text-white shadow-[0_10px_20px_rgba(242,101,34,0.25)]"
-                          : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20"
-                      }`}
-                    >
-                      <div>
-                        <div className="text-base font-bold mb-1">{key} Vibe</div>
-                        <div className={`text-xs ${style === key ? "text-white/80" : "text-white/40"}`}>
-                          {item.subtitle}
-                        </div>
-                      </div>
-                      <div className="mt-4 flex items-center justify-between w-full">
-                        <span className="text-[10px] font-mono tracking-wider uppercase opacity-75">
-                          {item.curtain}
-                        </span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* STEP 3 — Window Size & Live Vector Blueprint */}
-          <AnimatePresence>
-            {step >= 3 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white/5 border border-white/10 rounded-[24px] md:rounded-[32px] p-5 md:p-8 transition-all duration-300 hover:border-white/20"
-              >
-                <div className="flex items-center justify-between mb-3 md:mb-4">
-                  <p className="text-[#f26522] uppercase tracking-[3px] md:tracking-[4px] text-xs md:text-sm font-semibold">
-                    Step 3
-                  </p>
-                  {width && height && (
-                    <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-1.5">
-                      ✓ {width} × {height} ft
-                    </span>
-                  )}
-                </div>
-                <h3 className="text-2xl md:text-4xl font-semibold text-white mb-2">
-                  Tell us your window size
-                </h3>
-                <p className="text-white/40 text-sm mb-6">
-                  Select a common preset size, drag the slider, or tap Custom to type
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                  <DimensionPicker
-                    label="Width"
-                    value={width}
-                    onChange={setWidth}
-                    presets={COMMON_WIDTHS}
-                  />
-                  <DimensionPicker
-                    label="Height"
-                    value={height}
-                    onChange={setHeight}
-                    presets={COMMON_HEIGHTS}
-                  />
-                </div>
-
-                {/* DYNAMIC WINDOW VECTOR BLUEPRINT */}
-                <div className="mt-8 pt-8 border-t border-white/5 flex flex-col items-center justify-center">
-                  <div className="text-center mb-6">
-                    <h4 className="text-white font-bold text-sm">Interactive Window Blueprint</h4>
-                    <p className="text-white/30 text-xs mt-1">Live scale visualization based on selected dimensions</p>
-                  </div>
-
-                  <div className="relative border-4 border-neutral-700 bg-neutral-900 rounded-lg shadow-inner transition-all duration-500 flex items-stretch justify-center p-0.5"
-                       style={{
-                         width: "100%",
-                         maxWidth: "240px",
-                         // Aspect-ratio height calculation:
-                         height: `${Math.min(220, Math.max(100, 140 * (Number(height) || 8) / (Number(width) || 6)))}px`,
-                       }}
-                  >
-                    {/* Width indicator (top) */}
-                    <div className="absolute -top-7 left-0 right-0 flex items-center justify-between text-[10px] text-orange-400 font-mono">
-                      <span className="w-full h-[1px] bg-orange-500/30 border-t border-dashed" />
-                      <span className="mx-2 whitespace-nowrap">{width} ft wide</span>
-                      <span className="w-full h-[1px] bg-orange-500/30 border-t border-dashed" />
-                    </div>
-
-                    {/* Height indicator (right) */}
-                    <div className="absolute -right-16 top-0 bottom-0 flex flex-col items-center justify-between py-2 text-[10px] text-orange-400 font-mono w-12">
-                      <span className="h-full w-[1px] bg-orange-500/30 border-r border-dashed" />
-                      <span className="my-2 whitespace-nowrap rotate-90">{height} ft tall</span>
-                      <span className="h-full w-[1px] bg-orange-500/30 border-r border-dashed" />
-                    </div>
-
-                    {/* Inner Glass Simulation & Curtain Overlay */}
-                    <div className="absolute inset-1 border border-neutral-800 bg-sky-950/15 overflow-hidden flex justify-between items-stretch">
-                      {/* Glass glare diagonals */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
-
-                      {/* Left Curtain Drape */}
-                      <div
-                        className="w-[42%] h-full rounded-r-md transition-all duration-500 shadow-md border-r border-white/5"
-                        style={{
-                          backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
-                          opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
-                          // Simulate curtain gather pleats using CSS repeating gradients
-                          backgroundImage: result.curtain === "Pleated Curtains"
-                            ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 12px)"
-                            : "linear-gradient(90deg, rgba(0,0,0,0.1) 4px, transparent 4px, transparent 16px)",
-                          backgroundSize: result.curtain === "Pleated Curtains" ? "12px 100%" : "16px 100%"
-                        }}
-                      />
-
-                      {/* Right Curtain Drape */}
-                      <div
-                        className="w-[42%] h-full rounded-l-md transition-all duration-500 shadow-md border-l border-white/5"
-                        style={{
-                          backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
-                          opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
-                          backgroundImage: result.curtain === "Pleated Curtains"
-                            ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 12px)"
-                            : "linear-gradient(90deg, rgba(0,0,0,0.1) 4px, transparent 4px, transparent 16px)",
-                          backgroundSize: result.curtain === "Pleated Curtains" ? "12px 100%" : "16px 100%"
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* RESULT PANEL */}
-          <AnimatePresence>
-            {step >= 3 && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.97, y: 20 }}
+                initial={{ opacity: 0, scale: 0.95, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="relative overflow-hidden bg-gradient-to-br from-[#121212] to-[#080808] border border-white/10 rounded-[28px] md:rounded-[40px] p-6 sm:p-8 md:p-10 shadow-2xl"
+                exit={{ opacity: 0, scale: 0.95, y: 30 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="bg-[#0c0c0c] border border-white/10 max-w-4xl w-full rounded-[32px] p-6 md:p-10 relative shadow-2xl max-h-[90vh] overflow-y-auto"
               >
-                <div className="absolute top-0 right-0 w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-[#f26522]/15 blur-[100px] md:blur-[120px] rounded-full pointer-events-none" />
+                {/* Close Button */}
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="absolute top-6 right-6 text-white/40 hover:text-white bg-white/5 hover:bg-white/10 p-2.5 rounded-full transition-all duration-300 z-50 cursor-pointer animate-pulse"
+                  aria-label="Close Estimator"
+                >
+                  <X className="w-5 h-5" />
+                </button>
 
-                <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 bg-[#f26522]/10 border border-[#f26522]/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-[#f26522] text-xs md:text-sm mb-5 md:mb-8 font-mono">
-                    ✦ AI RECOMMENDATION GENERATED
+                {/* HEADER */}
+                <div className="text-center max-w-2xl mx-auto mb-8 md:mb-12 mt-2">
+                  <div className="inline-flex items-center gap-2 bg-[#f26522]/10 border border-[#f26522]/30 px-3.5 py-1.5 rounded-full text-xs text-white/95 mb-4">
+                    <Sparkles className="w-3.5 h-3.5 text-[#f26522] animate-pulse" /> 
+                    <span>AI Powered</span> Custom Curtain Recommendations
                   </div>
 
-                  <h3 className="text-3xl sm:text-4xl md:text-5xl leading-tight font-semibold text-white mb-6 md:mb-8">
-                    Your Tailored
-                    <br />
-                    Curtain Setup
-                  </h3>
+                  <h2 className="text-white text-3xl md:text-5xl leading-tight font-extrabold tracking-tight mb-3">
+                    Window Cost Estimator
+                  </h2>
 
-                  {/* ESTIMATED TOTAL */}
-                  <div className="bg-[#f26522]/10 border border-[#f26522]/20 rounded-2xl md:rounded-3xl p-5 md:p-6 mb-6 md:mb-8 flex items-center justify-between">
-                    <div>
-                      <p className="text-white/50 text-xs uppercase tracking-[3px] mb-1 font-semibold">
-                        Estimated Total
+                  <p className="text-white/50 text-sm md:text-base">
+                    Configure your sizes and styling vibes to get an instant pricing estimate with free installation across Chennai.
+                  </p>
+                </div>
+
+                {/* PROGRESS WIZARD INDICATOR */}
+                <div className="max-w-2xl mx-auto mb-8">
+                  <div className="flex justify-between items-center text-xs text-white/40 mb-2 font-mono">
+                    <span>Progress</span>
+                    <span className="text-orange-400 font-bold">
+                      {step === 1 ? "33% Complete" : step === 2 ? "66% Complete" : "100% Complete"}
+                    </span>
+                  </div>
+                  <div className="w-full h-1.5 bg-neutral-900 rounded-full overflow-hidden border border-white/5">
+                    <motion.div
+                      initial={{ width: "33%" }}
+                      animate={{ width: step === 1 ? "33%" : step === 2 ? "66%" : "100%" }}
+                      className="h-full bg-gradient-to-r from-orange-500 to-[#f26522] rounded-full"
+                      transition={{ duration: 0.4 }}
+                    />
+                  </div>
+                </div>
+
+                {/* FORM STEPS CONTENT */}
+                <div className="max-w-2xl mx-auto space-y-4 md:space-y-6 text-left">
+                  {/* STEP 1 */}
+                  <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 transition-all duration-300 hover:border-white/20">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
+                        Step 1
                       </p>
-                      <p className="text-white/60 text-xs md:text-sm">
-                        {width && height
-                          ? `${width} ft × ${height} ft window`
-                          : "Enter dimensions above"}
-                      </p>
+                      {step >= 2 && (
+                        <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
+                          ✓ {room}
+                        </span>
+                      )}
                     </div>
-                    <div className="text-right">
-                      <p className="text-white/40 text-[10px] uppercase tracking-wider mb-1">Total Pricing</p>
-                      <span className="text-[#f26522] text-3xl sm:text-4xl font-black font-mono">
-                        {result.total > 0
-                          ? `₹${result.total.toLocaleString()}`
-                          : "—"}
-                      </span>
+                    <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
+                      What room are we styling?
+                    </h3>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {[
+                        ["🛋", "Living Room"],
+                        ["🛏", "Bedroom"],
+                        ["💼", "Office"],
+                        ["🍽", "Dining"],
+                      ].map(([icon, item]) => (
+                        <button
+                          key={item}
+                          onClick={() => {
+                            setRoom(item as string);
+                            setStep(2);
+                          }}
+                          className={`rounded-2xl px-3 py-4 border transition-all duration-300 active:scale-98 ${
+                            room === item
+                              ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
+                              : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
+                          }`}
+                        >
+                          <div className="text-xl mb-2">{icon}</div>
+                          <div className="text-xs md:text-sm font-semibold">{item}</div>
+                        </button>
+                      ))}
                     </div>
                   </div>
 
-                  {/* CURTAIN + FABRIC ROW - Dynamic Image Previews */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 md:mb-8">
-                    
-                    {/* CURTAIN TYPE WITH IMAGE PREVIEW */}
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4 transition-all duration-300 hover:border-white/20">
-                      <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden border border-white/10 bg-white/5 flex-shrink-0">
-                        <Image
-                          src={curtainImages[result.curtain] || "/images/curtain-styles/ripple.jpg"}
-                          alt={result.curtain}
-                          fill
-                          sizes="64px"
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] mb-1">
-                          Curtain Style
+                  {/* STEP 2 */}
+                  {step >= 2 && (
+                    <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 transition-all duration-300 hover:border-white/20">
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
+                          Step 2
                         </p>
-                        <h4 className="text-white text-base font-bold leading-tight">
-                          {result.curtain}
-                        </h4>
+                        {step >= 3 && (
+                          <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
+                            ✓ {style} Vibe
+                          </span>
+                        )}
                       </div>
-                    </div>
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
+                        Choose your preferred style
+                      </h3>
 
-                    {/* BEST FABRIC WITH IMAGE PREVIEW */}
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4 transition-all duration-300 hover:border-white/20">
-                      <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden border border-white/10 bg-white/5 flex-shrink-0">
-                        <Image
-                          src={fabricImages[result.fabric] || "/images/fabrics/linen.jpg"}
-                          alt={result.fabric}
-                          fill
-                          sizes="64px"
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] mb-1">
-                          Best Fabric
-                        </p>
-                        <h4 className="text-white text-base font-bold leading-tight">
-                          {result.fabric}
-                        </h4>
-                      </div>
-                    </div>
-
-                  </div>
-
-                  {/* INTERACTIVE SWATCH SELECTOR / CUSTOM OVERRIDES */}
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 md:mb-8">
-                    <p className="text-white/50 text-xs uppercase tracking-[2px] font-semibold mb-4">
-                      Customize Fabric Choice:
-                    </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                      {Object.keys(fabrics).map((fabName) => {
-                        const isSelected = result.fabric === fabName;
-                        return (
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {Object.entries(recommendations).map(([key, item]) => (
                           <button
-                            key={fabName}
-                            onClick={() => setOverrideFabric(fabName)}
-                            className={`flex items-center gap-2 p-2.5 rounded-xl text-xs font-semibold border transition-all duration-300 ${
-                              isSelected
-                                ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
-                                : "bg-neutral-950 hover:bg-neutral-900 border-white/5 text-white/70"
+                            key={key}
+                            onClick={() => {
+                              setStyle(key);
+                              setStep(3);
+                            }}
+                            className={`rounded-2xl p-4 border text-left transition-all duration-300 active:scale-98 flex flex-col justify-between min-h-[100px] ${
+                              style === key
+                                ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
+                                : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
                             }`}
                           >
-                            <div className="relative w-4.5 h-4.5 rounded-full overflow-hidden border border-white/10 flex-shrink-0">
+                            <div>
+                              <div className="text-xs md:text-sm font-bold mb-1">{key} Vibe</div>
+                              <div className={`text-[10px] md:text-xs leading-normal ${style === key ? "text-white/80" : "text-white/40"}`}>
+                                {item.subtitle}
+                              </div>
+                            </div>
+                            <div className="mt-3 flex items-center justify-between w-full border-t border-white/5 pt-2">
+                              <span className="text-[9px] font-mono tracking-wider uppercase opacity-75">
+                                {item.curtain}
+                              </span>
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* STEP 3 */}
+                  {step >= 3 && (
+                    <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 transition-all duration-300 hover:border-white/20">
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
+                          Step 3
+                        </p>
+                        {width && height && (
+                          <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
+                            ✓ {width} × {height} ft
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                        Tell us your window size
+                      </h3>
+                      <p className="text-white/40 text-xs mb-4">
+                        Select a preset size, drag the slider, or click Custom to input custom dimensions.
+                      </p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <DimensionPicker
+                          label="Width"
+                          value={width}
+                          onChange={setWidth}
+                          presets={COMMON_WIDTHS}
+                        />
+                        <DimensionPicker
+                          label="Height"
+                          value={height}
+                          onChange={setHeight}
+                          presets={COMMON_HEIGHTS}
+                        />
+                      </div>
+
+                      {/* DYNAMIC BLUEPRINT PREVIEW */}
+                      <div className="mt-6 pt-6 border-t border-white/5 flex flex-col items-center justify-center">
+                        <div className="text-center mb-4">
+                          <h4 className="text-white font-bold text-sm">Interactive Window Blueprint</h4>
+                          <p className="text-white/30 text-[10px] mt-0.5">Scale preview matching your window dimensions</p>
+                        </div>
+
+                        <div className="relative border-4 border-neutral-700 bg-neutral-900 rounded-lg shadow-inner flex items-stretch justify-center p-0.5 transition-all duration-500"
+                             style={{
+                               width: "100%",
+                               maxWidth: "200px",
+                               height: `${Math.min(180, Math.max(90, 120 * (Number(height) || 8) / (Number(width) || 6)))}px`,
+                             }}
+                        >
+                          {/* Width Label */}
+                          <div className="absolute -top-6 left-0 right-0 flex items-center justify-between text-[9px] text-orange-400 font-mono">
+                            <span className="w-full h-[1px] bg-orange-500/20 border-t border-dashed" />
+                            <span className="mx-1 whitespace-nowrap">{width} ft</span>
+                            <span className="w-full h-[1px] bg-orange-500/20 border-t border-dashed" />
+                          </div>
+
+                          {/* Height Label */}
+                          <div className="absolute -right-14 top-0 bottom-0 flex flex-col items-center justify-between py-1 text-[9px] text-orange-400 font-mono w-10">
+                            <span className="h-full w-[1px] bg-orange-500/20 border-r border-dashed" />
+                            <span className="my-1 whitespace-nowrap rotate-90">{height} ft</span>
+                            <span className="h-full w-[1px] bg-orange-500/20 border-r border-dashed" />
+                          </div>
+
+                          <div className="absolute inset-0.5 border border-neutral-800 bg-sky-950/15 overflow-hidden flex justify-between items-stretch">
+                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
+                            
+                            {/* Left drape */}
+                            <div
+                              className="w-[42%] h-full rounded-r-sm shadow-md border-r border-white/5 transition-all duration-500"
+                              style={{
+                                backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
+                                opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
+                                backgroundImage: result.curtain === "Pleated Curtains"
+                                  ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
+                                  : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
+                                backgroundSize: result.curtain === "Pleated Curtains" ? "10px 100%" : "14px 100%"
+                              }}
+                            />
+
+                            {/* Right drape */}
+                            <div
+                              className="w-[42%] h-full rounded-l-sm shadow-md border-l border-white/5 transition-all duration-500"
+                              style={{
+                                backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
+                                opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
+                                backgroundImage: result.curtain === "Pleated Curtains"
+                                  ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
+                                  : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
+                                backgroundSize: result.curtain === "Pleated Curtains" ? "10px 100%" : "14px 100%"
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* RESULT PANEL */}
+                  {step >= 3 && (
+                    <div className="relative overflow-hidden bg-gradient-to-br from-[#121212] to-[#080808] border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-xl">
+                      <div className="absolute top-0 right-0 w-[180px] h-[180px] bg-[#f26522]/10 blur-[80px] rounded-full pointer-events-none" />
+                      
+                      <div className="relative z-10 text-left">
+                        <div className="inline-flex items-center gap-1.5 bg-[#f26522]/10 border border-[#f26522]/20 px-3 py-1 rounded-full text-[#f26522] text-[10px] md:text-xs mb-4 font-mono font-bold">
+                          ✦ AI RECOMMENDATION GENERATED
+                        </div>
+
+                        <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4">
+                          Your Custom Recommendation
+                        </h3>
+
+                        {/* Cost Total Card */}
+                        <div className="bg-[#f26522]/10 border border-[#f26522]/20 rounded-xl p-4 flex items-center justify-between mb-4">
+                          <div>
+                            <p className="text-white/50 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Estimated Total</p>
+                            <p className="text-white/60 text-xs">
+                              {width && height ? `${width} ft × ${height} ft window` : "Enter sizes"}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-[#f26522] text-2xl md:text-3xl font-black font-mono">
+                              {result.total > 0 ? `₹${result.total.toLocaleString()}` : "—"}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Styles & Fabrics */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                          <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20">
+                            <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
                               <Image
-                                src={fabricImages[fabName] || "/images/fabrics/linen.jpg"}
-                                alt={fabName}
+                                src={curtainImages[result.curtain] || "/images/curtain-styles/ripple.jpg"}
+                                alt={result.curtain}
                                 fill
-                                sizes="18px"
+                                sizes="48px"
                                 className="object-cover"
                               />
                             </div>
-                            <span className="truncate">{fabName}</span>
-                          </button>
-                        );
-                      })}
+                            <div>
+                              <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Curtain Style</p>
+                              <h4 className="text-white text-xs md:text-sm font-bold">{result.curtain}</h4>
+                            </div>
+                          </div>
+
+                          <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20">
+                            <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
+                              <Image
+                                src={fabricImages[result.fabric] || "/images/fabrics/linen.jpg"}
+                                alt={result.fabric}
+                                fill
+                                sizes="48px"
+                                className="object-cover"
+                              />
+                            </div>
+                            <div>
+                              <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Best Fabric</p>
+                              <h4 className="text-white text-xs md:text-sm font-bold">{result.fabric}</h4>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Fabrics Customizer swatches */}
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
+                          <p className="text-white/50 text-[10px] uppercase tracking-wider font-semibold mb-3">
+                            Swap Fabric Options:
+                          </p>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            {Object.keys(fabrics).map((fabName) => {
+                              const isSelected = result.fabric === fabName;
+                              return (
+                                <button
+                                  key={fabName}
+                                  onClick={() => setOverrideFabric(fabName)}
+                                  className={`flex items-center gap-1.5 p-2 rounded-lg text-[10px] md:text-xs font-semibold border transition duration-200 ${
+                                    isSelected
+                                      ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
+                                      : "bg-neutral-950 border-white/5 text-white/70"
+                                  }`}
+                                >
+                                  <div className="relative w-3.5 h-3.5 rounded-full overflow-hidden border border-white/10 shrink-0">
+                                    <Image
+                                      src={fabricImages[fabName] || "/images/fabrics/linen.jpg"}
+                                      alt={fabName}
+                                      fill
+                                      sizes="14px"
+                                      className="object-cover"
+                                    />
+                                  </div>
+                                  <span className="truncate">{fabName}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Cost details list */}
+                        <div className="space-y-2 mb-6 font-sans text-xs md:text-sm text-white/60">
+                          <div className="flex justify-between py-1.5 border-b border-white/5">
+                            <span>Window Dimensions</span>
+                            <span className="text-white/90 font-bold">{width || "—"} ft × {height || "—"} ft</span>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-white/5">
+                            <span>Fabric Required</span>
+                            <span className="text-white/90">{result.fabricNeeded > 0 ? `${result.fabricNeeded} meters` : "—"}</span>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-white/5">
+                            <span>Fabric Cost (₹{result.fabricPrice}/m)</span>
+                            <span className="text-white/90 font-mono">₹{result.fabricCost.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-white/5">
+                            <span>Tailoring & Stitching</span>
+                            <span className="text-white/90 font-mono">₹{result.tailoringCost.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-white/5">
+                            <span>Premium M-Tracks</span>
+                            <span className="text-white/90 font-mono">₹{result.trackCost.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-white/5">
+                            <span>Professional Installation</span>
+                            <span className="text-emerald-400 font-bold">FREE</span>
+                          </div>
+                          <div className="flex justify-between items-center pt-2">
+                            <span className="text-white font-bold">Estimated Total</span>
+                            <span className="text-[#f26522] text-xl md:text-2xl font-black font-mono">
+                              ₹{result.total.toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Action buttons */}
+                        <div className="space-y-2">
+                          <a
+                            href={whatsappUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full text-center bg-[#f26522] hover:bg-[#ff7b3d] py-3 rounded-xl text-white font-bold transition flex items-center justify-center gap-1.5 text-xs md:text-sm"
+                          >
+                            📲 Get Swatches & Exact Quote via WhatsApp
+                          </a>
+                          <Link
+                            href={textToImageUrl}
+                            className="w-full py-3 bg-neutral-900 hover:bg-neutral-800 border border-white/10 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition"
+                          >
+                            🎨 Preview with AI Text-to-Image
+                          </Link>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-
-                  {/* COST BREAKDOWN */}
-                  <div className="space-y-3.5 mb-6 md:mb-8 font-sans">
-                    <p className="text-white/40 text-[10px] uppercase tracking-[3px] font-bold">
-                      Estimated Cost Breakdown
-                    </p>
-
-                    <div className="flex justify-between text-sm text-white/60 py-2 border-b border-white/5">
-                      <span>Window Size</span>
-                      <span className="text-white/95 font-semibold">
-                        {width || "—"} ft × {height || "—"} ft
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between text-sm text-white/60 py-2 border-b border-white/5">
-                      <span>Fabric Needed</span>
-                      <span className="text-white/90">
-                        {result.fabricNeeded > 0 ? `${result.fabricNeeded} meters` : "—"}
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between text-sm text-white/60 py-2 border-b border-white/5">
-                      <span>
-                        Fabric Cost{" "}
-                        <span className="text-white/35 text-[11px] font-mono">
-                          (₹{result.fabricPrice}/m)
-                        </span>
-                      </span>
-                      <span className="text-white/90 font-mono">
-                        {result.fabricCost > 0 ? `₹${result.fabricCost.toLocaleString()}` : "—"}
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between text-sm text-white/60 py-2 border-b border-white/5">
-                      <span>Tailoring & Stitching</span>
-                      <span className="text-white/90 font-mono">
-                        {result.tailoringCost > 0 ? `₹${result.tailoringCost.toLocaleString()}` : "—"}
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between text-sm text-white/60 py-2 border-b border-white/5">
-                      <span>Premium M-Track Rods</span>
-                      <span className="text-white/90 font-mono">
-                        {result.trackCost > 0 ? `₹${result.trackCost.toLocaleString()}` : "—"}
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between text-sm text-white/60 py-2 border-b border-white/5">
-                      <span>Professional Installation</span>
-                      <span className="text-emerald-400 font-bold tracking-wide">
-                        {result.fixingCost > 0 ? "FREE" : "—"}
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between items-center pt-2">
-                      <span className="text-white text-base font-bold">
-                        Estimated Total
-                      </span>
-                      <span className="text-[#f26522] text-2xl md:text-3xl font-black font-mono">
-                        {result.total > 0 ? `₹${result.total.toLocaleString()}` : "—"}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-xs text-white/40 leading-relaxed mb-8">
-                    *Estimates are calculated using standard 2.2x fabric gather factor. Rods and installation services are free of charge within Chennai branch limits.
-                  </div>
-
-                  {/* ACTION CTA BUTTONS */}
-                  <div className="space-y-3.5">
-                    {/* Primary quote CTA */}
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full text-center bg-[#f26522] hover:bg-[#ff7b3d] px-6 py-4.5 rounded-2xl text-white font-bold hover:scale-105 active:scale-95 transition duration-300 shadow-[0_15px_40px_rgba(242,101,34,0.25)] flex items-center justify-center gap-2 text-base"
-                    >
-                      📲 Request Swatch Consult & Exact Quote
-                    </a>
-
-                    {/* Secondary Visualizer Deep-Links */}
-                    <div className="block">
-                      <Link
-                        href={textToImageUrl}
-                        className="w-full py-3.5 bg-neutral-900 hover:bg-neutral-800 border border-white/10 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-98"
-                      >
-                        🎨 Preview with AI Text-to-Image
-                      </Link>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
         {/* FABRIC COLLECTION */}
         <div className="mt-20 md:mt-28">
