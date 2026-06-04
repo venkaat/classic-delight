@@ -41,7 +41,7 @@ const heroGallery = [
 const curtainTypes = [
   { name: "Pleated Curtains", href: "/curtains/pleated", desc: "Timeless handcrafted gathers sewn into permanent, structured folds." },
   { name: "Ripple Curtains", href: "/curtains/ripple", desc: "Modern wave-like styling for minimal and contemporary interiors." },
-  { name: "Eyelet Curtains", href: "#", desc: "Metal eyelet grommets offering a clean gather with casual styling." },
+  { name: "Eyelet Curtains", href: "/curtains/eyelet", desc: "Metal eyelet grommets offering a clean gather with casual styling." },
   { name: "Blackout Curtains", href: "#", desc: "Excellent room-darkening and thermal isolation for bedrooms." },
   { name: "Sheer Curtains", href: "#", desc: "Delicate natural light filtering with elegant interior aesthetics." },
   { name: "Designer Curtains", href: "#", desc: "Bespoke fabrics, patterns, and borders crafted to order." },
