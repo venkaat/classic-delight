@@ -367,7 +367,9 @@ export default function AICurtainRecommendation() {
   return (
     <section
       id="ai-guide"
-      className="relative py-16 md:py-24 bg-black overflow-hidden border-y border-white/10"
+      className={`relative py-16 md:py-24 bg-black overflow-hidden border-y border-white/10 ${
+        isModalOpen ? "z-[10000]" : "z-10"
+      }`}
     >
       {/* GLOW */}
       <div className="absolute top-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#f26522]/10 blur-[120px] md:blur-[140px] rounded-full pointer-events-none" />
