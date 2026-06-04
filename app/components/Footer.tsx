@@ -137,32 +137,14 @@ export default function Footer() {
 
               <li>
                 <Link
-                  href="/visualizer"
+                  href="/window-solutions"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  AI Room Visualizer
+                  Window Solutions Guide
                 </Link>
               </li>
 
-              <li>
-                <Link
-                  href="/ai"
-                  className="hover:text-[#f26522] transition duration-300"
-                >
-                  AI Interior Assistant
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/landing"
-                  className="hover:text-[#f26522] transition duration-300"
-                >
-                  AI Design Studio
-                </Link>
-              </li>
-
-            </ul>
+             </ul>
 
           </div>
 

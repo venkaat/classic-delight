@@ -60,14 +60,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/visualizer`,
+      url: `${baseUrl}/window-solutions`,
       lastModified: new Date(),
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/ai`,
-      lastModified: new Date(),
-      priority: 0.8,
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/pleated-curtains-chennai`,

@@ -808,12 +808,6 @@ export default function AICurtainRecommendation() {
                           >
                             📲 Get Swatches & Exact Quote via WhatsApp
                           </a>
-                          <Link
-                            href={textToImageUrl}
-                            className="w-full py-3 bg-neutral-900 hover:bg-neutral-800 border border-white/10 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition"
-                          >
-                            🎨 Preview with AI Text-to-Image
-                          </Link>
 
                           {/* Close Action Button */}
                           <div className="mt-3 pt-2 border-t border-white/5">
