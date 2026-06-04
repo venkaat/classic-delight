@@ -26,10 +26,10 @@ export const metadata = {
 };
 
 const heroImages = [
-  "/images/gallery/Curtains-140.jpg",
-  "/images/gallery/Curtains-130.jpg",
-  "/images/gallery/Curtains-102.jpg",
-  "/images/gallery/Curtains-088.jpg",
+  "/images/Pleated-Curtains/Pleated-curtain-01.jpeg",
+  "/images/Pleated-Curtains/Pleated-curtain-02.jpeg",
+  "/images/Pleated-Curtains/Pleated-curtain-03.jpeg",
+  "/images/Pleated-Curtains/Pleated-curtain-04.jpeg",
 ];
 
 const pleatTypes = [
