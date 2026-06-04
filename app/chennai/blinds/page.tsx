@@ -9,6 +9,7 @@ import {
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import FloatingCTA from "../../components/FloatingCTA";
+import ChennaiLocalSchema from "../../components/ChennaiLocalSchema";
 
 export const metadata = {
   alternates: {
@@ -33,6 +34,11 @@ const blinds = [
 export default function ChennaiBlindsPage() {
   return (
     <main className="bg-[#f5f5f3] overflow-hidden">
+      <ChennaiLocalSchema
+        pageUrl="/chennai/blinds"
+        pageTitle={metadata.title}
+        pageDescription={metadata.description}
+      />
       <Header />
 
       {/* HERO */}

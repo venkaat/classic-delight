@@ -9,6 +9,7 @@ import {
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import FloatingCTA from "../../components/FloatingCTA";
+import ChennaiLocalSchema from "../../components/ChennaiLocalSchema";
 
 export const metadata = {
   alternates: {
@@ -49,6 +50,11 @@ const areas = [
 export default function ChennaiCurtainsPage() {
   return (
     <main className="bg-[#f8f6f2] overflow-hidden">
+      <ChennaiLocalSchema
+        pageUrl="/chennai/curtains"
+        pageTitle={metadata.title}
+        pageDescription={metadata.description}
+      />
       <Header />
 
       {/* HERO */}

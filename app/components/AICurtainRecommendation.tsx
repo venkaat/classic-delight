@@ -6,57 +6,18 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Minus, Plus, Sparkles, ArrowRight, Bot, Image as ImageIcon, X } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
+import {
+  FABRICS,
+  fabricImages,
+  blueprintFabricColors,
+  blueprintFabricOpacities,
+  curtainImages,
+  TAILORING_COST_BASE,
+  TRACK_COST_BASE,
+  FIXING_COST_BASE,
+} from "@/lib/pricingConfig";
 
-const fabrics = {
-  Cotton: 400,
-  Linen: 400,
-  Polyester: 130,
-  Blackout: 220,
-  Silk: 300,
-  "Poly Cotton": 400,
-  "Custom Printed": 300,
-  Sheer: 300,
-};
-
-const fabricImages: Record<string, string> = {
-  Cotton: "/images/fabrics/cotton.jpg",
-  Linen: "/images/fabrics/linen.jpg",
-  Polyester: "/images/fabrics/polyester.jpg",
-  Blackout: "/images/fabrics/blackout.jpg",
-  Silk: "/images/fabrics/silk.jpg",
-  "Poly Cotton": "/images/fabrics/polycotton.jpg",
-  "Custom Printed": "/images/fabrics/printed.jpg",
-  Sheer: "/images/fabrics/sheer.jpg",
-};
-
-const blueprintFabricColors: Record<string, string> = {
-  Cotton: "#faf0e6", // Linen/cotton warm white
-  Linen: "#d6c5b3", // Natural linen beige
-  Polyester: "#708090", // Slate grey polyester
-  Blackout: "#1c2321", // Deep charcoal blackout
-  Silk: "#d4af37", // Silk gold
-  "Poly Cotton": "#eae6df", // Off-white polycotton
-  "Custom Printed": "#8b5a2b", // Rich printed patterned brown
-  Sheer: "#f5f5f5", // Translucent white sheer
-};
-
-const blueprintFabricOpacities: Record<string, number> = {
-  Cotton: 0.8,
-  Linen: 0.85,
-  Polyester: 0.85,
-  Blackout: 0.98,
-  Silk: 0.9,
-  "Poly Cotton": 0.8,
-  "Custom Printed": 0.9,
-  Sheer: 0.35,
-};
-
-const curtainImages: Record<string, string> = {
-  "Pleated Curtains": "/images/curtain-styles/pleated.jpg",
-  "Ripple Curtains": "/images/curtain-styles/ripple.jpg",
-  "Eyelet Curtains": "/images/curtain-styles/eyelet.png",
-  "Hospital Curtains": "/images/curtain-styles/hospital.jpg",
-};
+const fabrics = FABRICS;
 
 // Map fabric choices to the 3D Visualizer's texture overlay options
 const visualizerTextureMap: Record<string, string> = {
@@ -272,6 +233,23 @@ export default function AICurtainRecommendation() {
   const [step, setStep] = useState(1);
   const [overrideFabric, setOverrideFabric] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasTrackedEstimate, setHasTrackedEstimate] = useState(false);
+
+  const trackEvent = (eventName: string, params?: Record<string, any>) => {
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      try {
+        (window as any).gtag("event", eventName, params);
+      } catch (e) {
+        console.error("Failed to track event:", e);
+      }
+    }
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    setHasTrackedEstimate(false);
+    trackEvent("open_estimator", { event_category: "Engagement" });
+  };
 
   // Reset fabric overrides when styling vibe changes
   useEffect(() => {
@@ -296,9 +274,9 @@ export default function AICurtainRecommendation() {
 
     const fabricCost = fabricNeeded * fabricPrice;
     const hasDimensions = parsedWidth > 0 && parsedHeight > 0;
-    const tailoringCost = hasDimensions ? 1250 : 0;
-    const trackCost = hasDimensions ? 1850 : 0;
-    const fixingCost = hasDimensions ? 1000 : 0;
+    const tailoringCost = hasDimensions ? TAILORING_COST_BASE : 0;
+    const trackCost = hasDimensions ? TRACK_COST_BASE : 0;
+    const fixingCost = hasDimensions ? FIXING_COST_BASE : 0;
     const total = fabricCost + tailoringCost + trackCost + fixingCost;
 
     return {
@@ -316,6 +294,44 @@ export default function AICurtainRecommendation() {
       parsedHeight,
     };
   }, [style, overrideFabric, width, height]);
+
+  // Track estimate generation
+  useEffect(() => {
+    if (isModalOpen && step === 3 && width && height && !hasTrackedEstimate && result.total > 0) {
+      trackEvent("generate_estimate", {
+        value: result.total,
+        currency: "INR",
+        room,
+        style,
+        fabric: result.fabric,
+        width: result.parsedWidth,
+        height: result.parsedHeight,
+      });
+      setHasTrackedEstimate(true);
+    }
+  }, [isModalOpen, step, width, height, result.total, hasTrackedEstimate, room, style, result.fabric, result.parsedWidth, result.parsedHeight]);
+
+  const handleWhatsAppClick = () => {
+    trackEvent("contact_whatsapp", {
+      value: result.total,
+      currency: "INR",
+      room,
+      style,
+      fabric: result.fabric,
+      width: result.parsedWidth,
+      height: result.parsedHeight,
+    });
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      try {
+        (window as any).gtag('event', 'ads_conversion_Contact_Us_1', {
+          'value': result.total,
+          'currency': 'INR'
+        });
+      } catch (e) {
+        console.error("Google Ads conversion track failed:", e);
+      }
+    }
+  };
 
   // Deep linking to visualizer tools
   const textToImagePrompt = `Luxury modern ${result.fabric.toLowerCase()} ${result.curtain.toLowerCase()} installed in a beautiful ${room.toLowerCase()}, photorealistic architectural window styling, high-end interior, soft cinematic lighting`;
@@ -383,7 +399,7 @@ export default function AICurtainRecommendation() {
 
             {/* CTA Button */}
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleOpenModal}
               className="w-full lg:w-auto bg-[#f26522] hover:bg-[#d94f14] text-white font-extrabold py-4 px-8 rounded-2xl flex items-center justify-center gap-2 group transition-all duration-300 shadow-lg shadow-[#f26522]/20 active:scale-98 cursor-pointer shrink-0 text-sm tracking-wide"
             >
               <span>Try the Estimator</span>
@@ -395,8 +411,12 @@ export default function AICurtainRecommendation() {
         {/* MODAL WIZARD CONTAINER */}
         <AnimatePresence>
           {isModalOpen && (
-            <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6">
+            <div 
+              onClick={() => setIsModalOpen(false)}
+              className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
+            >
               <motion.div
+                onClick={(e) => e.stopPropagation()}
                 initial={{ opacity: 0, scale: 0.95, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 30 }}
@@ -774,6 +794,7 @@ export default function AICurtainRecommendation() {
                             href={whatsappUrl}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={handleWhatsAppClick}
                             className="w-full text-center bg-[#f26522] hover:bg-[#ff7b3d] py-3 rounded-xl text-white font-bold transition flex items-center justify-center gap-1.5 text-xs md:text-sm"
                           >
                             📲 Get Swatches & Exact Quote via WhatsApp
@@ -784,6 +805,25 @@ export default function AICurtainRecommendation() {
                           >
                             🎨 Preview with AI Text-to-Image
                           </Link>
+
+                          {/* Close / Start Over Buttons */}
+                          <div className="grid grid-cols-2 gap-2 mt-3 pt-2 border-t border-white/5">
+                            <button
+                              onClick={() => {
+                                setStep(1);
+                                setOverrideFabric(null);
+                              }}
+                              className="py-3 bg-neutral-950 hover:bg-neutral-900 border border-white/10 text-white/70 hover:text-white rounded-xl text-xs font-bold transition active:scale-98 cursor-pointer text-center"
+                            >
+                              🔄 Restart Over
+                            </button>
+                            <button
+                              onClick={() => setIsModalOpen(false)}
+                              className="py-3 bg-white/5 hover:bg-white/10 border border-white/5 text-white rounded-xl text-xs font-bold transition active:scale-98 cursor-pointer text-center"
+                            >
+                              🚪 Close Estimator
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -812,41 +852,35 @@ export default function AICurtainRecommendation() {
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-            {[
-              ["Cotton", "₹400 / meter", "/images/fabrics/cotton.jpg"],
-              ["Linen", "₹400 / meter", "/images/fabrics/linen.jpg"],
-              ["Polyester", "₹130 / meter", "/images/fabrics/polyester.jpg"],
-              ["Blackout", "₹220 / meter", "/images/fabrics/blackout.jpg"],
-              ["Silk", "₹300 / meter", "/images/fabrics/silk.jpg"],
-              ["Poly Cotton", "₹400 / meter", "/images/fabrics/polycotton.jpg"],
-              ["Custom Printed", "₹300 / meter", "/images/fabrics/printed.jpg"],
-              ["Sheer", "₹300 / meter", "/images/fabrics/sheer.jpg"],
-            ].map(([name, price, imageUrl]) => (
-              <div
-                key={name}
-                className="bg-white/5 border border-white/10 rounded-[20px] md:rounded-[28px] p-4 md:p-6 hover:bg-white/[0.07] transition duration-500"
-              >
-                <div className="relative overflow-hidden rounded-xl md:rounded-2xl mb-4 md:mb-6">
-                  <Image
-                    src={imageUrl as string}
-                    alt={name as string}
-                    width={400}
-                    height={176}
-                    quality={60}
-                    style={{ height: "auto" }}
-                    className="w-full h-32 sm:h-44 object-cover hover:scale-105 transition duration-700"
-                  />
+            {Object.entries(FABRICS).map(([name, price]) => {
+              const imageUrl = fabricImages[name] || "/images/fabrics/cotton.jpg";
+              return (
+                <div
+                  key={name}
+                  className="bg-white/5 border border-white/10 rounded-[20px] md:rounded-[28px] p-4 md:p-6 hover:bg-white/[0.07] transition duration-500"
+                >
+                  <div className="relative overflow-hidden rounded-xl md:rounded-2xl mb-4 md:mb-6">
+                    <Image
+                      src={imageUrl}
+                      alt={name}
+                      width={400}
+                      height={176}
+                      quality={60}
+                      style={{ height: "auto" }}
+                      className="w-full h-32 sm:h-44 object-cover hover:scale-105 transition duration-700"
+                    />
+                  </div>
+                  <p className="text-[#f26522] text-xs uppercase tracking-[2px] md:tracking-[3px] mb-2 md:mb-4">
+                    Fabric
+                  </p>
+                  <h4 className="text-white text-lg md:text-2xl font-semibold mb-1 md:mb-3">
+                    {name}
+                  </h4>
+                  <p className="text-white/60 text-xs md:text-sm">Starting from</p>
+                  <p className="text-white text-base md:text-xl mt-1 md:mt-2">₹{price} / meter</p>
                 </div>
-                <p className="text-[#f26522] text-xs uppercase tracking-[2px] md:tracking-[3px] mb-2 md:mb-4">
-                  Fabric
-                </p>
-                <h4 className="text-white text-lg md:text-2xl font-semibold mb-1 md:mb-3">
-                  {name}
-                </h4>
-                <p className="text-white/60 text-xs md:text-sm">Starting from</p>
-                <p className="text-white text-base md:text-xl mt-1 md:mt-2">{price}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -868,20 +902,15 @@ export default function AICurtainRecommendation() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {[
-              ["Pleated Curtains", "/images/curtain-styles/pleated.jpg"],
-              ["Ripple Curtains", "/images/curtain-styles/ripple.jpg"],
-              ["Eyelet Curtains", "/images/curtain-styles/eyelet.png"],
-              ["Hospital Curtains", "/images/curtain-styles/hospital.jpg"],
-            ].map(([name, imageUrl]) => (
+            {Object.entries(curtainImages).map(([name, imageUrl]) => (
               <div
                 key={name}
                 className="group bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] border border-white/10 rounded-[24px] md:rounded-[32px] p-4 md:p-6 hover:border-[#f26522]/30 transition duration-500"
               >
                 <div className="relative overflow-hidden rounded-xl md:rounded-2xl mb-4 md:mb-8 aspect-[4/3]">
                   <Image
-                    src={imageUrl as string}
-                    alt={name as string}
+                    src={imageUrl}
+                    alt={name}
                     fill
                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 25vw"
                     className="object-cover group-hover:scale-105 transition duration-700"
