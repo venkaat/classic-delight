@@ -119,7 +119,7 @@ export default function CurtainsPage() {
           <div>
 
             <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-6">
-              Premium Curtains Chennai
+              Premium Curtain Collection
             </p>
 
             <h1 className="text-5xl md:text-7xl leading-[0.92] font-semibold tracking-[-0.04em] mb-8">

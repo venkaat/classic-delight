@@ -90,29 +90,15 @@ export default function ContactPage() {
 
               <div>
                 <p className="text-white font-medium mb-2">
-                  Email Addresses
+                  Email
                 </p>
 
-                <div className="flex flex-col space-y-2">
-                  <a
-                    href={`mailto:${siteConfig.email}`}
-                    className="hover:text-[#f26522] transition duration-300"
-                  >
-                    {siteConfig.email}
-                  </a>
-                  <a
-                    href="mailto:sam@classicdelight.in"
-                    className="hover:text-[#f26522] transition duration-300"
-                  >
-                    sam@classicdelight.in
-                  </a>
-                  <a
-                    href="mailto:dinesh@classicdelight.in"
-                    className="hover:text-[#f26522] transition duration-300"
-                  >
-                    dinesh@classicdelight.in
-                  </a>
-                </div>
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="hover:text-[#f26522] transition duration-300 animate-pulse"
+                >
+                  {siteConfig.email}
+                </a>
               </div>
 
               <div>

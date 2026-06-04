@@ -121,7 +121,7 @@ export default function MosquitoNetsPage() {
           <div className="max-w-4xl">
 
             <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-6">
-              Mosquito Nets Chennai
+              Mosquito Net Solutions
             </p>
 
             <h1 className="text-5xl md:text-7xl leading-[0.92] font-semibold tracking-[-0.04em] mb-8">

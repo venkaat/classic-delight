@@ -137,7 +137,7 @@ export default function BlindsPage() {
           <div>
 
             <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-6">
-              Premium Blinds Chennai
+              Premium Window Blinds
             </p>
 
             <h1 className="text-5xl md:text-7xl leading-[0.92] font-semibold tracking-[-0.04em] mb-8">

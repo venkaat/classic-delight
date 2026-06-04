@@ -27,9 +27,8 @@ export default function Footer() {
             </h2>
 
             <p className="text-white/60 leading-relaxed text-lg max-w-xl mb-10">
-              Classic Delight specializes in custom curtains, premium blinds and 
-              mosquito net solutions with free installation across Virugambakkam, 
-              Koyembedu, and all of Chennai.
+              Classic Delight specializes in custom curtains, premium blinds, and 
+              mosquito net solutions with free professional installation for homes and offices across Chennai.
             </p>
 
             {/* SOCIAL LINKS */}
@@ -189,7 +188,7 @@ export default function Footer() {
                   href="/chennai"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Chennai Branch Hub
+                  Chennai Service Hub
                 </Link>
               </li>
 
@@ -198,7 +197,7 @@ export default function Footer() {
                   href="/chennai/curtains"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Chennai Custom Curtains
+                  Custom Curtains
                 </Link>
               </li>
 
@@ -207,7 +206,7 @@ export default function Footer() {
                   href="/chennai/blinds"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Chennai Window Blinds
+                  Window Blinds
                 </Link>
               </li>
 
@@ -216,7 +215,7 @@ export default function Footer() {
                   href="/chennai/mosquito-nets"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Chennai Mosquito Nets
+                  Mosquito Nets
                 </Link>
               </li>
 
@@ -225,7 +224,7 @@ export default function Footer() {
                   href="/pleated-curtains-chennai"
                   className="hover:text-[#f26522] transition duration-300"
                 >
-                  Pleated Curtains Chennai
+                  Pleated Curtains
                 </Link>
               </li>
 
@@ -257,29 +256,15 @@ export default function Footer() {
 
               <div>
                 <p className="text-white mb-2 font-medium">
-                  Email Addresses
+                  Email
                 </p>
 
-                <div className="flex flex-col space-y-2">
-                  <a
-                    href={`mailto:${siteConfig.email}`}
-                    className="hover:text-[#f26522] transition duration-300"
-                  >
-                    {siteConfig.email}
-                  </a>
-                  <a
-                    href="mailto:sam@classicdelight.in"
-                    className="hover:text-[#f26522] transition duration-300"
-                  >
-                    sam@classicdelight.in
-                  </a>
-                  <a
-                    href="mailto:dinesh@classicdelight.in"
-                    className="hover:text-[#f26522] transition duration-300"
-                  >
-                    dinesh@classicdelight.in
-                  </a>
-                </div>
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  {siteConfig.email}
+                </a>
               </div>
 
               <div>

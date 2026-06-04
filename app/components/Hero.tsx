@@ -77,8 +77,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mt-8"
           >
-            Elegant custom curtains, premium blinds, and mosquito nets with free installation in
-            Virugambakkam, Koyembedu, and across Chennai.
+            Elegant custom curtains, premium blinds, and mosquito net solutions with free professional installation across Chennai.
           </motion.p>
 
           {/* BUTTONS — faster animation */}
