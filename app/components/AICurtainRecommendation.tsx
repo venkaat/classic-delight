@@ -419,7 +419,7 @@ export default function AICurtainRecommendation() {
           {isModalOpen && (
             <div 
               onClick={handleCloseModal}
-              className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
+              className="fixed inset-0 z-[10000] overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
             >
               <motion.div
                 onClick={(e) => e.stopPropagation()}
@@ -432,10 +432,11 @@ export default function AICurtainRecommendation() {
                 {/* Close Button */}
                 <button
                   onClick={handleCloseModal}
-                  className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-[#f26522] border border-white/10 hover:border-[#f26522] p-3 rounded-full transition-all duration-300 z-50 cursor-pointer shadow-lg flex items-center justify-center group"
+                  className="absolute top-4 right-4 md:top-6 md:right-6 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full font-black text-[10px] md:text-xs tracking-wider uppercase transition-all duration-300 z-[10001] cursor-pointer shadow-2xl flex items-center gap-1.5 border border-red-500 hover:scale-105 active:scale-95 group"
                   aria-label="Close Estimator"
                 >
-                  <X className="w-6 h-6 transition-transform duration-300 group-hover:rotate-90" />
+                  <X className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform duration-300 group-hover:rotate-90" />
+                  <span>Close</span>
                 </button>
 
                 {/* HEADER */}
@@ -816,9 +817,10 @@ export default function AICurtainRecommendation() {
                           <div className="mt-3 pt-2 border-t border-white/5">
                             <button
                               onClick={handleCloseModal}
-                              className="w-full py-3 bg-white/5 hover:bg-red-500/10 border border-white/5 hover:border-red-500/20 text-white rounded-xl text-xs font-bold transition active:scale-98 cursor-pointer text-center"
+                              className="w-full py-4 bg-[#f26522]/10 hover:bg-red-600 border border-[#f26522]/30 hover:border-red-600 text-white rounded-xl text-xs font-black tracking-wider uppercase transition-all duration-300 active:scale-98 cursor-pointer text-center flex items-center justify-center gap-1.5"
                             >
-                              ❌ Close Estimator
+                              <X className="w-4 h-4" />
+                              <span>Close Estimator</span>
                             </button>
                           </div>
                         </div>
