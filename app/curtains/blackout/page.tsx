@@ -398,25 +398,32 @@ export default function BlackoutCurtainsPage() {
               <div className="bg-[#0f0f12] border border-white/5 rounded-[32px] p-6 md:p-8 hover:border-[#f26522]/25 transition duration-500 shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#f26522]/5 blur-[80px] rounded-full pointer-events-none" />
                 
-                <h3 className="text-2xl font-bold mb-1 flex items-center gap-2">
-                  <span className="text-[#f26522]">{blackoutImages[activeConceptIndex].icon}</span>
-                  {blackoutImages[activeConceptIndex].title}
-                </h3>
-                <p className="text-orange-400 font-mono text-xs uppercase tracking-wider mb-6">
-                  {blackoutImages[activeConceptIndex].tagline}
-                </p>
+                {blackoutImages.map((concept, idx) => (
+                  <div
+                    key={concept.id}
+                    className={idx === activeConceptIndex ? "block" : "hidden"}
+                  >
+                    <h3 className="text-2xl font-bold mb-1 flex items-center gap-2">
+                      <span className="text-[#f26522]">{concept.icon}</span>
+                      {concept.title}
+                    </h3>
+                    <p className="text-orange-400 font-mono text-xs uppercase tracking-wider mb-6">
+                      {concept.tagline}
+                    </p>
 
-                <p className="text-white/75 text-sm md:text-base leading-relaxed mb-6">
-                  {blackoutImages[activeConceptIndex].desc}
-                </p>
+                    <p className="text-white/75 text-sm md:text-base leading-relaxed mb-6">
+                      {concept.desc}
+                    </p>
 
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-white/5">
-                  {blackoutImages[activeConceptIndex].benefits.map((b, i) => (
-                    <span key={i} className="inline-flex items-center gap-1.5 text-xs text-white/80 bg-white/5 rounded-full px-3.5 py-1.5 border border-white/5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#f26522]" /> {b}
-                    </span>
-                  ))}
-                </div>
+                    <div className="flex flex-wrap gap-2 pt-4 border-t border-white/5">
+                      {concept.benefits.map((b, i) => (
+                        <span key={i} className="inline-flex items-center gap-1.5 text-xs text-white/80 bg-white/5 rounded-full px-3.5 py-1.5 border border-white/5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#f26522]" /> {b}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -544,20 +551,16 @@ export default function BlackoutCurtainsPage() {
                     {isOpen ? <ChevronUp className="w-5 h-5 text-[#f26522] flex-shrink-0" /> : <ChevronDown className="w-5 h-5 text-white/60 flex-shrink-0" />}
                   </button>
 
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <div className="px-6 pb-6 text-white/60 leading-relaxed text-sm md:text-base border-t border-white/5 pt-4">
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <motion.div
+                    initial={false}
+                    animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-6 text-white/60 leading-relaxed text-sm md:text-base border-t border-white/5 pt-4">
+                      {faq.a}
+                    </div>
+                  </motion.div>
                 </div>
               );
             })}

@@ -213,183 +213,177 @@ export default function LandingPage() {
 
                 {/* Simulated Content Area based on Tab */}
                 <div className="relative min-h-[350px] bg-neutral-900/50 rounded-2xl border border-white/5 overflow-hidden flex flex-col justify-between">
-                  {activeTab === "visualizer" && (
-                    <div className="p-4 flex flex-col justify-between h-full flex-1">
-                      {/* Live Mockroom with Changing Color overlay on Curtains! */}
-                      <div className="relative w-full h-[220px] rounded-xl overflow-hidden bg-neutral-950 border border-white/5">
-                        {/* Background demo room */}
-                        <Image
-                          src="/images/visualizer/demo-room.png"
-                          alt="Demo Room Canvas"
-                          fill
-                          className="object-cover opacity-80"
-                        />
-                        {/* Interactive overlay representing the draping curtain */}
+                  <div className={`p-4 flex flex-col justify-between h-full flex-1 ${activeTab === "visualizer" ? "block" : "hidden"}`}>
+                    {/* Live Mockroom with Changing Color overlay on Curtains! */}
+                    <div className="relative w-full h-[220px] rounded-xl overflow-hidden bg-neutral-950 border border-white/5">
+                      {/* Background demo room */}
+                      <Image
+                        src="/images/visualizer/demo-room.png"
+                        alt="Demo Room Canvas"
+                        fill
+                        className="object-cover opacity-80"
+                      />
+                      {/* Interactive overlay representing the draping curtain */}
+                      <div
+                        className={`absolute inset-0 transition-all duration-700 pointer-events-none flex items-center justify-center`}
+                        style={{
+                          opacity: DEMO_FABRICS[selectedFabric].opacity
+                        }}
+                      >
+                        {/* Left Panel Curtain Overlay (simulated overlay colorization) */}
                         <div
-                          className={`absolute inset-0 transition-all duration-700 pointer-events-none flex items-center justify-center`}
+                          className="absolute left-[20%] w-[15%] h-[90%] rounded-b-md shadow-2xl transition-all duration-700"
                           style={{
-                            opacity: DEMO_FABRICS[selectedFabric].opacity
+                            backgroundColor: selectedColor.hex,
+                            boxShadow: `0 25px 50px -12px ${selectedColor.hex}40`
                           }}
-                        >
-                          {/* Left Panel Curtain Overlay (simulated overlay colorization) */}
-                          <div
-                            className="absolute left-[20%] w-[15%] h-[90%] rounded-b-md shadow-2xl transition-all duration-700"
-                            style={{
-                              backgroundColor: selectedColor.hex,
-                              boxShadow: `0 25px 50px -12px ${selectedColor.hex}40`
-                            }}
-                          />
-                          {/* Right Panel Curtain Overlay */}
-                          <div
-                            className="absolute right-[20%] w-[15%] h-[90%] rounded-b-md shadow-2xl transition-all duration-700"
-                            style={{
-                              backgroundColor: selectedColor.hex,
-                              boxShadow: `0 25px 50px -12px ${selectedColor.hex}40`
-                            }}
-                          />
+                        />
+                        {/* Right Panel Curtain Overlay */}
+                        <div
+                          className="absolute right-[20%] w-[15%] h-[90%] rounded-b-md shadow-2xl transition-all duration-700"
+                          style={{
+                            backgroundColor: selectedColor.hex,
+                            boxShadow: `0 25px 50px -12px ${selectedColor.hex}40`
+                          }}
+                        />
 
-                          {/* Subtle texturizing stripes */}
-                          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:12px_100%] pointer-events-none mix-blend-overlay" />
-                        </div>
+                        {/* Subtle texturizing stripes */}
+                        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:12px_100%] pointer-events-none mix-blend-overlay" />
+                      </div>
 
-                        {/* Interactive UI Badge */}
-                        <div className="absolute top-3 left-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] text-white/60 border border-white/10 font-mono">
-                          {DEMO_FABRICS[selectedFabric].label} · {selectedColor.name}
+                      {/* Interactive UI Badge */}
+                      <div className="absolute top-3 left-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] text-white/60 border border-white/10 font-mono">
+                        {DEMO_FABRICS[selectedFabric].label} · {selectedColor.name}
+                      </div>
+                    </div>
+
+                    {/* Mini-Controls */}
+                    <div className="space-y-3 mt-4">
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold">
+                          1. Select Texture
+                        </span>
+                        <div className="flex gap-2">
+                          {(Object.keys(DEMO_FABRICS) as Array<keyof typeof DEMO_FABRICS>).map((key) => (
+                            <button
+                              key={key}
+                              onClick={() => setSelectedFabric(key)}
+                              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                                selectedFabric === key
+                                  ? "bg-white/10 border-white text-white"
+                                  : "bg-white/5 border-white/5 text-neutral-400 hover:text-neutral-200"
+                              }`}
+                            >
+                              {DEMO_FABRICS[key].label.split(" ")[1]}
+                            </button>
+                          ))}
                         </div>
                       </div>
 
-                      {/* Mini-Controls */}
-                      <div className="space-y-3 mt-4">
-                        <div className="flex flex-col gap-1.5">
-                          <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold">
-                            1. Select Texture
-                          </span>
-                          <div className="flex gap-2">
-                            {(Object.keys(DEMO_FABRICS) as Array<keyof typeof DEMO_FABRICS>).map((key) => (
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold">
+                          2. Choose Dynamic Color Shade
+                        </span>
+                        <div className="flex gap-2">
+                          {DEMO_COLORS.map((color) => {
+                            const isSelected = selectedColor.name === color.name;
+                            return (
                               <button
-                                key={key}
-                                onClick={() => setSelectedFabric(key)}
-                                className={`flex-1 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
-                                  selectedFabric === key
-                                    ? "bg-white/10 border-white text-white"
-                                    : "bg-white/5 border-white/5 text-neutral-400 hover:text-neutral-200"
+                                key={color.name}
+                                onClick={() => setSelectedColor(color)}
+                                className={`w-6 h-6 rounded-full border transition-all relative ${
+                                  isSelected ? "border-white scale-110 shadow-md" : "border-white/10"
                                 }`}
+                                style={{ backgroundColor: color.hex }}
+                                title={color.name}
                               >
-                                {DEMO_FABRICS[key].label.split(" ")[1]}
+                                {isSelected && (
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <Check className="w-3.5 h-3.5 text-white mix-blend-difference" />
+                                  </div>
+                                )}
                               </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-1.5">
-                          <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold">
-                            2. Choose Dynamic Color Shade
-                          </span>
-                          <div className="flex gap-2">
-                            {DEMO_COLORS.map((color) => {
-                              const isSelected = selectedColor.name === color.name;
-                              return (
-                                <button
-                                  key={color.name}
-                                  onClick={() => setSelectedColor(color)}
-                                  className={`w-6 h-6 rounded-full border transition-all relative ${
-                                    isSelected ? "border-white scale-110 shadow-md" : "border-white/10"
-                                  }`}
-                                  style={{ backgroundColor: color.hex }}
-                                  title={color.name}
-                                >
-                                  {isSelected && (
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                      <Check className="w-3.5 h-3.5 text-white mix-blend-difference" />
-                                    </div>
-                                  )}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
-
-                        {/* Direct Launcher Link */}
-                        <Link
-                          href="/curtain-visualizer"
-                          className="w-full mt-2 py-2.5 bg-neutral-800 hover:bg-[#f26522] hover:text-white text-neutral-300 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 border border-white/5 transition-all"
-                        >
-                          <span>Open in Full 3D Visualizer</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-                      </div>
-                    </div>
-                  )}
-
-                  {activeTab === "pricing" && (
-                    <div className="p-5 flex flex-col justify-between h-full flex-1">
-                      <div className="space-y-4">
-                        <div className="inline-flex items-center gap-1.5 bg-[#f26522]/10 border border-[#f26522]/20 px-2.5 py-1 rounded-full text-xs text-[#f26522]">
-                          <BadgePercent className="w-3.5 h-3.5" /> Special pricing enabled
-                        </div>
-                        <h4 className="text-white font-semibold text-base">
-                          Instant Estimated Pricing Engine
-                        </h4>
-                        <p className="text-neutral-400 text-xs leading-relaxed">
-                          Your client can input standard or custom window width and height, choose their room and curtain fabric starting from just **₹130/meter** to generate a direct quote breakdown.
-                        </p>
-
-                        <div className="bg-white/5 border border-white/5 rounded-xl p-3.5 space-y-2">
-                          <div className="flex justify-between text-xs text-white/50">
-                            <span>Avg. Bedroom (6ft × 8ft)</span>
-                            <span className="text-white font-semibold">₹4,950* onwards</span>
-                          </div>
-                          <div className="flex justify-between text-xs text-white/50">
-                            <span>Custom Stitched Polyester</span>
-                            <span className="text-emerald-400 font-semibold">Includes Free Installation</span>
-                          </div>
+                            );
+                          })}
                         </div>
                       </div>
 
-                      <a
-                        href="#pricing-estimator"
-                        className="w-full py-3 bg-[#f26522] hover:bg-[#ff7b3d] text-white font-bold rounded-xl text-xs text-center transition-all shadow-lg shadow-[#f26522]/15"
-                      >
-                        Try Pricing Estimator Below
-                      </a>
-                    </div>
-                  )}
-
-                  {activeTab === "assistant" && (
-                    <div className="p-4 flex flex-col justify-between h-full flex-1">
-                      {/* Simulated Chat Interface */}
-                      <div className="space-y-3.5 flex-1 flex flex-col justify-end">
-                        {/* Client message */}
-                        <div className="flex justify-end">
-                          <div className="bg-[#f26522]/20 border border-[#f26522]/30 px-3.5 py-2.5 rounded-2xl rounded-tr-sm max-w-[80%]">
-                            <p className="text-xs text-neutral-200">
-                              What color curtains go with olive green walls in my living room?
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Bot Reply */}
-                        <div className="flex gap-2.5 items-start">
-                          <div className="w-7 h-7 rounded-full bg-[#f26522] flex items-center justify-center flex-shrink-0">
-                            <Bot className="w-4 h-4 text-white" />
-                          </div>
-                          <div className="bg-white/5 border border-white/10 px-3.5 py-2.5 rounded-2xl rounded-tl-sm max-w-[80%]">
-                            <p className="text-xs text-neutral-300 leading-relaxed">
-                              For olive green walls, **Alabaster White sheers** offer a crisp organic contrast. For a cozy feel, try **Warm Ochre linen** drapery.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
+                      {/* Direct Launcher Link */}
                       <Link
-                        href="/ai"
-                        className="w-full mt-4 py-3 bg-neutral-800 hover:bg-neutral-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all"
+                        href="/curtain-visualizer"
+                        className="w-full mt-2 py-2.5 bg-neutral-800 hover:bg-[#f26522] hover:text-white text-neutral-300 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 border border-white/5 transition-all"
                       >
-                        <MessageCircle className="w-4 h-4 text-[#f26522]" />
-                        Start Chatting with AI
+                        <span>Open in Full 3D Visualizer</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
-                  )}
+                  </div>
+
+                  <div className={`p-5 flex flex-col justify-between h-full flex-1 ${activeTab === "pricing" ? "block" : "hidden"}`}>
+                    <div className="space-y-4">
+                      <div className="inline-flex items-center gap-1.5 bg-[#f26522]/10 border border-[#f26522]/20 px-2.5 py-1 rounded-full text-xs text-[#f26522]">
+                        <BadgePercent className="w-3.5 h-3.5" /> Special pricing enabled
+                      </div>
+                      <h4 className="text-white font-semibold text-base">
+                        Instant Estimated Pricing Engine
+                      </h4>
+                      <p className="text-neutral-400 text-xs leading-relaxed">
+                        Your client can input standard or custom window width and height, choose their room and curtain fabric starting from just **₹130/meter** to generate a direct quote breakdown.
+                      </p>
+
+                      <div className="bg-white/5 border border-white/5 rounded-xl p-3.5 space-y-2">
+                        <div className="flex justify-between text-xs text-white/50">
+                          <span>Avg. Bedroom (6ft × 8ft)</span>
+                          <span className="text-white font-semibold">₹4,950* onwards</span>
+                        </div>
+                        <div className="flex justify-between text-xs text-white/50">
+                          <span>Custom Stitched Polyester</span>
+                          <span className="text-emerald-400 font-semibold">Includes Free Installation</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a
+                      href="#pricing-estimator"
+                      className="w-full py-3 bg-[#f26522] hover:bg-[#ff7b3d] text-white font-bold rounded-xl text-xs text-center transition-all shadow-lg shadow-[#f26522]/15"
+                    >
+                      Try Pricing Estimator Below
+                    </a>
+                  </div>
+
+                  <div className={`p-4 flex flex-col justify-between h-full flex-1 ${activeTab === "assistant" ? "block" : "hidden"}`}>
+                    {/* Simulated Chat Interface */}
+                    <div className="space-y-3.5 flex-1 flex flex-col justify-end">
+                      {/* Client message */}
+                      <div className="flex justify-end">
+                        <div className="bg-[#f26522]/20 border border-[#f26522]/30 px-3.5 py-2.5 rounded-2xl rounded-tr-sm max-w-[80%]">
+                          <p className="text-xs text-neutral-200">
+                            What color curtains go with olive green walls in my living room?
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Bot Reply */}
+                      <div className="flex gap-2.5 items-start">
+                        <div className="w-7 h-7 rounded-full bg-[#f26522] flex items-center justify-center flex-shrink-0">
+                          <Bot className="w-4 h-4 text-white" />
+                        </div>
+                        <div className="bg-white/5 border border-white/10 px-3.5 py-2.5 rounded-2xl rounded-tl-sm max-w-[80%]">
+                          <p className="text-xs text-neutral-300 leading-relaxed">
+                            For olive green walls, **Alabaster White sheers** offer a crisp organic contrast. For a cozy feel, try **Warm Ochre linen** drapery.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Link
+                      href="/ai"
+                      className="w-full mt-4 py-3 bg-neutral-800 hover:bg-neutral-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all"
+                    >
+                      <MessageCircle className="w-4 h-4 text-[#f26522]" />
+                      Start Chatting with AI
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

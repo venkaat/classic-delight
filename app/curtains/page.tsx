@@ -628,39 +628,46 @@ export default function CurtainsPage() {
               <div className="bg-[#0f0f12] border border-white/5 rounded-[32px] p-8 h-full flex flex-col justify-between relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-[#f26522]/5 blur-[80px] rounded-full pointer-events-none" />
 
-                <div>
-                  <div className="flex flex-wrap items-center gap-3 mb-6">
-                    <span className="px-3.5 py-1 rounded-full bg-[#f26522]/10 border border-[#f26522]/20 text-[#f26522] text-xs font-semibold uppercase tracking-wider">
-                      {fabricsData[activeFabric].opacity}
-                    </span>
-                    <span className="px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/60 text-xs">
-                      {fabricsData[activeFabric].washCare}
-                    </span>
-                  </div>
+                {fabricsData.map((fabric, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex-1 flex flex-col justify-between ${idx === activeFabric ? "block" : "hidden"}`}
+                  >
+                    <div>
+                      <div className="flex flex-wrap items-center gap-3 mb-6">
+                        <span className="px-3.5 py-1 rounded-full bg-[#f26522]/10 border border-[#f26522]/20 text-[#f26522] text-xs font-semibold uppercase tracking-wider">
+                          {fabric.opacity}
+                        </span>
+                        <span className="px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/60 text-xs">
+                          {fabric.washCare}
+                        </span>
+                      </div>
 
-                  <h3 className="text-3xl font-bold text-white tracking-tight mb-4">
-                    {fabricsData[activeFabric].name}
-                  </h3>
+                      <h3 className="text-3xl font-bold text-white tracking-tight mb-4">
+                        {fabric.name}
+                      </h3>
 
-                  <p className="text-white/60 text-base md:text-lg leading-relaxed mb-8">
-                    {fabricsData[activeFabric].desc}
-                  </p>
-                </div>
+                      <p className="text-white/60 text-base md:text-lg leading-relaxed mb-8">
+                        {fabric.desc}
+                      </p>
+                    </div>
 
-                <div className="grid grid-cols-2 gap-6 pt-6 border-t border-white/5">
-                  <div>
-                    <h4 className="text-white/40 text-xs uppercase tracking-wider">Best Suited For</h4>
-                    <p className="text-white text-base font-semibold mt-1">
-                      {fabricsData[activeFabric].bestFor}
-                    </p>
+                    <div className="grid grid-cols-2 gap-6 pt-6 border-t border-white/5">
+                      <div>
+                        <h4 className="text-white/40 text-xs uppercase tracking-wider">Best Suited For</h4>
+                        <p className="text-white text-base font-semibold mt-1">
+                          {fabric.bestFor}
+                        </p>
+                      </div>
+                      <div>
+                        <h4 className="text-white/40 text-xs uppercase tracking-wider">Recommended Styles</h4>
+                        <p className="text-[#f26522] text-base font-semibold mt-1">
+                          {fabric.foldStyle}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-white/40 text-xs uppercase tracking-wider">Recommended Styles</h4>
-                    <p className="text-[#f26522] text-base font-semibold mt-1">
-                      {fabricsData[activeFabric].foldStyle}
-                    </p>
-                  </div>
-                </div>
+                ))}
 
               </div>
             </div>
@@ -849,20 +856,16 @@ export default function CurtainsPage() {
                   )}
                 </button>
 
-                <AnimatePresence initial={false}>
-                  {activeFaq === idx && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <div className="px-6 pb-6 text-white/60 text-sm md:text-base leading-relaxed border-t border-white/5 pt-4">
-                        {faq.a}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <motion.div
+                  initial={false}
+                  animate={{ height: activeFaq === idx ? "auto" : 0, opacity: activeFaq === idx ? 1 : 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-6 text-white/60 text-sm md:text-base leading-relaxed border-t border-white/5 pt-4">
+                    {faq.a}
+                  </div>
+                </motion.div>
               </div>
             ))}
           </div>

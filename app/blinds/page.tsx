@@ -450,36 +450,43 @@ export default function BlindsPage() {
             <div className="lg:col-span-7">
               <div className="bg-[#0f0f12] border border-white/5 rounded-3xl p-6 relative overflow-hidden h-[420px] flex flex-col justify-end group">
                 
-                {/* Showcase Background */}
-                <div className="absolute inset-0">
-                  <Image
-                    src={spaceRecommendations[activeSpace].image}
-                    alt={spaceRecommendations[activeSpace].choice}
-                    fill
-                    className="object-cover group-hover:scale-102 transition-transform duration-700 opacity-60"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                </div>
+                {spaceRecommendations.map((space, idx) => (
+                  <div
+                    key={space.room}
+                    className={idx === activeSpace ? "contents" : "hidden"}
+                  >
+                    {/* Showcase Background */}
+                    <div className="absolute inset-0">
+                      <Image
+                        src={space.image}
+                        alt={space.choice}
+                        fill
+                        className="object-cover group-hover:scale-102 transition-transform duration-700 opacity-60"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+                    </div>
 
-                {/* Content Box */}
-                <div className="relative z-10 p-4">
-                  <span className="text-[#f26522] text-xs font-semibold tracking-widest uppercase bg-[#f26522]/10 border border-[#f26522]/30 px-3 py-1 rounded-full inline-block mb-3">
-                    Premium Selection
-                  </span>
-                  <h3 className="text-3xl font-bold text-white mb-2">{spaceRecommendations[activeSpace].choice}</h3>
-                  <p className="text-white/70 text-sm leading-relaxed max-w-lg mb-6">
-                    {spaceRecommendations[activeSpace].desc}
-                  </p>
-                  
-                  {spaceRecommendations[activeSpace].href && (
-                    <Link
-                      href={spaceRecommendations[activeSpace].href}
-                      className="inline-flex items-center gap-2 text-white bg-[#f26522] hover:bg-orange-600 px-6 py-3 rounded-xl text-sm font-medium transition duration-300"
-                    >
-                      Explore {spaceRecommendations[activeSpace].choice} <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  )}
-                </div>
+                    {/* Content Box */}
+                    <div className="relative z-10 p-4">
+                      <span className="text-[#f26522] text-xs font-semibold tracking-widest uppercase bg-[#f26522]/10 border border-[#f26522]/30 px-3 py-1 rounded-full inline-block mb-3">
+                        Premium Selection
+                      </span>
+                      <h3 className="text-3xl font-bold text-white mb-2">{space.choice}</h3>
+                      <p className="text-white/70 text-sm leading-relaxed max-w-lg mb-6">
+                        {space.desc}
+                      </p>
+                      
+                      {space.href && (
+                        <Link
+                          href={space.href}
+                          className="inline-flex items-center gap-2 text-white bg-[#f26522] hover:bg-orange-600 px-6 py-3 rounded-xl text-sm font-medium transition duration-300"
+                        >
+                          Explore {space.choice} <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                ))}
 
               </div>
             </div>
@@ -517,20 +524,16 @@ export default function BlindsPage() {
                     {isOpen ? <ChevronUp className="w-5 h-5 text-[#f26522] flex-shrink-0" /> : <ChevronDown className="w-5 h-5 text-white/60 flex-shrink-0" />}
                   </button>
 
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <div className="px-6 pb-6 text-white/60 leading-relaxed text-sm md:text-base border-t border-white/5 pt-4">
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <motion.div
+                    initial={false}
+                    animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-6 text-white/60 leading-relaxed text-sm md:text-base border-t border-white/5 pt-4">
+                      {faq.a}
+                    </div>
+                  </motion.div>
                 </div>
               );
             })}

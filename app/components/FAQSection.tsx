@@ -101,8 +101,6 @@ const faqs = [
 export default function FAQSection() {
   const [showAll, setShowAll] = useState(false);
 
-  const visibleFaqs = showAll ? faqs : faqs.slice(0, 5);
-
   return (
     <section className="py-24 bg-white">
       <div className="max-w-5xl mx-auto px-6">
@@ -129,10 +127,12 @@ export default function FAQSection() {
         {/* FAQ ITEMS */}
         <div className="space-y-6">
 
-          {visibleFaqs.map((faq, index) => (
+          {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-[#faf8f5] border border-[#f1ede7] rounded-3xl p-8 hover:shadow-lg transition duration-300"
+              className={`bg-[#faf8f5] border border-[#f1ede7] rounded-3xl p-8 hover:shadow-lg transition duration-300 ${
+                !showAll && index >= 5 ? "hidden" : "block"
+              }`}
             >
 
               <h3 className="text-2xl font-semibold text-[#111] mb-4 leading-snug">

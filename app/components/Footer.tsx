@@ -11,10 +11,10 @@ export default function Footer() {
       {/* MAIN */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
 
-        <div className="grid lg:grid-cols-5 gap-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-16">
 
           {/* BRAND */}
-          <div className="lg:col-span-2">
+          <div className="md:col-span-2 lg:col-span-2">
 
             <p className="uppercase tracking-[5px] text-[#f26522] text-sm font-semibold mb-6">
               Classic Delight
@@ -236,6 +236,55 @@ export default function Footer() {
                   className="hover:text-[#f26522] transition duration-300"
                 >
                   Pleated Curtains
+                </Link>
+              </li>
+
+            </ul>
+
+          </div>
+
+          {/* AI & 3D DESIGN */}
+          <div>
+
+            <h3 className="text-white font-semibold text-lg mb-8">
+              AI & 3D Design
+            </h3>
+
+            <ul className="space-y-5 text-white/60">
+
+              <li>
+                <Link
+                  href="/landing"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Atelier Smart Suite
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/visualizer"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  AI Room Visualizer
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/ai"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  AI Chat Consultant
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/curtain-visualizer"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  3D Curtain Previewer
                 </Link>
               </li>
 
