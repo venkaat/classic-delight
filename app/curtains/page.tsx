@@ -119,6 +119,13 @@ const curtainTypes = [
     img: "/images/gallery/Curtains-140.jpg",
     tag: "Bespoke & Artistic"
   },
+  { 
+    name: "Hospital Curtains", 
+    href: "/curtains/hospital", 
+    desc: "Clinical-grade antibacterial and flame-retardant curtains with heavy-duty ceiling tracking.",
+    img: "/images/hospital-curtains/WhatsApp Image 2026-05-27 at 1.15.14 AM.jpeg",
+    tag: "Clinical & Safety"
+  },
 ];
 
 const fabricsData = [

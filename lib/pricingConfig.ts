@@ -46,7 +46,7 @@ export const curtainImages: Record<string, string> = {
   "Pleated Curtains": "/images/curtain-styles/pleated.jpg",
   "Ripple Curtains": "/images/curtain-styles/ripple.jpg",
   "Eyelet Curtains": "/images/curtain-styles/eyelet.png",
-  "Hospital Curtains": "/images/curtain-styles/hospital.jpg",
+  "Hospital Curtains": "/images/hospital-curtains/WhatsApp Image 2026-05-27 at 1.15.14 AM.jpeg",
 };
 
 // Base tailoring/installation rates

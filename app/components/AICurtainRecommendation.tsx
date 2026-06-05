@@ -31,6 +31,13 @@ const visualizerTextureMap: Record<string, string> = {
   Sheer: "Textured Sheer",
 };
 
+const curtainUrls: Record<string, string> = {
+  "Pleated Curtains": "/curtains/pleated",
+  "Ripple Curtains": "/curtains/ripple",
+  "Eyelet Curtains": "/curtains/eyelet",
+  "Hospital Curtains": "/curtains/hospital",
+};
+
 interface Recommendation {
   curtain: string;
   fabric: string;
@@ -696,7 +703,10 @@ export default function AICurtainRecommendation() {
 
                         {/* Styles & Fabrics */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                          <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20">
+                          <Link
+                            href={curtainUrls[result.curtain] || "#"}
+                            className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20 hover:bg-white/[0.08] hover:scale-[1.02] duration-300 block"
+                          >
                             <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
                               <Image
                                 src={curtainImages[result.curtain] || "/images/curtain-styles/ripple.jpg"}
@@ -708,9 +718,12 @@ export default function AICurtainRecommendation() {
                             </div>
                             <div>
                               <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Curtain Style</p>
-                              <h4 className="text-white text-xs md:text-sm font-bold">{result.curtain}</h4>
+                              <h4 className="text-white text-xs md:text-sm font-bold flex items-center gap-1.5">
+                                <span>{result.curtain}</span>
+                                <ArrowRight className="w-3.5 h-3.5 text-[#f26522]" />
+                              </h4>
                             </div>
-                          </div>
+                          </Link>
 
                           <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20">
                             <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
@@ -897,25 +910,30 @@ export default function AICurtainRecommendation() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {Object.entries(curtainImages).map(([name, imageUrl]) => (
-              <div
-                key={name}
-                className="group bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] border border-white/10 rounded-[24px] md:rounded-[32px] p-4 md:p-6 hover:border-[#f26522]/30 transition duration-500"
-              >
-                <div className="relative overflow-hidden rounded-xl md:rounded-2xl mb-4 md:mb-8 aspect-[4/3]">
-                  <Image
-                    src={imageUrl}
-                    alt={name}
-                    fill
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 25vw"
-                    className="object-cover group-hover:scale-105 transition duration-700"
-                  />
-                </div>
-                <h4 className="text-white text-base md:text-2xl font-semibold leading-tight">
-                  {name}
-                </h4>
-              </div>
-            ))}
+            {Object.entries(curtainImages).map(([name, imageUrl]) => {
+              const url = curtainUrls[name] || "#";
+              return (
+                <Link
+                  key={name}
+                  href={url}
+                  className="group bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] border border-white/10 rounded-[24px] md:rounded-[32px] p-4 md:p-6 hover:border-[#f26522]/30 transition duration-500 hover:scale-[1.02] cursor-pointer block"
+                >
+                  <div className="relative overflow-hidden rounded-xl md:rounded-2xl mb-4 md:mb-8 aspect-[4/3]">
+                    <Image
+                      src={imageUrl}
+                      alt={name}
+                      fill
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 25vw"
+                      className="object-cover group-hover:scale-105 transition duration-700"
+                    />
+                  </div>
+                  <h4 className="text-white text-base md:text-2xl font-semibold leading-tight flex items-center justify-between">
+                    <span>{name}</span>
+                    <ArrowRight className="w-5 h-5 text-white/40 group-hover:text-[#f26522] group-hover:translate-x-1 transition-all duration-300" />
+                  </h4>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
