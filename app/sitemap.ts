@@ -65,6 +65,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/blinds/roman`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/blinds/roller`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/blinds/zebra`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/nets`,
       lastModified: new Date(),
       priority: 0.9,
