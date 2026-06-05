@@ -203,12 +203,7 @@ const galleryImages = [
     title: "Contemporary Charcoal Pleated Panels",
     desc: "Structured pencil pleat curtains custom tailored in sleek charcoal fabric for a modern touch."
   },
-  {
-    src: "/images/curtain-main/Curtains-101.jpg",
-    category: "blackout",
-    title: "Luxury Slate Gray Blackout System",
-    desc: "Absolute room-darkening drapes with sound reduction interlining, perfect for master bedrooms."
-  },
+ 
   {
     src: "/images/curtain-main/Curtains-106.jpg",
     category: "pleated",
@@ -263,12 +258,7 @@ const galleryImages = [
     title: "Textured Tailored Pleats",
     desc: "Minimalist pencil pleats in oatmeal linen-look fabric for a clean modern finish."
   },
-  {
-    src: "/images/gallery/Curtains-130.jpg",
-    category: "blackout",
-    title: "Elegant Layered Sheers & Velvets",
-    desc: "Hotel-style double track drapery combining transparent sheers and heavy insulating drapes."
-  },
+  
   {
     src: "/images/gallery/Curtains-140.jpg",
     category: "pleated",
