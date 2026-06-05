@@ -107,9 +107,9 @@ const curtainTypes = [
   },
   { 
     name: "Blackout Curtains", 
-    href: "#", 
+    href: "/curtains/blackout", 
     desc: "Heavy-duty double-pass lined drapes blocking 100% light for bedrooms and media rooms.",
-    img: "/images/gallery/Curtains-008.jpg",
+    img: "/images/blackout-curtains/The Sleep Sanctuary.png",
     tag: "Privacy & Insulation"
   },
   { 
