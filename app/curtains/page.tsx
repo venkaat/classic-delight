@@ -51,7 +51,7 @@ const curtainschema = {
 
 const heroSlides = [
   {
-    src: "/images/gallery/Curtains-002.jpg",
+    src: "/images/gallery/Curtains-165.jpg",
     tag: "Luxury Blackouts",
     title: "Complete Light Control & Sleep Sanctity",
     desc: "Stitched with thick thermal backing to eliminate noise, glare, and temperature transfer for ultimate comfort."
