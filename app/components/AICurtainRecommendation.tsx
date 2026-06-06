@@ -83,6 +83,51 @@ const recommendations: Record<string, Recommendation> = {
   },
 };
 
+const blinds = {
+  "Roman Blinds": 350,
+  "Roller Blinds": 200,
+  "Zebra Blinds": 220,
+  "Wooden Blinds": 300,
+  "PVC Blinds": 140,
+  "Custom Printed Blinds": 240,
+};
+
+const blindImages: Record<string, string> = {
+  "Roman Blinds": "/images/blinds/roman.jpg",
+  "Roller Blinds": "/images/blinds/roller.jpg",
+  "Zebra Blinds": "/images/blinds/zebra.jpg",
+  "Wooden Blinds": "/images/blinds/wooden.jpg",
+  "PVC Blinds": "/images/blinds/pvc.jpg",
+  "Custom Printed Blinds": "/images/blinds/custom.jpg",
+};
+
+const blindsUrls: Record<string, string> = {
+  "Roman Blinds": "/blinds/roman",
+  "Roller Blinds": "/blinds/roller",
+  "Zebra Blinds": "/blinds/zebra",
+  "Wooden Blinds": "/blinds",
+  "PVC Blinds": "/blinds",
+  "Custom Printed Blinds": "/blinds",
+};
+
+const blindsRecommendations = {
+  "Roman": {
+    blindType: "Roman Blinds",
+    subtitle: "Classic fabric folds & warm atmosphere",
+    description: "Elegant fabric folds that stack neatly, combining soft drapery aesthetics with modern window convenience.",
+  },
+  "Roller": {
+    blindType: "Roller Blinds",
+    subtitle: "Minimalist layout & maximum light control",
+    description: "Sleek and minimalist roller shades offering excellent light blocking and clean contemporary aesthetics.",
+  },
+  "Zebra": {
+    blindType: "Zebra Blinds",
+    subtitle: "Dual-layer stripes & modern privacy control",
+    description: "Alternating sheer and solid fabric stripes that slide past each other to create variable lighting and privacy levels.",
+  },
+};
+
 // Common window sizes in feet for quick-select
 const COMMON_WIDTHS = [4, 5, 6, 7, 8, 10, 12];
 const COMMON_HEIGHTS = [7, 8, 9, 10, 12];
@@ -230,10 +275,9 @@ function DimensionPicker({
       </div>
     </div>
   );
-}
-
-export default function AICurtainRecommendation() {
+}export default function AICurtainRecommendation() {
   const [room, setRoom] = useState("Living Room");
+  const [productType, setProductType] = useState<"curtains" | "blinds">("curtains");
   const [style, setStyle] = useState("Luxury");
   const [width, setWidth] = useState("6");
   const [height, setHeight] = useState("8");
@@ -262,55 +306,85 @@ export default function AICurtainRecommendation() {
     setIsModalOpen(false);
     setStep(1);
     setOverrideFabric(null);
+    setProductType("curtains");
   };
 
   // Reset fabric overrides when styling vibe changes
   useEffect(() => {
     setOverrideFabric(null);
-  }, [style]);
+  }, [style, productType]);
 
   const result = useMemo(() => {
-    const selected =
-      recommendations[style as keyof typeof recommendations] ||
-      recommendations["Luxury"];
-    
-    const fabricToUse = overrideFabric || selected.fabric;
-    const fabricPrice = fabrics[fabricToUse as keyof typeof fabrics] || 300;
-
     const parsedWidth = width === "" ? 0 : Number(width) || 0;
     const parsedHeight = height === "" ? 0 : Number(height) || 0;
-
-    const fabricNeeded =
-      parsedWidth > 0 && parsedHeight > 0
-        ? Math.ceil((parsedWidth * 2.2 * (parsedHeight + 0.5)) / 3.28)
-        : 0;
-
-    const fabricCost = fabricNeeded * fabricPrice;
     const hasDimensions = parsedWidth > 0 && parsedHeight > 0;
-    const tailoringCost = hasDimensions ? TAILORING_COST_BASE : 0;
-    const trackCost = hasDimensions ? TRACK_COST_BASE : 0;
-    const fixingCost = hasDimensions ? FIXING_COST_BASE : 0;
-    const total = fabricCost + tailoringCost + trackCost + fixingCost;
 
-    return {
-      curtain: selected.curtain,
-      fabric: fabricToUse,
-      description: selected.description,
-      fabricNeeded,
-      fabricCost,
-      tailoringCost,
-      trackCost,
-      fixingCost,
-      total,
-      fabricPrice,
-      parsedWidth,
-      parsedHeight,
-    };
-  }, [style, overrideFabric, width, height]);
+    if (productType === "blinds") {
+      const selected =
+        blindsRecommendations[style as keyof typeof blindsRecommendations] ||
+        blindsRecommendations["Zebra"];
+      
+      const blindToUse = overrideFabric || selected.blindType;
+      const blindPrice = blinds[blindToUse as keyof typeof blinds] || 220;
+
+      const areaSqft = parsedWidth * parsedHeight;
+      const blindCost = areaSqft * blindPrice;
+      const fixingCost = hasDimensions ? FIXING_COST_BASE : 0;
+      const total = blindCost + fixingCost;
+
+      return {
+        curtain: blindToUse,
+        fabric: blindToUse,
+        description: selected.description,
+        fabricNeeded: areaSqft,
+        fabricCost: blindCost,
+        tailoringCost: 0,
+        trackCost: 0,
+        fixingCost,
+        total,
+        fabricPrice: blindPrice,
+        parsedWidth,
+        parsedHeight,
+      };
+    } else {
+      const selected =
+        recommendations[style as keyof typeof recommendations] ||
+        recommendations["Luxury"];
+      
+      const fabricToUse = overrideFabric || selected.fabric;
+      const fabricPrice = fabrics[fabricToUse as keyof typeof fabrics] || 300;
+
+      const fabricNeeded =
+        hasDimensions
+          ? Math.ceil((parsedWidth * 2.2 * (parsedHeight + 0.5)) / 3.28)
+          : 0;
+
+      const fabricCost = fabricNeeded * fabricPrice;
+      const tailoringCost = hasDimensions ? TAILORING_COST_BASE : 0;
+      const trackCost = hasDimensions ? TRACK_COST_BASE : 0;
+      const fixingCost = hasDimensions ? FIXING_COST_BASE : 0;
+      const total = fabricCost + tailoringCost + trackCost + fixingCost;
+
+      return {
+        curtain: selected.curtain,
+        fabric: fabricToUse,
+        description: selected.description,
+        fabricNeeded,
+        fabricCost,
+        tailoringCost,
+        trackCost,
+        fixingCost,
+        total,
+        fabricPrice,
+        parsedWidth,
+        parsedHeight,
+      };
+    }
+  }, [productType, style, overrideFabric, width, height]);
 
   // Track estimate generation
   useEffect(() => {
-    if (isModalOpen && step === 3 && width && height && !hasTrackedEstimate && result.total > 0) {
+    if (isModalOpen && step === 4 && width && height && !hasTrackedEstimate && result.total > 0) {
       trackEvent("generate_estimate", {
         value: result.total,
         currency: "INR",
@@ -347,27 +421,42 @@ export default function AICurtainRecommendation() {
   };
 
   // Deep linking to visualizer tools
-  const textToImagePrompt = `Luxury modern ${result.fabric.toLowerCase()} ${result.curtain.toLowerCase()} installed in a beautiful ${room.toLowerCase()}, photorealistic architectural window styling, high-end interior, soft cinematic lighting`;
+  const textToImagePrompt = productType === "blinds"
+    ? `Modern luxury ${result.fabric.toLowerCase()} blinds installed on window in a beautiful ${room.toLowerCase()}, photorealistic architectural styling`
+    : `Luxury modern ${result.fabric.toLowerCase()} ${result.curtain.toLowerCase()} installed in a beautiful ${room.toLowerCase()}, photorealistic architectural window styling, high-end interior, soft cinematic lighting`;
   const textToImageUrl = `/visualizer?prompt=${encodeURIComponent(textToImagePrompt)}`;
 
-  const mappedTexture = visualizerTextureMap[result.fabric] || "Classic Linen";
-  const visualizer3dUrl = `/curtain-visualizer?texture=${encodeURIComponent(mappedTexture)}`;
+  const mappedTexture = productType === "blinds" ? "Classic Linen" : (visualizerTextureMap[result.fabric] || "Classic Linen");
+  const visualizer3dUrl = productType === "blinds"
+    ? `/curtain-visualizer`
+    : `/curtain-visualizer?texture=${encodeURIComponent(mappedTexture)}`;
 
   const whatsappMessage = encodeURIComponent(
-    `Hi! I used the AI Curtain Recommendation tool and got the following details:\n\n` +
-      `🏠 Room: ${room}\n` +
-      `🎨 Style Preference: ${style}\n` +
-      `📐 Window Size: ${width || "N/A"} ft (W) x ${height || "N/A"} ft (H)\n\n` +
-      `🪟 Recommended Curtain: ${result.curtain}\n` +
-      `🧵 Recommended Fabric: ${result.fabric} (₹${result.fabricPrice}/meter)\n` +
-      `📏 Fabric Required: ${result.fabricNeeded} meters\n\n` +
-      `💰 Cost Breakdown:\n` +
-      `  • Fabric Cost: ₹${result.fabricCost.toLocaleString()}\n` +
-      `  • Tailoring: ₹${result.tailoringCost.toLocaleString()}\n` +
-      `  • M-Track Rod: ₹${result.trackCost.toLocaleString()}\n` +
-      `  • Installation: ₹${result.fixingCost.toLocaleString()}\n\n` +
-      `💎 Estimated Total: ₹${result.total.toLocaleString()}\n\n` +
-      `Please provide me an exact quote. Thank you!`
+    productType === "blinds"
+      ? `Hi! I used the AI Recommendation tool and got the following blinds details:\n\n` +
+          `🏠 Room: ${room}\n` +
+          `📐 Window Size: ${width || "N/A"} ft (W) x ${height || "N/A"} ft (H)\n\n` +
+          `🪟 Recommended Blind: ${result.curtain}\n` +
+          `🏷️ Rate: ₹${result.fabricPrice}/sqft\n` +
+          `📏 Total Area: ${result.fabricNeeded} sqft\n\n` +
+          `💰 Cost Breakdown:\n` +
+          `  • Blind Cost: ₹${result.fabricCost.toLocaleString()}\n` +
+          `  • Installation: Included (Free)\n\n` +
+          `💎 Estimated Total: ₹${result.total.toLocaleString()}\n\n` +
+          `Please provide me an exact quote. Thank you!`
+      : `Hi! I used the AI Curtain Recommendation tool and got the following details:\n\n` +
+          `🏠 Room: ${room}\n` +
+          `🎨 Style Preference: ${style}\n` +
+          `📐 Window Size: ${width || "N/A"} ft (W) x ${height || "N/A"} ft (H)\n\n` +
+          `🪟 Recommended Curtain: ${result.curtain}\n` +
+          `🧵 Recommended Fabric: ${result.fabric} (₹${result.fabricPrice}/meter)\n` +
+          `📏 Fabric Required: ${result.fabricNeeded} meters\n\n` +
+          `💰 Cost Breakdown:\n` +
+          `  • Fabric Cost: ₹${result.fabricCost.toLocaleString()}\n` +
+          `  • Stitching & Premium Channels (M-Tracks): ₹${(result.tailoringCost + result.trackCost).toLocaleString()}\n` +
+          `  • Installation: Included (Free)\n\n` +
+          `💎 Estimated Total: ₹${result.total.toLocaleString()}\n\n` +
+          `Please provide me an exact quote. Thank you!`
   );
   const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}?text=${whatsappMessage}`;
 
@@ -469,13 +558,13 @@ export default function AICurtainRecommendation() {
                   <div className="flex justify-between items-center text-xs text-white/40 mb-2 font-mono">
                     <span>Progress</span>
                     <span className="text-orange-400 font-bold">
-                      {step === 1 ? "33% Complete" : step === 2 ? "66% Complete" : "100% Complete"}
+                      {step === 1 ? "25% Complete" : step === 2 ? "50% Complete" : step === 3 ? "75% Complete" : "100% Complete"}
                     </span>
                   </div>
                   <div className="w-full h-1.5 bg-neutral-900 rounded-full overflow-hidden border border-white/5">
                     <motion.div
-                      initial={{ width: "33%" }}
-                      animate={{ width: step === 1 ? "33%" : step === 2 ? "66%" : "100%" }}
+                      initial={{ width: "25%" }}
+                      animate={{ width: step === 1 ? "25%" : step === 2 ? "50%" : step === 3 ? "75%" : "100%" }}
                       className="h-full bg-gradient-to-r from-orange-500 to-[#f26522] rounded-full"
                       transition={{ duration: 0.4 }}
                     />
@@ -514,7 +603,7 @@ export default function AICurtainRecommendation() {
                             setStep(2);
                           }}
                           className={`rounded-2xl px-3 py-4 border transition-all duration-300 active:scale-98 ${
-                            room === item
+                            room === item && step >= 2
                               ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
                               : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
                           }`}
@@ -535,40 +624,34 @@ export default function AICurtainRecommendation() {
                         </p>
                         {step >= 3 && (
                           <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
-                            ✓ {style} Vibe
+                            ✓ {productType === "curtains" ? "Curtains" : "Blinds"}
                           </span>
                         )}
                       </div>
                       <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
-                        Choose your preferred style
+                        What product type are we estimating?
                       </h3>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        {Object.entries(recommendations).map(([key, item]) => (
+                      <div className="grid grid-cols-2 gap-4">
+                        {[
+                          ["🧵", "Curtains", "curtains"],
+                          ["🪟", "Blinds", "blinds"],
+                        ].map(([icon, label, type]) => (
                           <button
-                            key={key}
+                            key={type}
                             onClick={() => {
-                              setStyle(key);
+                              setProductType(type as any);
+                              setStyle(type === "curtains" ? "Luxury" : "Zebra");
                               setStep(3);
                             }}
-                            className={`rounded-2xl p-4 border text-left transition-all duration-300 active:scale-98 flex flex-col justify-between min-h-[100px] ${
-                              style === key
+                            className={`rounded-2xl px-4 py-5 border transition-all duration-300 active:scale-98 text-center flex flex-col items-center justify-center ${
+                              productType === type && step >= 3
                                 ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
                                 : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
                             }`}
                           >
-                            <div>
-                              <div className="text-xs md:text-sm font-bold mb-1">{key} Vibe</div>
-                              <div className={`text-[10px] md:text-xs leading-normal ${style === key ? "text-white/80" : "text-white/40"}`}>
-                                {item.subtitle}
-                              </div>
-                            </div>
-                            <div className="mt-3 flex items-center justify-between w-full border-t border-white/5 pt-2">
-                              <span className="text-[9px] font-mono tracking-wider uppercase opacity-75">
-                                {item.curtain}
-                              </span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </div>
+                            <div className="text-3xl mb-2">{icon}</div>
+                            <div className="text-sm font-bold">{label}</div>
                           </button>
                         ))}
                       </div>
@@ -581,6 +664,85 @@ export default function AICurtainRecommendation() {
                       <div className="flex items-center justify-between mb-3">
                         <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
                           Step 3
+                        </p>
+                        {step >= 4 && (
+                          <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
+                            ✓ {style}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
+                        {productType === "curtains" ? "Choose your preferred style vibe" : "Choose your blind style"}
+                      </h3>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {productType === "curtains" ? (
+                          Object.entries(recommendations).map(([key, item]) => (
+                            <button
+                              key={key}
+                              onClick={() => {
+                                setStyle(key);
+                                setStep(4);
+                              }}
+                              className={`rounded-2xl p-4 border text-left transition-all duration-300 active:scale-98 flex flex-col justify-between min-h-[100px] ${
+                                style === key && step >= 4
+                                  ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
+                                  : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
+                              }`}
+                            >
+                              <div>
+                                <div className="text-xs md:text-sm font-bold mb-1">{key} Vibe</div>
+                                <div className={`text-[10px] md:text-xs leading-normal ${style === key && step >= 4 ? "text-white/80" : "text-white/40"}`}>
+                                  {item.subtitle}
+                                </div>
+                              </div>
+                              <div className="mt-3 flex items-center justify-between w-full border-t border-white/5 pt-2">
+                                <span className="text-[9px] font-mono tracking-wider uppercase opacity-75">
+                                  {item.curtain}
+                                </span>
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </div>
+                            </button>
+                          ))
+                        ) : (
+                          Object.entries(blindsRecommendations).map(([key, item]) => (
+                            <button
+                              key={key}
+                              onClick={() => {
+                                setStyle(key);
+                                setStep(4);
+                              }}
+                              className={`rounded-2xl p-4 border text-left transition-all duration-300 active:scale-98 flex flex-col justify-between min-h-[100px] ${
+                                style === key && step >= 4
+                                  ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
+                                  : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
+                              }`}
+                            >
+                              <div>
+                                <div className="text-xs md:text-sm font-bold mb-1">{key} Blinds</div>
+                                <div className={`text-[10px] md:text-xs leading-normal ${style === key && step >= 4 ? "text-white/80" : "text-white/40"}`}>
+                                  {item.subtitle}
+                                </div>
+                              </div>
+                              <div className="mt-3 flex items-center justify-between w-full border-t border-white/5 pt-2">
+                                <span className="text-[9px] font-mono tracking-wider uppercase opacity-75">
+                                  {item.blindType}
+                                </span>
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </div>
+                            </button>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* STEP 4 */}
+                  {step >= 4 && (
+                    <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 transition-all duration-300 hover:border-white/20">
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
+                          Step 4
                         </p>
                         {width && height && (
                           <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
@@ -641,31 +803,55 @@ export default function AICurtainRecommendation() {
                           <div className="absolute inset-0.5 border border-neutral-800 bg-sky-950/15 overflow-hidden flex justify-between items-stretch">
                             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
                             
-                            {/* Left drape */}
-                            <div
-                              className="w-[42%] h-full rounded-r-sm shadow-md border-r border-white/5 transition-all duration-500"
-                              style={{
-                                backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
-                                opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
-                                backgroundImage: result.curtain === "Pleated Curtains"
-                                  ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
-                                  : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
-                                backgroundSize: result.curtain === "Pleated Curtains" ? "10px 100%" : "14px 100%"
-                              }}
-                            />
+                            {productType === "curtains" ? (
+                              <>
+                                {/* Left drape */}
+                                <div
+                                  className="w-[42%] h-full rounded-r-sm shadow-md border-r border-white/5 transition-all duration-500"
+                                  style={{
+                                    backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
+                                    opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
+                                    backgroundImage: result.curtain === "Pleated Curtains"
+                                      ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
+                                      : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
+                                    backgroundSize: result.curtain === "Pleated Curtains" ? "10px 100%" : "14px 100%"
+                                  }}
+                                />
 
-                            {/* Right drape */}
-                            <div
-                              className="w-[42%] h-full rounded-l-sm shadow-md border-l border-white/5 transition-all duration-500"
-                              style={{
-                                backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
-                                opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
-                                backgroundImage: result.curtain === "Pleated Curtains"
-                                  ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
-                                  : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
-                                backgroundSize: result.curtain === "Pleated Curtains" ? "10px 100%" : "14px 100%"
-                              }}
-                            />
+                                {/* Right drape */}
+                                <div
+                                  className="w-[42%] h-full rounded-l-sm shadow-md border-l border-white/5 transition-all duration-500"
+                                  style={{
+                                    backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
+                                    opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
+                                    backgroundImage: result.curtain === "Pleated Curtains"
+                                      ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
+                                      : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
+                                    backgroundSize: result.curtain === "Pleated Curtains" ? "10px 100%" : "14px 100%"
+                                  }}
+                                />
+                              </>
+                            ) : (
+                              /* Blinds pull-down preview */
+                              <div
+                                className="w-full rounded-b-md shadow-md border-b border-white/10 transition-all duration-500"
+                                style={{
+                                  height: "85%",
+                                  backgroundColor: result.fabric === "Roman Blinds"
+                                    ? "#d6c5b3"
+                                    : result.fabric === "Roller Blinds"
+                                    ? "#708090"
+                                    : "#3c3c3c",
+                                  opacity: 0.9,
+                                  backgroundImage: result.fabric === "Zebra Blinds"
+                                    ? "linear-gradient(180deg, rgba(0,0,0,0.3) 12px, transparent 12px, transparent 24px)"
+                                    : result.fabric === "Roman Blinds"
+                                    ? "linear-gradient(180deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 30px)"
+                                    : "none",
+                                  backgroundSize: result.fabric === "Zebra Blinds" ? "100% 24px" : "100% 30px"
+                                }}
+                              />
+                            )}
                           </div>
                         </div>
                       </div>
@@ -673,7 +859,7 @@ export default function AICurtainRecommendation() {
                   )}
 
                   {/* RESULT PANEL */}
-                  {step >= 3 && (
+                  {step >= 4 && (
                     <div className="relative overflow-hidden bg-gradient-to-br from-[#121212] to-[#080808] border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-xl">
                       <div className="absolute top-0 right-0 w-[180px] h-[180px] bg-[#f26522]/10 blur-[80px] rounded-full pointer-events-none" />
                       
@@ -703,76 +889,142 @@ export default function AICurtainRecommendation() {
 
                         {/* Styles & Fabrics */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                          <Link
-                            href={curtainUrls[result.curtain] || "#"}
-                            className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20 hover:bg-white/[0.08] hover:scale-[1.02] duration-300 block"
-                          >
-                            <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
-                              <Image
-                                src={curtainImages[result.curtain] || "/images/curtain-styles/ripple.jpg"}
-                                alt={result.curtain}
-                                fill
-                                sizes="48px"
-                                className="object-cover"
-                              />
-                            </div>
-                            <div>
-                              <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Curtain Style</p>
-                              <h4 className="text-white text-xs md:text-sm font-bold flex items-center gap-1.5">
-                                <span>{result.curtain}</span>
-                                <ArrowRight className="w-3.5 h-3.5 text-[#f26522]" />
-                              </h4>
-                            </div>
-                          </Link>
+                          {productType === "curtains" ? (
+                            <>
+                              <Link
+                                href={curtainUrls[result.curtain] || "#"}
+                                className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20 hover:bg-white/[0.08] hover:scale-[1.02] duration-300 block"
+                              >
+                                <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
+                                  <Image
+                                    src={curtainImages[result.curtain] || "/images/curtain-styles/ripple.jpg"}
+                                    alt={result.curtain}
+                                    fill
+                                    sizes="48px"
+                                    className="object-cover"
+                                  />
+                                </div>
+                                <div>
+                                  <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Curtain Style</p>
+                                  <h4 className="text-white text-xs md:text-sm font-bold flex items-center gap-1.5">
+                                    <span>{result.curtain}</span>
+                                    <ArrowRight className="w-3.5 h-3.5 text-[#f26522]" />
+                                  </h4>
+                                </div>
+                              </Link>
 
-                          <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20">
-                            <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
-                              <Image
-                                src={fabricImages[result.fabric] || "/images/fabrics/linen.jpg"}
-                                alt={result.fabric}
-                                fill
-                                sizes="48px"
-                                className="object-cover"
-                              />
-                            </div>
-                            <div>
-                              <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Best Fabric</p>
-                              <h4 className="text-white text-xs md:text-sm font-bold">{result.fabric}</h4>
-                            </div>
-                          </div>
+                              <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20">
+                                <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
+                                  <Image
+                                    src={fabricImages[result.fabric] || "/images/fabrics/linen.jpg"}
+                                    alt={result.fabric}
+                                    fill
+                                    sizes="48px"
+                                    className="object-cover"
+                                  />
+                                </div>
+                                <div>
+                                  <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Best Fabric</p>
+                                  <h4 className="text-white text-xs md:text-sm font-bold">{result.fabric}</h4>
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <Link
+                                href={blindsUrls[result.curtain] || "/blinds"}
+                                className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20 hover:bg-white/[0.08] hover:scale-[1.02] duration-300 block"
+                              >
+                                <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
+                                  <Image
+                                    src={blindImages[result.curtain] || "/images/blinds/zebra.jpg"}
+                                    alt={result.curtain}
+                                    fill
+                                    sizes="48px"
+                                    className="object-cover"
+                                  />
+                                </div>
+                                <div>
+                                  <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Blind Style</p>
+                                  <h4 className="text-white text-xs md:text-sm font-bold flex items-center gap-1.5">
+                                    <span>{result.curtain}</span>
+                                    <ArrowRight className="w-3.5 h-3.5 text-[#f26522]" />
+                                  </h4>
+                                </div>
+                              </Link>
+
+                              <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20">
+                                <div className="w-10 h-10 rounded-lg bg-[#f26522]/10 border border-[#f26522]/20 flex items-center justify-center shrink-0 text-lg">
+                                  📐
+                                </div>
+                                <div>
+                                  <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Pricing Rate</p>
+                                  <h4 className="text-white text-xs md:text-sm font-bold">₹{result.fabricPrice} / sqft</h4>
+                                </div>
+                              </div>
+                            </>
+                          )}
                         </div>
 
                         {/* Fabrics Customizer swatches */}
                         <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
                           <p className="text-white/50 text-[10px] uppercase tracking-wider font-semibold mb-3">
-                            Swap Fabric Options:
+                            {productType === "curtains" ? "Swap Fabric Options:" : "Swap Blind Options:"}
                           </p>
                           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                            {Object.keys(fabrics).map((fabName) => {
-                              const isSelected = result.fabric === fabName;
-                              return (
-                                <button
-                                  key={fabName}
-                                  onClick={() => setOverrideFabric(fabName)}
-                                  className={`flex items-center gap-1.5 p-2 rounded-lg text-[10px] md:text-xs font-semibold border transition duration-200 ${
-                                    isSelected
-                                      ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
-                                      : "bg-neutral-950 border-white/5 text-white/70"
-                                  }`}
-                                >
-                                  <div className="relative w-3.5 h-3.5 rounded-full overflow-hidden border border-white/10 shrink-0">
-                                    <Image
-                                      src={fabricImages[fabName] || "/images/fabrics/linen.jpg"}
-                                      alt={fabName}
-                                      fill
-                                      sizes="14px"
-                                      className="object-cover"
-                                    />
-                                  </div>
-                                  <span className="truncate">{fabName}</span>
-                                </button>
-                              );
-                            })}
+                            {productType === "curtains" ? (
+                              Object.keys(fabrics).map((fabName) => {
+                                const isSelected = result.fabric === fabName;
+                                return (
+                                  <button
+                                    key={fabName}
+                                    onClick={() => setOverrideFabric(fabName)}
+                                    className={`flex items-center gap-1.5 p-2 rounded-lg text-[10px] md:text-xs font-semibold border transition duration-200 ${
+                                      isSelected
+                                        ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
+                                        : "bg-neutral-950 border-white/5 text-white/70"
+                                    }`}
+                                  >
+                                    <div className="relative w-3.5 h-3.5 rounded-full overflow-hidden border border-white/10 shrink-0">
+                                      <Image
+                                        src={fabricImages[fabName] || "/images/fabrics/linen.jpg"}
+                                        alt={fabName}
+                                        fill
+                                        sizes="14px"
+                                        className="object-cover"
+                                      />
+                                    </div>
+                                    <span className="truncate">{fabName}</span>
+                                  </button>
+                                );
+                              })
+                            ) : (
+                              Object.keys(blinds).map((blindName) => {
+                                const isSelected = result.fabric === blindName;
+                                return (
+                                  <button
+                                    key={blindName}
+                                    onClick={() => setOverrideFabric(blindName)}
+                                    className={`flex items-center gap-1.5 p-2 rounded-lg text-[10px] md:text-xs font-semibold border transition duration-200 ${
+                                      isSelected
+                                        ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
+                                        : "bg-neutral-950 border-white/5 text-white/70"
+                                    }`}
+                                  >
+                                    <div className="relative w-3.5 h-3.5 rounded-full overflow-hidden border border-white/10 shrink-0">
+                                      <Image
+                                        src={blindImages[blindName] || "/images/blinds/zebra.jpg"}
+                                        alt={blindName}
+                                        fill
+                                        sizes="14px"
+                                        className="object-cover"
+                                      />
+                                    </div>
+                                    <span className="truncate">{blindName}</span>
+                                  </button>
+                                );
+                              })
+                            )}
                           </div>
                         </div>
 
@@ -783,21 +1035,23 @@ export default function AICurtainRecommendation() {
                             <span className="text-white/90 font-bold">{width || "—"} ft × {height || "—"} ft</span>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-white/5">
-                            <span>Fabric Required</span>
-                            <span className="text-white/90">{result.fabricNeeded > 0 ? `${result.fabricNeeded} meters` : "—"}</span>
+                            <span>{productType === "curtains" ? "Fabric Required" : "Total Area"}</span>
+                            <span className="text-white/95 font-bold">
+                              {result.fabricNeeded > 0
+                                ? `${result.fabricNeeded} ${productType === "curtains" ? "meters" : "sqft"}`
+                                : "—"}
+                            </span>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-white/5">
-                            <span>Fabric Cost (₹{result.fabricPrice}/m)</span>
-                            <span className="text-white/90 font-mono">₹{result.fabricCost.toLocaleString()}</span>
+                            <span>{productType === "curtains" ? `Fabric Cost (₹${result.fabricPrice}/m)` : `Blind Cost (₹${result.fabricPrice}/sqft)`}</span>
+                            <span className="text-white/95 font-mono font-bold">₹{result.fabricCost.toLocaleString()}</span>
                           </div>
-                          <div className="flex justify-between py-1.5 border-b border-white/5">
-                            <span>Tailoring & Stitching</span>
-                            <span className="text-white/90 font-mono">₹{result.tailoringCost.toLocaleString()}</span>
-                          </div>
-                          <div className="flex justify-between py-1.5 border-b border-white/5">
-                            <span>Premium M-Tracks</span>
-                            <span className="text-white/90 font-mono">₹{result.trackCost.toLocaleString()}</span>
-                          </div>
+                          {productType === "curtains" && (
+                            <div className="flex justify-between py-1.5 border-b border-white/5">
+                              <span>Stitching & Premium Channels (M-Tracks)</span>
+                              <span className="text-white/90 font-mono">₹{(result.tailoringCost + result.trackCost).toLocaleString()}</span>
+                            </div>
+                          )}
                           <div className="flex justify-between py-1.5 border-b border-white/5">
                             <span>Professional Installation</span>
                             <span className="text-emerald-400 font-bold">FREE</span>

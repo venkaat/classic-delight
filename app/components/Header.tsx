@@ -78,7 +78,8 @@ export default function Header() {
               width={160}
               height={72}
               priority
-              className="object-contain w-[120px] md:w-[160px] h-auto"
+              className="object-contain w-[120px] md:w-[160px]"
+              style={{ height: "auto" }}
             />
           </Link>
 
@@ -194,7 +195,8 @@ export default function Header() {
                     alt="Classic Delight"
                     width={120}
                     height={54}
-                    className="object-contain w-[100px] h-auto"
+                    className="object-contain w-[100px]"
+                    style={{ height: "auto" }}
                   />
                 </Link>
                 <button
