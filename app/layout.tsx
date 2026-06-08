@@ -236,4 +236,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: "/og-image.jpg",
   },
+  verification: {
+    other: {
+      "p:domain_verify": "cfe9afa45de564cb11207bd33772055c",
+    },
+  },
 };
