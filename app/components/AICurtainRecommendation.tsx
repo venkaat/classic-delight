@@ -277,14 +277,28 @@ function DimensionPicker({
   );
 }export default function AICurtainRecommendation() {
   const [room, setRoom] = useState("Living Room");
-  const [productType, setProductType] = useState<"curtains" | "blinds">("curtains");
-  const [style, setStyle] = useState("Luxury");
-  const [width, setWidth] = useState("6");
-  const [height, setHeight] = useState("8");
-  const [step, setStep] = useState(1);
-  const [overrideFabric, setOverrideFabric] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [productType, setProductType] = useState<"curtains" | "blinds">("blinds");
+  const [width, setWidth] = useState("4");
+  const [height, setHeight] = useState("7");
+  const [curtainStyle, setCurtainStyle] = useState("Eyelet Curtains");
+  const [fabricMaterial, setFabricMaterial] = useState("Polyester");
+  const [blindStyle, setBlindStyle] = useState("PVC Blinds");
   const [hasTrackedEstimate, setHasTrackedEstimate] = useState(false);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = document.getElementById("ai-guide");
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      const isVisible = rect.top < 0 && rect.bottom > window.innerHeight;
+      setShowStickyBar(isVisible);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const trackEvent = (eventName: string, params?: Record<string, any>) => {
     if (typeof window !== "undefined" && (window as any).gtag) {
@@ -296,46 +310,22 @@ function DimensionPicker({
     }
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-    setHasTrackedEstimate(false);
-    trackEvent("open_estimator", { event_category: "Engagement" });
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setStep(1);
-    setOverrideFabric(null);
-    setProductType("curtains");
-  };
-
-  // Reset fabric overrides when styling vibe changes
-  useEffect(() => {
-    setOverrideFabric(null);
-  }, [style, productType]);
-
   const result = useMemo(() => {
     const parsedWidth = width === "" ? 0 : Number(width) || 0;
     const parsedHeight = height === "" ? 0 : Number(height) || 0;
     const hasDimensions = parsedWidth > 0 && parsedHeight > 0;
 
     if (productType === "blinds") {
-      const selected =
-        blindsRecommendations[style as keyof typeof blindsRecommendations] ||
-        blindsRecommendations["Zebra"];
-      
-      const blindToUse = overrideFabric || selected.blindType;
-      const blindPrice = blinds[blindToUse as keyof typeof blinds] || 220;
-
+      const blindPrice = blinds[blindStyle as keyof typeof blinds] || 220;
       const areaSqft = parsedWidth * parsedHeight;
       const blindCost = areaSqft * blindPrice;
       const fixingCost = hasDimensions ? FIXING_COST_BASE : 0;
       const total = blindCost + fixingCost;
 
       return {
-        curtain: blindToUse,
-        fabric: blindToUse,
-        description: selected.description,
+        curtain: blindStyle,
+        fabric: blindStyle,
+        description: `${blindStyle} custom window installation`,
         fabricNeeded: areaSqft,
         fabricCost: blindCost,
         tailoringCost: 0,
@@ -347,13 +337,7 @@ function DimensionPicker({
         parsedHeight,
       };
     } else {
-      const selected =
-        recommendations[style as keyof typeof recommendations] ||
-        recommendations["Luxury"];
-      
-      const fabricToUse = overrideFabric || selected.fabric;
-      const fabricPrice = fabrics[fabricToUse as keyof typeof fabrics] || 300;
-
+      const fabricPrice = fabrics[fabricMaterial as keyof typeof fabrics] || 400;
       const fabricNeeded =
         hasDimensions
           ? Math.ceil((parsedWidth * 2.2 * (parsedHeight + 0.5)) / 3.28)
@@ -366,9 +350,9 @@ function DimensionPicker({
       const total = fabricCost + tailoringCost + trackCost + fixingCost;
 
       return {
-        curtain: selected.curtain,
-        fabric: fabricToUse,
-        description: selected.description,
+        curtain: curtainStyle,
+        fabric: fabricMaterial,
+        description: `Custom ${curtainStyle} with ${fabricMaterial} fabric.`,
         fabricNeeded,
         fabricCost,
         tailoringCost,
@@ -380,30 +364,28 @@ function DimensionPicker({
         parsedHeight,
       };
     }
-  }, [productType, style, overrideFabric, width, height]);
+  }, [productType, curtainStyle, fabricMaterial, blindStyle, width, height]);
 
   // Track estimate generation
   useEffect(() => {
-    if (isModalOpen && step === 4 && width && height && !hasTrackedEstimate && result.total > 0) {
+    if (width && height && !hasTrackedEstimate && result.total > 0) {
       trackEvent("generate_estimate", {
         value: result.total,
         currency: "INR",
         room,
-        style,
         fabric: result.fabric,
         width: result.parsedWidth,
         height: result.parsedHeight,
       });
       setHasTrackedEstimate(true);
     }
-  }, [isModalOpen, step, width, height, result.total, hasTrackedEstimate, room, style, result.fabric, result.parsedWidth, result.parsedHeight]);
+  }, [width, height, result.total, hasTrackedEstimate, room, result.fabric, result.parsedWidth, result.parsedHeight]);
 
   const handleWhatsAppClick = () => {
     trackEvent("contact_whatsapp", {
       value: result.total,
       currency: "INR",
       room,
-      style,
       fabric: result.fabric,
       width: result.parsedWidth,
       height: result.parsedHeight,
@@ -420,17 +402,6 @@ function DimensionPicker({
     }
   };
 
-  // Deep linking to visualizer tools
-  const textToImagePrompt = productType === "blinds"
-    ? `Modern luxury ${result.fabric.toLowerCase()} blinds installed on window in a beautiful ${room.toLowerCase()}, photorealistic architectural styling`
-    : `Luxury modern ${result.fabric.toLowerCase()} ${result.curtain.toLowerCase()} installed in a beautiful ${room.toLowerCase()}, photorealistic architectural window styling, high-end interior, soft cinematic lighting`;
-  const textToImageUrl = `/visualizer?prompt=${encodeURIComponent(textToImagePrompt)}`;
-
-  const mappedTexture = productType === "blinds" ? "Classic Linen" : (visualizerTextureMap[result.fabric] || "Classic Linen");
-  const visualizer3dUrl = productType === "blinds"
-    ? `/curtain-visualizer`
-    : `/curtain-visualizer?texture=${encodeURIComponent(mappedTexture)}`;
-
   const whatsappMessage = encodeURIComponent(
     productType === "blinds"
       ? `Hi! I used the AI Recommendation tool and got the following blinds details:\n\n` +
@@ -446,14 +417,13 @@ function DimensionPicker({
           `Please provide me an exact quote. Thank you!`
       : `Hi! I used the AI Curtain Recommendation tool and got the following details:\n\n` +
           `🏠 Room: ${room}\n` +
-          `🎨 Style Preference: ${style}\n` +
           `📐 Window Size: ${width || "N/A"} ft (W) x ${height || "N/A"} ft (H)\n\n` +
-          `🪟 Recommended Curtain: ${result.curtain}\n` +
-          `🧵 Recommended Fabric: ${result.fabric} (₹${result.fabricPrice}/meter)\n` +
+          `🪟 Selected Style: ${curtainStyle}\n` +
+          `🧵 Selected Fabric: ${fabricMaterial} (₹${result.fabricPrice}/meter)\n` +
           `📏 Fabric Required: ${result.fabricNeeded} meters\n\n` +
           `💰 Cost Breakdown:\n` +
           `  • Fabric Cost: ₹${result.fabricCost.toLocaleString()}\n` +
-          `  • Stitching & Premium Channels (M-Tracks): ₹${(result.tailoringCost + result.trackCost).toLocaleString()}\n` +
+          `  • Stitching & Premium Channels (M-Tracks): ****\n` +
           `  • Installation: Included (Free)\n\n` +
           `💎 Estimated Total: ₹${result.total.toLocaleString()}\n\n` +
           `Please provide me an exact quote. Thank you!`
@@ -463,638 +433,433 @@ function DimensionPicker({
   return (
     <section
       id="ai-guide"
-      className={`relative py-16 md:py-24 bg-black overflow-hidden border-y border-white/10 ${
-        isModalOpen ? "z-[10000]" : "z-10"
-      }`}
+      className="relative py-16 md:py-24 bg-black overflow-hidden border-y border-white/10 z-10"
     >
       {/* GLOW */}
       <div className="absolute top-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#f26522]/10 blur-[120px] md:blur-[140px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
 
-        {/* NOBROKER-STYLE ESTIMATOR BANNER */}
-        <div className="max-w-6xl mx-auto mb-16">
-          <div className="bg-white text-black p-6 md:p-8 rounded-[28px] md:rounded-[32px] shadow-2xl border border-neutral-100 flex flex-col lg:flex-row items-center justify-between gap-6 relative overflow-hidden transition-all duration-300 hover:shadow-3xl hover:translate-y-[-2px]">
-            {/* Left Accent Stripe and Content */}
-            <div className="flex items-center gap-4 w-full lg:w-auto">
-              <div className="w-1.5 h-14 bg-[#f26522] rounded-full shrink-0 animate-pulse" />
-              <div className="text-left">
-                <h3 className="text-xl md:text-2xl font-extrabold text-neutral-900 tracking-tight">
-                  Wondering about the cost?
-                </h3>
-                <p className="text-neutral-500 text-sm md:text-base mt-1 font-medium">
-                  Get a free window-wise estimate for your custom curtains.
-                </p>
-              </div>
-            </div>
-
-            {/* Pills Group */}
-            <div className="flex flex-wrap items-center gap-2.5 w-full lg:w-auto justify-start lg:justify-center">
-              <span className="px-3.5 py-2 bg-neutral-100 rounded-full text-[11px] font-extrabold text-neutral-600 uppercase tracking-wider">
-                1-5+ Windows
-              </span>
-              <span className="px-3.5 py-2 bg-neutral-100 rounded-full text-[11px] font-extrabold text-neutral-600 uppercase tracking-wider">
-                Economy • Premium • Luxury
-              </span>
-              <span className="px-3.5 py-2 bg-neutral-100 rounded-full text-[11px] font-extrabold text-neutral-600 uppercase tracking-wider">
-                ~2 Min Estimate
-              </span>
-            </div>
-
-            {/* CTA Button */}
-            <button
-              onClick={handleOpenModal}
-              className="w-full lg:w-auto bg-[#f26522] hover:bg-[#d94f14] text-white font-extrabold py-4 px-8 rounded-2xl flex items-center justify-center gap-2 group transition-all duration-300 shadow-lg shadow-[#f26522]/20 active:scale-98 cursor-pointer shrink-0 text-sm tracking-wide"
-            >
-              <span>Try the Estimator</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
+        {/* HEADER */}
+        <div className="text-center max-w-2xl mx-auto mb-12 mt-2">
+          <div className="inline-flex items-center gap-2 bg-[#f26522]/10 border border-[#f26522]/30 px-3.5 py-1.5 rounded-full text-xs text-white/95 mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-[#f26522] animate-pulse" /> 
+            <span>Instant Pricing</span> Custom Window Estimator
           </div>
+
+          <h2 className="text-white text-3xl md:text-5xl leading-tight font-extrabold tracking-tight mb-3">
+            Window Cost Estimator
+          </h2>
+
+          <p className="text-white/50 text-sm md:text-base">
+            Configure your sizes and styling options to get an instant pricing estimate with free installation across Chennai.
+          </p>
         </div>
 
-        {/* MODAL WIZARD CONTAINER */}
-        <AnimatePresence>
-          {isModalOpen && (
-            <div 
-              onClick={handleCloseModal}
-              className="fixed inset-0 z-[10000] overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
-            >
-              <motion.div
-                onClick={(e) => e.stopPropagation()}
-                initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="bg-[#0c0c0c] border border-white/10 max-w-4xl w-full rounded-[32px] p-6 md:p-10 relative shadow-2xl max-h-[90vh] overflow-y-auto"
-              >
-                {/* Close Button */}
-                <button
-                  onClick={handleCloseModal}
-                  className="absolute top-4 right-4 md:top-6 md:right-6 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full font-black text-[10px] md:text-xs tracking-wider uppercase transition-all duration-300 z-[10001] cursor-pointer shadow-2xl flex items-center gap-1.5 border border-red-500 hover:scale-105 active:scale-95 group"
-                  aria-label="Close Estimator"
-                >
-                  <X className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform duration-300 group-hover:rotate-90" />
-                  <span>Close</span>
-                </button>
-
-                {/* HEADER */}
-                <div className="text-center max-w-2xl mx-auto mb-8 md:mb-12 mt-2">
-                  <div className="inline-flex items-center gap-2 bg-[#f26522]/10 border border-[#f26522]/30 px-3.5 py-1.5 rounded-full text-xs text-white/95 mb-4">
-                    <Sparkles className="w-3.5 h-3.5 text-[#f26522] animate-pulse" /> 
-                    <span>AI Powered</span> Custom Curtain Recommendations
-                  </div>
-
-                  <h2 className="text-white text-3xl md:text-5xl leading-tight font-extrabold tracking-tight mb-3">
-                    Window Cost Estimator
-                  </h2>
-
-                  <p className="text-white/50 text-sm md:text-base">
-                    Configure your sizes and styling vibes to get an instant pricing estimate with free installation across Chennai.
+        {/* CALCULATOR CONTAINER */}
+        <div className="max-w-6xl mx-auto bg-gradient-to-br from-[#0c0c0c] to-[#050505] border border-white/10 rounded-[32px] p-6 md:p-10 shadow-2xl relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            {/* LEFT COLUMN - INPUTS */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* SECTION 1: DIMENSIONS */}
+              <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 space-y-4">
+                <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
+                  Step 1: Enter Window Details
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <DimensionPicker
+                    label="Width"
+                    value={width}
+                    onChange={(val) => {
+                      setWidth(val);
+                      setHasTrackedEstimate(false);
+                    }}
+                    presets={COMMON_WIDTHS}
+                  />
+                  <DimensionPicker
+                    label="Height"
+                    value={height}
+                    onChange={(val) => {
+                      setHeight(val);
+                      setHasTrackedEstimate(false);
+                    }}
+                    presets={COMMON_HEIGHTS}
+                  />
+                </div>
+                
+                {/* Room and name dropdown */}
+                <div>
+                  <p className="text-white/50 text-xs uppercase tracking-[2px] mb-2 font-semibold">
+                    Select Room Context
                   </p>
+                  <select
+                    value={room}
+                    onChange={(e) => {
+                      setRoom(e.target.value);
+                      setHasTrackedEstimate(false);
+                    }}
+                    className="w-full bg-[#0c0c0c] border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[#f26522] transition cursor-pointer"
+                  >
+                    {["Living Room", "Bedroom", "Office", "Dining Room", "Kids Room", "Kitchen"].map((r) => (
+                      <option key={r} value={r} className="bg-black text-white">
+                        {r}
+                      </option>
+                    ))}
+                  </select>
                 </div>
+              </div>
 
-                {/* PROGRESS WIZARD INDICATOR */}
-                <div className="max-w-2xl mx-auto mb-8">
-                  <div className="flex justify-between items-center text-xs text-white/40 mb-2 font-mono">
-                    <span>Progress</span>
-                    <span className="text-orange-400 font-bold">
-                      {step === 1 ? "25% Complete" : step === 2 ? "50% Complete" : step === 3 ? "75% Complete" : "100% Complete"}
-                    </span>
-                  </div>
-                  <div className="w-full h-1.5 bg-neutral-900 rounded-full overflow-hidden border border-white/5">
-                    <motion.div
-                      initial={{ width: "25%" }}
-                      animate={{ width: step === 1 ? "25%" : step === 2 ? "50%" : step === 3 ? "75%" : "100%" }}
-                      className="h-full bg-gradient-to-r from-orange-500 to-[#f26522] rounded-full"
-                      transition={{ duration: 0.4 }}
-                    />
-                  </div>
+              {/* SECTION 2: PRODUCT TYPE */}
+              <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 space-y-4">
+                <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
+                  Step 2: Choose Product Type
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    ["🧵", "Curtains", "curtains"],
+                    ["🪟", "Blinds", "blinds"],
+                  ].map(([icon, label, type]) => (
+                    <button
+                      key={type}
+                      onClick={() => {
+                        setProductType(type as any);
+                        setHasTrackedEstimate(false);
+                      }}
+                      className={`rounded-2xl px-4 py-4 border transition-all duration-300 active:scale-98 text-center flex items-center justify-center gap-2.5 font-bold cursor-pointer ${
+                        productType === type
+                          ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
+                          : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
+                      }`}
+                    >
+                      <span className="text-xl">{icon}</span>
+                      <span className="text-sm">{label}</span>
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                {/* FORM STEPS CONTENT */}
-                <div className="max-w-2xl mx-auto space-y-4 md:space-y-6 text-left">
-                  {/* STEP 1 */}
-                  <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 transition-all duration-300 hover:border-white/20">
-                    <div className="flex items-center justify-between mb-3">
-                      <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
-                        Step 1
+              {/* SECTION 3: STYLING & FABRICS */}
+              <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 space-y-5">
+                <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
+                  Step 3: Choose Style & Materials
+                </p>
+
+                {productType === "curtains" ? (
+                  <div className="space-y-6">
+                    {/* Curtain Style */}
+                    <div>
+                      <p className="text-white/50 text-xs uppercase tracking-[2px] mb-3 font-semibold">
+                        Select Curtain Style
                       </p>
-                      {step >= 2 && (
-                        <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
-                          ✓ {room}
-                        </span>
-                      )}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                        {Object.entries(curtainImages).map(([name, imageUrl]) => {
+                          const isSelected = curtainStyle === name;
+                          return (
+                            <button
+                              key={name}
+                              onClick={() => {
+                                setCurtainStyle(name);
+                                setHasTrackedEstimate(false);
+                              }}
+                              className={`flex flex-col items-center gap-2 p-3 rounded-2xl text-center border transition duration-300 cursor-pointer ${
+                                isSelected
+                                  ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
+                                  : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
+                              }`}
+                            >
+                              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden border border-white/10 shrink-0">
+                                <Image
+                                  src={imageUrl}
+                                  alt={name}
+                                  fill
+                                  sizes="80px"
+                                  className="object-cover"
+                                />
+                              </div>
+                              <span className="text-[11px] font-bold tracking-tight truncate w-full">{name}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                    <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
-                      What room are we styling?
-                    </h3>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      {[
-                        ["🛋", "Living Room"],
-                        ["🛏", "Bedroom"],
-                        ["💼", "Office"],
-                        ["🍽", "Dining"],
-                      ].map(([icon, item]) => (
-                        <button
-                          key={item}
-                          onClick={() => {
-                            setRoom(item as string);
-                            setStep(2);
-                          }}
-                          className={`rounded-2xl px-3 py-4 border transition-all duration-300 active:scale-98 ${
-                            room === item && step >= 2
-                              ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
-                              : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
-                          }`}
-                        >
-                          <div className="text-xl mb-2">{icon}</div>
-                          <div className="text-xs md:text-sm font-semibold">{item}</div>
-                        </button>
-                      ))}
+                    {/* Fabric Material */}
+                    <div>
+                      <p className="text-white/50 text-xs uppercase tracking-[2px] mb-3 font-semibold">
+                        Select Fabric Material
+                      </p>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                        {Object.entries(FABRICS).map(([fabName, price]) => {
+                          const isSelected = fabricMaterial === fabName;
+                          return (
+                            <button
+                              key={fabName}
+                              onClick={() => {
+                                setFabricMaterial(fabName);
+                                setHasTrackedEstimate(false);
+                              }}
+                              className={`flex flex-col items-center gap-2 p-3 rounded-2xl text-center border transition duration-300 cursor-pointer ${
+                                isSelected
+                                  ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
+                                  : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
+                              }`}
+                            >
+                              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden border border-white/10 shrink-0">
+                                <Image
+                                  src={fabricImages[fabName] || "/images/fabrics/linen.jpg"}
+                                  alt={fabName}
+                                  fill
+                                  sizes="80px"
+                                  className="object-cover"
+                                />
+                              </div>
+                              <div className="flex flex-col w-full min-w-0">
+                                <span className="text-[11px] font-bold truncate">{fabName}</span>
+                                <span className={`text-[9px] ${isSelected ? "text-white/85" : "text-white/45"}`}>₹{price}/m</span>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-
-                  {/* STEP 2 */}
-                  {step >= 2 && (
-                    <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 transition-all duration-300 hover:border-white/20">
-                      <div className="flex items-center justify-between mb-3">
-                        <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
-                          Step 2
-                        </p>
-                        {step >= 3 && (
-                          <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
-                            ✓ {productType === "curtains" ? "Curtains" : "Blinds"}
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
-                        What product type are we estimating?
-                      </h3>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        {[
-                          ["🧵", "Curtains", "curtains"],
-                          ["🪟", "Blinds", "blinds"],
-                        ].map(([icon, label, type]) => (
+                ) : (
+                  <div>
+                    {/* Blinds Style */}
+                    <p className="text-white/50 text-xs uppercase tracking-[2px] mb-3 font-semibold">
+                      Select Blinds Style & Material
+                    </p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                      {Object.entries(blinds).map(([blindName, price]) => {
+                        const isSelected = blindStyle === blindName;
+                        return (
                           <button
-                            key={type}
+                            key={blindName}
                             onClick={() => {
-                              setProductType(type as any);
-                              setStyle(type === "curtains" ? "Luxury" : "Zebra");
-                              setStep(3);
+                              setBlindStyle(blindName);
+                              setHasTrackedEstimate(false);
                             }}
-                            className={`rounded-2xl px-4 py-5 border transition-all duration-300 active:scale-98 text-center flex flex-col items-center justify-center ${
-                              productType === type && step >= 3
-                                ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
+                            className={`flex flex-col items-center gap-2 p-3 rounded-2xl text-center border transition duration-300 cursor-pointer ${
+                              isSelected
+                                ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
                                 : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
                             }`}
                           >
-                            <div className="text-3xl mb-2">{icon}</div>
-                            <div className="text-sm font-bold">{label}</div>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* STEP 3 */}
-                  {step >= 3 && (
-                    <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 transition-all duration-300 hover:border-white/20">
-                      <div className="flex items-center justify-between mb-3">
-                        <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
-                          Step 3
-                        </p>
-                        {step >= 4 && (
-                          <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
-                            ✓ {style}
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
-                        {productType === "curtains" ? "Choose your preferred style vibe" : "Choose your blind style"}
-                      </h3>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        {productType === "curtains" ? (
-                          Object.entries(recommendations).map(([key, item]) => (
-                            <button
-                              key={key}
-                              onClick={() => {
-                                setStyle(key);
-                                setStep(4);
-                              }}
-                              className={`rounded-2xl p-4 border text-left transition-all duration-300 active:scale-98 flex flex-col justify-between min-h-[100px] ${
-                                style === key && step >= 4
-                                  ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
-                                  : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
-                              }`}
-                            >
-                              <div>
-                                <div className="text-xs md:text-sm font-bold mb-1">{key} Vibe</div>
-                                <div className={`text-[10px] md:text-xs leading-normal ${style === key && step >= 4 ? "text-white/80" : "text-white/40"}`}>
-                                  {item.subtitle}
-                                </div>
-                              </div>
-                              <div className="mt-3 flex items-center justify-between w-full border-t border-white/5 pt-2">
-                                <span className="text-[9px] font-mono tracking-wider uppercase opacity-75">
-                                  {item.curtain}
-                                </span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </div>
-                            </button>
-                          ))
-                        ) : (
-                          Object.entries(blindsRecommendations).map(([key, item]) => (
-                            <button
-                              key={key}
-                              onClick={() => {
-                                setStyle(key);
-                                setStep(4);
-                              }}
-                              className={`rounded-2xl p-4 border text-left transition-all duration-300 active:scale-98 flex flex-col justify-between min-h-[100px] ${
-                                style === key && step >= 4
-                                  ? "bg-[#f26522] border-[#f26522] text-white shadow-lg shadow-orange-500/10"
-                                  : "bg-neutral-950 border-white/5 text-white/70 hover:bg-neutral-900"
-                              }`}
-                            >
-                              <div>
-                                <div className="text-xs md:text-sm font-bold mb-1">{key} Blinds</div>
-                                <div className={`text-[10px] md:text-xs leading-normal ${style === key && step >= 4 ? "text-white/80" : "text-white/40"}`}>
-                                  {item.subtitle}
-                                </div>
-                              </div>
-                              <div className="mt-3 flex items-center justify-between w-full border-t border-white/5 pt-2">
-                                <span className="text-[9px] font-mono tracking-wider uppercase opacity-75">
-                                  {item.blindType}
-                                </span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </div>
-                            </button>
-                          ))
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* STEP 4 */}
-                  {step >= 4 && (
-                    <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 transition-all duration-300 hover:border-white/20">
-                      <div className="flex items-center justify-between mb-3">
-                        <p className="text-[#f26522] uppercase tracking-[3px] text-xs font-semibold">
-                          Step 4
-                        </p>
-                        {width && height && (
-                          <span className="text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 rounded-full flex items-center gap-1.5">
-                            ✓ {width} × {height} ft
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-                        Tell us your window size
-                      </h3>
-                      <p className="text-white/40 text-xs mb-4">
-                        Select a preset size, drag the slider, or click Custom to input custom dimensions.
-                      </p>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DimensionPicker
-                          label="Width"
-                          value={width}
-                          onChange={setWidth}
-                          presets={COMMON_WIDTHS}
-                        />
-                        <DimensionPicker
-                          label="Height"
-                          value={height}
-                          onChange={setHeight}
-                          presets={COMMON_HEIGHTS}
-                        />
-                      </div>
-
-                      {/* DYNAMIC BLUEPRINT PREVIEW */}
-                      <div className="mt-6 pt-6 border-t border-white/5 flex flex-col items-center justify-center">
-                        <div className="text-center mb-4">
-                          <h4 className="text-white font-bold text-sm">Interactive Window Blueprint</h4>
-                          <p className="text-white/30 text-[10px] mt-0.5">Scale preview matching your window dimensions</p>
-                        </div>
-
-                        <div className="relative border-4 border-neutral-700 bg-neutral-900 rounded-lg shadow-inner flex items-stretch justify-center p-0.5 transition-all duration-500"
-                             style={{
-                               width: "100%",
-                               maxWidth: "200px",
-                               height: `${Math.min(180, Math.max(90, 120 * (Number(height) || 8) / (Number(width) || 6)))}px`,
-                             }}
-                        >
-                          {/* Width Label */}
-                          <div className="absolute -top-6 left-0 right-0 flex items-center justify-between text-[9px] text-orange-400 font-mono">
-                            <span className="w-full h-[1px] bg-orange-500/20 border-t border-dashed" />
-                            <span className="mx-1 whitespace-nowrap">{width} ft</span>
-                            <span className="w-full h-[1px] bg-orange-500/20 border-t border-dashed" />
-                          </div>
-
-                          {/* Height Label */}
-                          <div className="absolute -right-14 top-0 bottom-0 flex flex-col items-center justify-between py-1 text-[9px] text-orange-400 font-mono w-10">
-                            <span className="h-full w-[1px] bg-orange-500/20 border-r border-dashed" />
-                            <span className="my-1 whitespace-nowrap rotate-90">{height} ft</span>
-                            <span className="h-full w-[1px] bg-orange-500/20 border-r border-dashed" />
-                          </div>
-
-                          <div className="absolute inset-0.5 border border-neutral-800 bg-sky-950/15 overflow-hidden flex justify-between items-stretch">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
-                            
-                            {productType === "curtains" ? (
-                              <>
-                                {/* Left drape */}
-                                <div
-                                  className="w-[42%] h-full rounded-r-sm shadow-md border-r border-white/5 transition-all duration-500"
-                                  style={{
-                                    backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
-                                    opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
-                                    backgroundImage: result.curtain === "Pleated Curtains"
-                                      ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
-                                      : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
-                                    backgroundSize: result.curtain === "Pleated Curtains" ? "10px 100%" : "14px 100%"
-                                  }}
-                                />
-
-                                {/* Right drape */}
-                                <div
-                                  className="w-[42%] h-full rounded-l-sm shadow-md border-l border-white/5 transition-all duration-500"
-                                  style={{
-                                    backgroundColor: blueprintFabricColors[overrideFabric || recommendations[style]?.fabric] || "#eae6df",
-                                    opacity: blueprintFabricOpacities[overrideFabric || recommendations[style]?.fabric] || 0.8,
-                                    backgroundImage: result.curtain === "Pleated Curtains"
-                                      ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
-                                      : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
-                                    backgroundSize: result.curtain === "Pleated Curtains" ? "10px 100%" : "14px 100%"
-                                  }}
-                                />
-                              </>
-                            ) : (
-                              /* Blinds pull-down preview */
-                              <div
-                                className="w-full rounded-b-md shadow-md border-b border-white/10 transition-all duration-500"
-                                style={{
-                                  height: "85%",
-                                  backgroundColor: result.fabric === "Roman Blinds"
-                                    ? "#d6c5b3"
-                                    : result.fabric === "Roller Blinds"
-                                    ? "#708090"
-                                    : "#3c3c3c",
-                                  opacity: 0.9,
-                                  backgroundImage: result.fabric === "Zebra Blinds"
-                                    ? "linear-gradient(180deg, rgba(0,0,0,0.3) 12px, transparent 12px, transparent 24px)"
-                                    : result.fabric === "Roman Blinds"
-                                    ? "linear-gradient(180deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 30px)"
-                                    : "none",
-                                  backgroundSize: result.fabric === "Zebra Blinds" ? "100% 24px" : "100% 30px"
-                                }}
+                            <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden border border-white/10 shrink-0">
+                              <Image
+                                src={blindImages[blindName] || "/images/blinds/zebra.jpg"}
+                                alt={blindName}
+                                fill
+                                sizes="80px"
+                                className="object-cover"
                               />
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* RESULT PANEL */}
-                  {step >= 4 && (
-                    <div className="relative overflow-hidden bg-gradient-to-br from-[#121212] to-[#080808] border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-xl">
-                      <div className="absolute top-0 right-0 w-[180px] h-[180px] bg-[#f26522]/10 blur-[80px] rounded-full pointer-events-none" />
-                      
-                      <div className="relative z-10 text-left">
-                        <div className="inline-flex items-center gap-1.5 bg-[#f26522]/10 border border-[#f26522]/20 px-3 py-1 rounded-full text-[#f26522] text-[10px] md:text-xs mb-4 font-mono font-bold">
-                          ✦ AI RECOMMENDATION GENERATED
-                        </div>
-
-                        <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4">
-                          Your Custom Recommendation
-                        </h3>
-
-                        {/* Cost Total Card */}
-                        <div className="bg-[#f26522]/10 border border-[#f26522]/20 rounded-xl p-4 flex items-center justify-between mb-4">
-                          <div>
-                            <p className="text-white/50 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Estimated Total</p>
-                            <p className="text-white/60 text-xs">
-                              {width && height ? `${width} ft × ${height} ft window` : "Enter sizes"}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <span className="text-[#f26522] text-2xl md:text-3xl font-black font-mono">
-                              {result.total > 0 ? `₹${result.total.toLocaleString()}` : "—"}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Styles & Fabrics */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                          {productType === "curtains" ? (
-                            <>
-                              <Link
-                                href={curtainUrls[result.curtain] || "#"}
-                                className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20 hover:bg-white/[0.08] hover:scale-[1.02] duration-300 block"
-                              >
-                                <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
-                                  <Image
-                                    src={curtainImages[result.curtain] || "/images/curtain-styles/ripple.jpg"}
-                                    alt={result.curtain}
-                                    fill
-                                    sizes="48px"
-                                    className="object-cover"
-                                  />
-                                </div>
-                                <div>
-                                  <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Curtain Style</p>
-                                  <h4 className="text-white text-xs md:text-sm font-bold flex items-center gap-1.5">
-                                    <span>{result.curtain}</span>
-                                    <ArrowRight className="w-3.5 h-3.5 text-[#f26522]" />
-                                  </h4>
-                                </div>
-                              </Link>
-
-                              <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20">
-                                <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
-                                  <Image
-                                    src={fabricImages[result.fabric] || "/images/fabrics/linen.jpg"}
-                                    alt={result.fabric}
-                                    fill
-                                    sizes="48px"
-                                    className="object-cover"
-                                  />
-                                </div>
-                                <div>
-                                  <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Best Fabric</p>
-                                  <h4 className="text-white text-xs md:text-sm font-bold">{result.fabric}</h4>
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <Link
-                                href={blindsUrls[result.curtain] || "/blinds"}
-                                className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20 hover:bg-white/[0.08] hover:scale-[1.02] duration-300 block"
-                              >
-                                <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
-                                  <Image
-                                    src={blindImages[result.curtain] || "/images/blinds/zebra.jpg"}
-                                    alt={result.curtain}
-                                    fill
-                                    sizes="48px"
-                                    className="object-cover"
-                                  />
-                                </div>
-                                <div>
-                                  <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Blind Style</p>
-                                  <h4 className="text-white text-xs md:text-sm font-bold flex items-center gap-1.5">
-                                    <span>{result.curtain}</span>
-                                    <ArrowRight className="w-3.5 h-3.5 text-[#f26522]" />
-                                  </h4>
-                                </div>
-                              </Link>
-
-                              <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 flex items-center gap-3 transition hover:border-white/20">
-                                <div className="w-10 h-10 rounded-lg bg-[#f26522]/10 border border-[#f26522]/20 flex items-center justify-center shrink-0 text-lg">
-                                  📐
-                                </div>
-                                <div>
-                                  <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Pricing Rate</p>
-                                  <h4 className="text-white text-xs md:text-sm font-bold">₹{result.fabricPrice} / sqft</h4>
-                                </div>
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        {/* Fabrics Customizer swatches */}
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
-                          <p className="text-white/50 text-[10px] uppercase tracking-wider font-semibold mb-3">
-                            {productType === "curtains" ? "Swap Fabric Options:" : "Swap Blind Options:"}
-                          </p>
-                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                            {productType === "curtains" ? (
-                              Object.keys(fabrics).map((fabName) => {
-                                const isSelected = result.fabric === fabName;
-                                return (
-                                  <button
-                                    key={fabName}
-                                    onClick={() => setOverrideFabric(fabName)}
-                                    className={`flex items-center gap-1.5 p-2 rounded-lg text-[10px] md:text-xs font-semibold border transition duration-200 ${
-                                      isSelected
-                                        ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
-                                        : "bg-neutral-950 border-white/5 text-white/70"
-                                    }`}
-                                  >
-                                    <div className="relative w-3.5 h-3.5 rounded-full overflow-hidden border border-white/10 shrink-0">
-                                      <Image
-                                        src={fabricImages[fabName] || "/images/fabrics/linen.jpg"}
-                                        alt={fabName}
-                                        fill
-                                        sizes="14px"
-                                        className="object-cover"
-                                      />
-                                    </div>
-                                    <span className="truncate">{fabName}</span>
-                                  </button>
-                                );
-                              })
-                            ) : (
-                              Object.keys(blinds).map((blindName) => {
-                                const isSelected = result.fabric === blindName;
-                                return (
-                                  <button
-                                    key={blindName}
-                                    onClick={() => setOverrideFabric(blindName)}
-                                    className={`flex items-center gap-1.5 p-2 rounded-lg text-[10px] md:text-xs font-semibold border transition duration-200 ${
-                                      isSelected
-                                        ? "bg-[#f26522] border-[#f26522] text-white shadow-md shadow-orange-500/10"
-                                        : "bg-neutral-950 border-white/5 text-white/70"
-                                    }`}
-                                  >
-                                    <div className="relative w-3.5 h-3.5 rounded-full overflow-hidden border border-white/10 shrink-0">
-                                      <Image
-                                        src={blindImages[blindName] || "/images/blinds/zebra.jpg"}
-                                        alt={blindName}
-                                        fill
-                                        sizes="14px"
-                                        className="object-cover"
-                                      />
-                                    </div>
-                                    <span className="truncate">{blindName}</span>
-                                  </button>
-                                );
-                              })
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Cost details list */}
-                        <div className="space-y-2 mb-6 font-sans text-xs md:text-sm text-white/60">
-                          <div className="flex justify-between py-1.5 border-b border-white/5">
-                            <span>Window Dimensions</span>
-                            <span className="text-white/90 font-bold">{width || "—"} ft × {height || "—"} ft</span>
-                          </div>
-                          <div className="flex justify-between py-1.5 border-b border-white/5">
-                            <span>{productType === "curtains" ? "Fabric Required" : "Total Area"}</span>
-                            <span className="text-white/95 font-bold">
-                              {result.fabricNeeded > 0
-                                ? `${result.fabricNeeded} ${productType === "curtains" ? "meters" : "sqft"}`
-                                : "—"}
-                            </span>
-                          </div>
-                          <div className="flex justify-between py-1.5 border-b border-white/5">
-                            <span>{productType === "curtains" ? `Fabric Cost (₹${result.fabricPrice}/m)` : `Blind Cost (₹${result.fabricPrice}/sqft)`}</span>
-                            <span className="text-white/95 font-mono font-bold">₹{result.fabricCost.toLocaleString()}</span>
-                          </div>
-                          {productType === "curtains" && (
-                            <div className="flex justify-between py-1.5 border-b border-white/5">
-                              <span>Stitching & Premium Channels (M-Tracks)</span>
-                              <span className="text-white/90 font-mono">₹{(result.tailoringCost + result.trackCost).toLocaleString()}</span>
                             </div>
-                          )}
-                          <div className="flex justify-between py-1.5 border-b border-white/5">
-                            <span>Professional Installation</span>
-                            <span className="text-emerald-400 font-bold">FREE</span>
-                          </div>
-                          <div className="flex justify-between items-center pt-2">
-                            <span className="text-white font-bold">Estimated Total</span>
-                            <span className="text-[#f26522] text-xl md:text-2xl font-black font-mono">
-                              ₹{result.total.toLocaleString()}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Action buttons */}
-                        <div className="space-y-2">
-                          <a
-                            href={whatsappUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={handleWhatsAppClick}
-                            className="w-full text-center bg-[#f26522] hover:bg-[#ff7b3d] py-3 rounded-xl text-white font-bold transition flex items-center justify-center gap-1.5 text-xs md:text-sm"
-                          >
-                            📲 Get Swatches & Exact Quote via WhatsApp
-                          </a>
-
-                          {/* Close Action Button */}
-                          <div className="mt-3 pt-2 border-t border-white/5">
-                            <button
-                              onClick={handleCloseModal}
-                              className="w-full py-4 bg-[#f26522]/10 hover:bg-red-600 border border-[#f26522]/30 hover:border-red-600 text-white rounded-xl text-xs font-black tracking-wider uppercase transition-all duration-300 active:scale-98 cursor-pointer text-center flex items-center justify-center gap-1.5"
-                            >
-                              <X className="w-4 h-4" />
-                              <span>Close Estimator</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                            <div className="flex flex-col w-full min-w-0">
+                              <span className="text-[11px] font-bold truncate">{blindName}</span>
+                              <span className={`text-[9px] ${isSelected ? "text-white/85" : "text-white/45"}`}>₹{price}/sqft</span>
+                            </div>
+                          </button>
+                        );
+                      })}
                     </div>
-                  )}
-                </div>
-              </motion.div>
+                  </div>
+                )}
+              </div>
+
             </div>
-          )}
-        </AnimatePresence>
+
+            {/* RIGHT COLUMN - LIVE PREVIEW & COST DETAILS */}
+            <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
+              
+              {/* Interactive Window Blueprint */}
+              <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 flex flex-col items-center justify-center">
+                <div className="text-center mb-4">
+                  <h4 className="text-white font-bold text-sm">Interactive Window Blueprint</h4>
+                  <p className="text-white/30 text-[10px] mt-0.5">Scale preview matching window size</p>
+                </div>
+
+                <div className="relative border-4 border-neutral-700 bg-neutral-900 rounded-lg shadow-inner flex items-stretch justify-center p-0.5 transition-all duration-500"
+                     style={{
+                       width: "100%",
+                       maxWidth: "180px",
+                       height: `${Math.min(180, Math.max(90, 120 * (Number(height) || 8) / (Number(width) || 6)))}px`,
+                     }}
+                >
+                  {/* Width Label */}
+                  <div className="absolute -top-6 left-0 right-0 flex items-center justify-between text-[9px] text-orange-400 font-mono">
+                    <span className="w-full h-[1px] bg-orange-500/20 border-t border-dashed" />
+                    <span className="mx-1 whitespace-nowrap">{width} ft</span>
+                    <span className="w-full h-[1px] bg-orange-500/20 border-t border-dashed" />
+                  </div>
+
+                  {/* Height Label */}
+                  <div className="absolute -right-14 top-0 bottom-0 flex flex-col items-center justify-between py-1 text-[9px] text-orange-400 font-mono w-10">
+                    <span className="h-full w-[1px] bg-orange-500/20 border-r border-dashed" />
+                    <span className="my-1 whitespace-nowrap rotate-90">{height} ft</span>
+                    <span className="h-full w-[1px] bg-orange-500/20 border-r border-dashed" />
+                  </div>
+
+                  <div className="absolute inset-0.5 border border-neutral-800 bg-sky-950/15 overflow-hidden flex justify-between items-stretch">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
+                    
+                    {productType === "curtains" ? (
+                      <>
+                        {/* Left drape */}
+                        <div
+                          className="w-[42%] h-full rounded-r-sm shadow-md border-r border-white/5 transition-all duration-500"
+                          style={{
+                            backgroundColor: blueprintFabricColors[fabricMaterial] || "#eae6df",
+                            opacity: blueprintFabricOpacities[fabricMaterial] || 0.8,
+                            backgroundImage: curtainStyle === "Pleated Curtains"
+                              ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
+                              : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
+                            backgroundSize: curtainStyle === "Pleated Curtains" ? "10px 100%" : "14px 100%"
+                          }}
+                        />
+
+                        {/* Right drape */}
+                        <div
+                          className="w-[42%] h-full rounded-l-sm shadow-md border-l border-white/5 transition-all duration-500"
+                          style={{
+                            backgroundColor: blueprintFabricColors[fabricMaterial] || "#eae6df",
+                            opacity: blueprintFabricOpacities[fabricMaterial] || 0.8,
+                            backgroundImage: curtainStyle === "Pleated Curtains"
+                              ? "linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 10px)"
+                              : "linear-gradient(90deg, rgba(0,0,0,0.1) 3px, transparent 3px, transparent 14px)",
+                            backgroundSize: curtainStyle === "Pleated Curtains" ? "10px 100%" : "14px 100%"
+                          }}
+                        />
+                      </>
+                    ) : (
+                      /* Blinds pull-down preview */
+                      <div
+                        className="w-full rounded-b-md shadow-md border-b border-white/10 transition-all duration-500"
+                        style={{
+                          height: "85%",
+                          backgroundColor: blindStyle === "Roman Blinds"
+                            ? "#d6c5b3"
+                            : blindStyle === "Roller Blinds"
+                            ? "#708090"
+                            : blindStyle === "Wooden Blinds"
+                            ? "#8b5a2b"
+                            : blindStyle === "PVC Blinds"
+                            ? "#a0aec0"
+                            : "#3c3c3c",
+                          opacity: 0.9,
+                          backgroundImage: blindStyle === "Zebra Blinds"
+                            ? "linear-gradient(180deg, rgba(0,0,0,0.3) 12px, transparent 12px, transparent 24px)"
+                            : blindStyle === "Roman Blinds"
+                            ? "linear-gradient(180deg, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 30px)"
+                            : "none",
+                          backgroundSize: blindStyle === "Zebra Blinds" ? "100% 24px" : "100% 30px"
+                        }}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Estimate Results Card */}
+              <div className="relative overflow-hidden bg-gradient-to-br from-[#121212] to-[#080808] border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-xl">
+                <div className="absolute top-0 right-0 w-[180px] h-[180px] bg-[#f26522]/10 blur-[80px] rounded-full pointer-events-none" />
+                
+                <div className="relative z-10 text-left">
+                  <div className="inline-flex items-center gap-1.5 bg-[#f26522]/10 border border-[#f26522]/20 px-3 py-1 rounded-full text-[#f26522] text-[10px] md:text-xs mb-4 font-mono font-bold">
+                    ✦ ESTIMATE GENERATED LIVE
+                  </div>
+
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4">
+                    Your Custom Quote
+                  </h3>
+
+                  {/* Cost Total Card */}
+                  <div className="bg-[#f26522]/10 border border-[#f26522]/20 rounded-xl p-4 flex items-center justify-between mb-4">
+                    <div>
+                      <p className="text-white/50 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Estimated Total</p>
+                      <p className="text-white/60 text-xs">
+                        {width && height ? `${width} ft × ${height} ft window` : "Enter sizes"}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[#f26522] text-2xl md:text-3xl font-black font-mono">
+                        {result.total > 0 ? `₹${result.total.toLocaleString()}` : "—"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Summary Details */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                      <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Selection Type</p>
+                      <h4 className="text-white text-xs md:text-sm font-bold truncate">
+                        {productType === "curtains" ? curtainStyle : blindStyle}
+                      </h4>
+                    </div>
+
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                      <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Material Rate</p>
+                      <h4 className="text-white text-xs md:text-sm font-bold truncate">
+                        ₹{result.fabricPrice} / {productType === "curtains" ? "meter" : "sqft"}
+                      </h4>
+                    </div>
+                  </div>
+
+                  {/* Cost details list */}
+                  <div className="space-y-2 mb-6 font-sans text-xs md:text-sm text-white/60">
+                    <div className="flex justify-between py-1.5 border-b border-white/5">
+                      <span>Window Dimensions</span>
+                      <span className="text-white/90 font-bold">{width || "—"} ft × {height || "—"} ft</span>
+                    </div>
+                    <div className="flex justify-between py-1.5 border-b border-white/5">
+                      <span>{productType === "curtains" ? "Fabric Required" : "Total Area"}</span>
+                      <span className="text-white/95 font-bold">
+                        {result.fabricNeeded > 0
+                          ? `${result.fabricNeeded} ${productType === "curtains" ? "meters" : "sqft"}`
+                          : "—"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between py-1.5 border-b border-white/5">
+                      <span>{productType === "curtains" ? `Fabric Cost (₹${result.fabricPrice}/m)` : `Blind Cost (₹${result.fabricPrice}/sqft)`}</span>
+                      <span className="text-white/95 font-mono font-bold">₹{result.fabricCost.toLocaleString()}</span>
+                    </div>
+                    {productType === "curtains" && (
+                      <div className="flex justify-between py-1.5 border-b border-white/5">
+                        <span>Stitching & Premium Channels (M-Tracks)</span>
+                        <span className="text-white/90 font-mono">****</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between py-1.5 border-b border-white/5">
+                      <span>Professional Installation</span>
+                      <span className="text-emerald-400 font-bold">FREE</span>
+                    </div>
+                    <div className="flex justify-between items-center pt-2">
+                      <span className="text-white font-bold">Estimated Total</span>
+                      <span className="text-[#f26522] text-xl md:text-2xl font-black font-mono">
+                        ₹{result.total.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Action buttons */}
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleWhatsAppClick}
+                    className="w-full text-center bg-[#f26522] hover:bg-[#ff7b3d] py-3.5 rounded-xl text-white font-extrabold transition flex items-center justify-center gap-1.5 text-xs md:text-sm shadow-lg shadow-[#f26522]/20 hover:scale-[1.02] active:scale-98 cursor-pointer"
+                  >
+                    📲 Get Swatches & Exact Quote via WhatsApp
+                  </a>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
 
         {/* FABRIC COLLECTION */}
         <div className="mt-20 md:mt-28">
@@ -1191,6 +956,39 @@ function DimensionPicker({
           </div>
         </div>
       </div>
+
+      {/* Sticky Mobile Bottom Bar */}
+      <AnimatePresence>
+        {showStickyBar && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-0 left-0 right-0 lg:hidden bg-black/95 backdrop-blur-md border-t border-white/10 px-4 py-3 flex items-center justify-between z-50 shadow-2xl"
+          >
+            <div className="text-left">
+              <p className="text-[10px] text-white/40 uppercase tracking-wider font-semibold">Estimated Total</p>
+              <p className="text-[#f26522] text-lg font-black font-mono leading-none mt-0.5">
+                {result.total > 0 ? `₹${result.total.toLocaleString()}` : "—"}
+              </p>
+              <p className="text-[9px] text-white/50 truncate max-w-[170px] mt-0.5">
+                {width}×{height} ft • {productType === "curtains" ? fabricMaterial : blindStyle}
+              </p>
+            </div>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleWhatsAppClick}
+              className="bg-[#f26522] hover:bg-[#ff7b3d] text-white text-[11px] font-extrabold px-4.5 py-2.5 rounded-xl flex items-center gap-1.5 transition active:scale-95 shrink-0 shadow-lg shadow-[#f26522]/10"
+            >
+              <span>Get Quote</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
