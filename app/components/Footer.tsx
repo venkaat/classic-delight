@@ -288,6 +288,15 @@ export default function Footer() {
                 </Link>
               </li>
 
+              <li>
+                <Link
+                  href="/blog"
+                  className="hover:text-[#f26522] transition duration-300"
+                >
+                  Insights & Blog
+                </Link>
+              </li>
+
             </ul>
 
           </div>
