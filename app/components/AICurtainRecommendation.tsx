@@ -19,6 +19,11 @@ import {
 
 const fabrics = FABRICS;
 
+// Filter out Hospital Curtains from the calculator and showcase list on this page
+const filteredCurtainImages = Object.fromEntries(
+  Object.entries(curtainImages).filter(([name]) => name !== "Hospital Curtains")
+);
+
 // Map fabric choices to the 3D Visualizer's texture overlay options
 const visualizerTextureMap: Record<string, string> = {
   Linen: "Classic Linen",
@@ -277,7 +282,7 @@ function DimensionPicker({
   );
 }export default function AICurtainRecommendation() {
   const [room, setRoom] = useState("Living Room");
-  const [productType, setProductType] = useState<"curtains" | "blinds">("blinds");
+  const [productType, setProductType] = useState<"curtains" | "blinds">("curtains");
   const [width, setWidth] = useState("4");
   const [height, setHeight] = useState("7");
   const [curtainStyle, setCurtainStyle] = useState("Eyelet Curtains");
@@ -347,7 +352,15 @@ function DimensionPicker({
       const tailoringCost = hasDimensions ? TAILORING_COST_BASE : 0;
       const trackCost = hasDimensions ? TRACK_COST_BASE : 0;
       const fixingCost = hasDimensions ? FIXING_COST_BASE : 0;
-      const total = fabricCost + tailoringCost + trackCost + fixingCost;
+      
+      let styleSurcharge = 0;
+      if (curtainStyle === "Pleated Curtains") {
+        styleSurcharge = 1000;
+      } else if (curtainStyle === "Ripple Curtains") {
+        styleSurcharge = 2000;
+      }
+      
+      const total = fabricCost + tailoringCost + trackCost + fixingCost + styleSurcharge;
 
       return {
         curtain: curtainStyle,
@@ -553,8 +566,8 @@ function DimensionPicker({
                       <p className="text-white/50 text-xs uppercase tracking-[2px] mb-3 font-semibold">
                         Select Curtain Style
                       </p>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                        {Object.entries(curtainImages).map(([name, imageUrl]) => {
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                        {Object.entries(filteredCurtainImages).map(([name, imageUrl]) => {
                           const isSelected = curtainStyle === name;
                           return (
                             <button
@@ -928,8 +941,8 @@ function DimensionPicker({
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {Object.entries(curtainImages).map(([name, imageUrl]) => {
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {Object.entries(filteredCurtainImages).map(([name, imageUrl]) => {
               const url = curtainUrls[name] || "#";
               return (
                 <Link
