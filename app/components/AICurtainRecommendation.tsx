@@ -446,7 +446,7 @@ function DimensionPicker({
   return (
     <section
       id="ai-guide"
-      className="relative py-16 md:py-24 bg-black overflow-hidden border-y border-white/10 z-10"
+      className="relative pt-8 pb-16 md:py-24 bg-black overflow-hidden border-y border-white/10 z-10"
     >
       {/* GLOW */}
       <div className="absolute top-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#f26522]/10 blur-[120px] md:blur-[140px] rounded-full pointer-events-none" />
@@ -454,14 +454,14 @@ function DimensionPicker({
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* HEADER */}
-        <div className="text-center max-w-2xl mx-auto mb-12 mt-2">
-          <div className="inline-flex items-center gap-2 bg-[#f26522]/10 border border-[#f26522]/30 px-3.5 py-1.5 rounded-full text-xs text-white/95 mb-4">
+        <div className="text-center max-w-2xl mx-auto mb-6 md:mb-12 mt-1 md:mt-2">
+          <div className="inline-flex items-center gap-2 bg-[#f26522]/10 border border-[#f26522]/30 px-3 py-1 md:px-3.5 md:py-1.5 rounded-full text-xs text-white/95 mb-2 md:mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#f26522] animate-pulse" /> 
             <span>Instant Pricing</span> Custom Window Estimator
           </div>
 
           <h2 className="text-white text-3xl md:text-5xl leading-tight font-extrabold tracking-tight mb-3">
-            Window Cost Estimator
+            Estimate Curtain Cost Instantly
           </h2>
 
           <p className="text-white/50 text-sm md:text-base">

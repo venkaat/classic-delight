@@ -7,7 +7,7 @@ import { siteConfig } from "@/lib/siteConfig";
 
 export default function Hero() {
   return (
-    <section className="relative h-[95vh] overflow-hidden bg-black">
+    <section className="relative h-[75vh] md:h-[95vh] overflow-hidden bg-black">
 
       {/* BACKGROUND IMAGE — plain Next.js Image for best LCP, animation on wrapper */}
       <motion.div
@@ -48,7 +48,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-3 px-5 py-3 rounded-full border border-[#f26522]/60 bg-[#f26522]/20 backdrop-blur-xl mb-8"
+            className="inline-flex items-center gap-3 px-5 py-3 rounded-full border border-[#f26522]/60 bg-[#f26522]/20 backdrop-blur-xl mb-4 md:mb-8"
           >
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             <span className="text-white/90 text-sm tracking-wide">
@@ -75,7 +75,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mt-8"
+            className="text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mt-4 md:mt-8"
           >
             Elegant custom curtains, premium blinds, and mosquito net solutions with free professional installation across Chennai.
           </motion.p>
@@ -85,7 +85,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-wrap gap-5 mt-10"
+            className="flex flex-wrap gap-5 mt-6 md:mt-10"
           >
 
             {/* PRIMARY */}
@@ -115,7 +115,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="grid grid-cols-3 gap-10 mt-16 max-w-xl"
+            className="grid grid-cols-3 gap-10 mt-8 md:mt-16 max-w-xl"
           >
 
             <div>
@@ -144,7 +144,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
+        className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
       >
         <div className="flex flex-col items-center gap-3 text-white/70">
           <span className="text-xs tracking-[4px] uppercase">Scroll</span>
